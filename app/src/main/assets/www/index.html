@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="file:///android_asset/www/css/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="file:///android_asset/www/css/codiqa.css">
+    <link rel="stylesheet" href="file:///android_asset/www/css/font-awesome.css">
+
+    <link rel="stylesheet" href="file:///android_asset/www/css/custom.css">
+
+    
+    <script src="file:///android_asset/www/js/jquery-2.1.4.min.js"></script>
+    <script src="file:///android_asset/www/js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="file:///android_asset/www/js/codiqa.ext.js"></script>
+    <script src="file:///android_asset/www/js/custom.js"></script>
+</head>
+
+<body>
+
+
+<!-- LOGIN PAGE -->
+    <div data-role="page" data-control-title="Home" id="home">
+
+        <div data-theme="b" data-role="header">
+            <h1 class="ui-title">
+                Logos Here
+            </h1>
+            
+        </div>
+    <div role="main" class="ui-content">
+        <h1>
+            Please enter your details below
+        </h1>
+        <div class="ui-field-contain" data-controltype="textinput">
+            <input name="" id="textinput3" placeholder="Username" value="" type="text">
+        </div>
+        <div class="ui-field-contain" data-controltype="textinput">
+            <input name="" id="textinput4" placeholder="Password" value="" type="password">
+        </div>
+        <a data-transition="pop" href="#learning" class="ui-btn">
+            Button
+        </a>
+    </div>
+</div>
+<!-- LOGIN PAGE -->
+
+
+
+<!-- LEARNING -->
+<div data-role="page" data-control-title="My Learning" id="learning" class="landing">
+
+        <!-- PANEL -->
+          <div data-role="panel" id="menuPanel" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+            <img src="images/profile-photo.png">
+            <h4>Menu</h4>
+            <ul data-role="listview">
+              <li data-icon="false"><a href="#home">Home</a></li>
+              <li data-icon="false"><a href="#">Sign Out</a></li>
+            </ul>
+          </div> 
+        <!-- PANEL -->
+
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Learning App
+        </h1>
+
+        <div class="ui-btn-right ui-nodisc-icon awesome">
+            <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+
+            <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+
+            <a href="#menuPanel" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+        </div>
+             
+        <div data-role="navbar" data-iconpos="left">
+            <ul>
+                <li>
+                    <a href="#learning" class="ui-btn-active ui-state-persist" data-transition="none" data-theme="a">
+                        My Learning
+                    </a>
+                </li>
+                <li>
+                    <a href="#teaching" data-transition="none" data-theme="a">
+                        My Teaching
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div role="main" class="ui-content">
+        
+        <div data-controltype="image" class="carousel">
+            <img src="images/bg-small.jpg" alt="image">
+        </div>
+
+        <ul data-role="listview" data-inset="true">
+            <li>
+                <a href="#all-content-a" data-transition="slide">
+                    <img src="images/cambridge-unlock.jpg">
+                    <h2>Cambridge Unlock</h2>
+                    <p>Google Chrome is a free, open-source web browser. Released in 2008.</p>
+                    <span class="link">Class 1</span>
+                    <span class="ui-li-count">2</span>
+                </a>
+            </li>
+            <li>
+                <a href="#all-content-b" data-transition="slide">
+                    <img src="images/cambridge-touchstone.jpg">
+                    <h2>Cambridge Touchstone</h2>
+                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                    <span class="link">Class 1</span>
+                    <span class="ui-li-count">4</span>
+                </a>
+            </li>
+            <li>
+                <a href="#all-content-a" data-transition="slide">
+                    <img src="images/cambridge-empower.jpg">
+                    <h2>Cambridge Empower</h2>
+                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                    <span class="link">Class 1</span>
+                    <span class="ui-li-count">8</span>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<!-- LEARNING -->
+
+<!-- TEACHING -->
+<div data-role="page" data-control-title="My Teaching" id="teaching" class="landing">
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Teaching App
+        </h1>
+
+        <div class="ui-btn-right ui-nodisc-icon awesome">
+            <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+
+            <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+
+            <a href="#menuPanel" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+        </div>
+
+        <div data-role="navbar" data-iconpos="left">
+            <ul>
+                <li>
+                    <a href="#learning" data-transition="none" data-theme="a">
+                        My Learning
+                    </a>
+                </li>
+                <li>
+                    <a href="#teaching" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                        My Teaching
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <div style="width: 100%; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+        data-controltype="image">
+            <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+        </div>
+        <ul data-role="listview" data-inset="true">
+            <li>
+                <a href="#all-content-a" data-transition="slide">
+                    <img src="images/cambridge-empower.jpg">
+                    <h2>Cambridge Empower</h2>
+                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                    <span class="link">Class 2</span>
+                    <span class="ui-li-count">8</span>
+                </a>
+            </li>
+            <li>
+                <a href="#all-content-b" data-transition="slide">
+                    <img src="images/cambridge-touchstone.jpg">
+                    <h2>Cambridge Touchstone</h2>
+                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                    <span class="link">Class 2</span>
+                    <span class="ui-li-count">4</span>
+                </a>
+            </li>
+            <li>
+                <a href="#all-content-a" data-transition="slide">
+                    <img src="images/cambridge-unlock.jpg">
+                    <h2>Cambridge Unlock</h2>
+                    <p>Google Chrome is a free, open-source web browser. Released in 2008.</p>
+                    <span class="link">Class 2</span>
+                    <span class="ui-li-count">2</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- TEACHING -->
+
+<!-- Class A | All Content -->
+<div data-role="page" data-control-title="Class A | All Content" id="all-content-a"
+class="unit">
+    <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#"
+        data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
+            Back
+        </a>
+
+        <h1 class="ui-title">
+            Class A
+        </h1>
+
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a href="#all-content-a" data-transition="none" data-theme="a" data-icon="">
+                        All Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#downloaded-a" data-transition="none" data-theme="a" data-icon="">
+                        Downloaded Content
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content" data-corners="false">
+        <div class="ui-field-contain" data-controltype="searchinput">
+            <input name="" id="searchinput8" placeholder="Filter" value="" type="search">
+        </div>
+        <div data-role="collapsible-set" data-iconpos="right">
+            <div data-role="collapsible" data-collapsed="false" data-theme="b">
+                <h3>
+                    Unit 1
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Vocabulary
+                            <span class="ui-li-count">
+                                50%
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Spelling
+                            <span class="ui-li-count">
+                                3%
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 2
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson A
+                            <span class="ui-li-count">
+                                7
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Lesson B
+                            <span class="ui-li-count">
+                                13
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson C
+                            <span class="ui-li-count">
+                                85
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 3
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson D
+                            <span class="ui-li-count">
+                                10
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Class A | All Content -->
+
+
+
+<div data-role="page" data-control-title="Class A | Downloaded Content"
+id="downloaded-a" class="unit">
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Class A
+        </h1>
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
+        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
+            Back
+        </a>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a href="#all-content-a" data-transition="none" data-theme="a" data-icon="">
+                        All Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#downloaded-a" data-transition="none" data-theme="a" data-icon="">
+                        Downloaded Content
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="ui-field-contain" data-controltype="searchinput">
+            <input name="" id="searchinput9" placeholder="Filter" value="" type="search">
+        </div>
+        <div data-role="collapsible-set" data-iconpos="right">
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 1
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Vocabulary
+                            <span class="ui-li-count">
+                                41%
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Spelling
+                            <span class="ui-li-count">
+                                54%
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-collapsed="false" data-theme="b">
+
+                <h3>
+                    Unit 2
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Vocabulary
+                            <span class="ui-li-count">
+                                41%
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Spelling
+                            <span class="ui-li-count">
+                                54%
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 3
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson D
+                            <span class="ui-li-count">
+                                10
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CLASS B | ALL CONTENT -->
+<div data-role="page" data-control-title="Class B | All Content" id="all-content-b"
+class="unit">
+    <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
+        Back
+        </a>
+
+        <h1 class="ui-title">
+            Class B
+        </h1>
+        
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                        All Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                        Downloaded Content
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        
+        <div class="ui-field-contain" data-controltype="searchinput">
+            <input name="" id="searchinput10" placeholder="Filter" value="" type="search">
+        </div>
+
+        <div data-role="collapsible-set" data-iconpos="right">
+            <div data-role="collapsible" data-collapsed="false" data-theme="b">
+                <h3>
+                    Unit 1
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Vocabulary
+                            <span class="ui-li-count">
+                                22%
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Spelling
+                            <span class="ui-li-count">
+                                32%
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 2
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson A
+                            <span class="ui-li-count">
+                                7
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Lesson B
+                            <span class="ui-li-count">
+                                13
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson C
+                            <span class="ui-li-count">
+                                85
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 3
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson D
+                            <span class="ui-li-count">
+                                10
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CLASS B | ALL CONTENT -->
+
+
+
+
+<div data-role="page" data-control-title="Class B | Downloaded Content"
+id="downloaded-b" class="unit">
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Class B
+        </h1>
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
+        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
+            Back
+        </a>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                        All Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                        Downloaded Content
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="ui-field-contain" data-controltype="searchinput">
+            <input name="" id="searchinput11" placeholder="Filter" value="" type="search">
+        </div>
+        <div data-role="collapsible-set" data-iconpos="right">
+            <div data-role="collapsible" data-collapsed="false" data-theme="b">
+                <h3>
+                    Unit 1
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Vocabulary
+                            <span class="ui-li-count">
+                                14%
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Spelling
+                            <span class="ui-li-count">
+                                67%
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 2
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson A
+                            <span class="ui-li-count">
+                                7
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-spelling" data-transition="slide">
+                            Lesson B
+                            <span class="ui-li-count">
+                                13
+                            </span>
+                        </a>
+                    </li>
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson C
+                            <span class="ui-li-count">
+                                85
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-role="collapsible" data-theme="b">
+                <h3>
+                    Unit 3
+                </h3>
+                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                    <li data-theme="a">
+                        <a href="#lesson-vocabulary" data-transition="slide">
+                            Lesson D
+                            <span class="ui-li-count">
+                                10
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-role="page" data-control-title="Vocabulary | Lesson Page" id="lesson-vocabulary"
+class="lesson">
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Lesson Page
+        </h1>
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
+        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
+            Back
+        </a>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                        All Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                        Downloaded Content
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="ui-field-contain" data-controltype="searchinput">
+            <input name="" id="searchinput5" placeholder="Filter" value="" type="search">
+        </div>
+        <ul data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Vocabulary
+            </li>
+            <li data-theme="a">
+                <a href="#video" data-transition="slide">
+                    Words
+                </a>
+            </li>
+            <li data-theme="a">
+                <a href="#video" data-transition="slide">
+                    Meanings
+                </a>
+            </li>
+            <li data-theme="a">
+                <a href="#video" data-transition="slide">
+                    Diction
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div data-role="page" data-control-title="Spelling | Lesson Page" id="lesson-spelling"
+class="lesson">
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Lesson Page
+        </h1>
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
+        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
+            Back
+        </a>
+        <div data-role="navbar" data-iconpos="top">
+            <ul>
+                <li>
+                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                        All Content
+                    </a>
+                </li>
+                <li>
+                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                        Downloaded Content
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="ui-field-contain" data-controltype="searchinput">
+            <input name="" id="searchinput6" placeholder="Filter" value="" type="search">
+        </div>
+        <ul data-role="listview" data-divider-theme="a" data-inset="true">
+            <li data-role="list-divider" role="heading">
+                Spelling
+            </li>
+            <li data-theme="a">
+                <a href="#video" data-transition="slide">
+                    Diction
+                </a>
+            </li>
+            <li data-theme="a">
+                <a href="#video" data-transition="slide">
+                    Words
+                </a>
+            </li>
+            <li data-theme="a">
+                <a href="#video" data-transition="slide">
+                    Meanings
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div data-role="page" data-control-title="Video Page" id="video" class="lesson-detail">
+    <div data-theme="b" data-role="header">
+        <h1 class="ui-title">
+            Video Page
+        </h1>
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#video"
+        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
+            Back
+        </a>
+    </div>
+    <div role="main" class="ui-content">
+        <h2>
+            Vocabulary Preview: Greetings
+        </h2>
+        <div data-controltype="textblock">
+            <p>
+                Listen to the greetings. Choose the words you hear.
+            </p>
+        </div>
+        <div data-controltype="htmlblock">
+            <video width="288" height="216" controls="">
+                <source src="images/rickroll.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+            </video>
+        </div>
+        <a href="#sample" class="ui-btn ">
+            Go to Sample Pages
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
