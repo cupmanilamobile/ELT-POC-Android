@@ -1,26 +1,24 @@
 package org.cambridge.eltpoc;
 
-import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebView;
 
+import org.cambridge.eltpoc.javascript.JavaScriptInterface;
+
 import java.io.File;
 
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        WebView webView = (WebView)findViewById(R.id.webview);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("file:///android_asset/www/index.html");
+        this.setContentView(R.layout.activity_main);
+        this.initializeWebView();
     }
 
     @Override
@@ -43,5 +41,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /* Private methods */
+    private void initializeWebView() {
+        WebView webView = (WebView)findViewById(R.id.webview);
+        webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
+        webView.loadUrl("file:///android_asset/www/index.html");
+        webView.getSettings().setJavaScriptEnabled(true);
     }
 }

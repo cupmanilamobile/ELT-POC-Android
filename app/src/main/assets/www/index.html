@@ -7,17 +7,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <link rel="stylesheet" href="file:///android_asset/www/css/jquery.mobile-1.4.5.css">
-    <link rel="stylesheet" href="file:///android_asset/www/css/codiqa.css">
-    <link rel="stylesheet" href="file:///android_asset/www/css/font-awesome.css">
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
+    <link rel="stylesheet" href="css/codiqa.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
 
-    <link rel="stylesheet" href="file:///android_asset/www/css/custom.css">
+    <link rel="stylesheet" href="css/custom.css">
 
-    
-    <script src="file:///android_asset/www/js/jquery-2.1.4.min.js"></script>
-    <script src="file:///android_asset/www/js/jquery.mobile-1.4.5.min.js"></script>
-    <script src="file:///android_asset/www/js/codiqa.ext.js"></script>
-    <script src="file:///android_asset/www/js/custom.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/codiqa.ext.js"></script>
+    <script src="js/custom.js"></script>
 </head>
 
 <body>
@@ -34,7 +33,7 @@
         </div>
     <div role="main" class="ui-content">
         <h1>
-            Please enter your details below
+            Please enter your details below <input type="button" value="Download" onclick="javascript:window.JSInterface.downloadContent();" />
         </h1>
         <div class="ui-field-contain" data-controltype="textinput">
             <input name="" id="textinput3" placeholder="Username" value="" type="text">
