@@ -1,4 +1,3 @@
-
 // SWIPE PANEL
 $( document ).on( "pagecreate", "#demo-page", function() {
     $( document ).on( "swipeleft swiperight", "#demo-page", function( e ) {
@@ -33,4 +32,9 @@ $( document ).on( "click", ".show-page-loading-msg", function() {
 })
 .on( "click", ".hide-page-loading-msg", function() {
     $.mobile.loading( "hide" );
+});
+
+// SPIN
+$('.fa-spinner').hover(function() {
+    $(this).addClass('fa-spin');
 });

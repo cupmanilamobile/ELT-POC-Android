@@ -13,6 +13,7 @@
 
     <link rel="stylesheet" href="css/custom.css">
 
+    
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="js/codiqa.ext.js"></script>
@@ -25,15 +26,24 @@
 <!-- LOGIN PAGE -->
     <div data-role="page" data-control-title="Home" id="home">
 
-        <div data-theme="b" data-role="header">
-            <h1 class="ui-title">
-                Logos Here
-            </h1>
-            
-        </div>
-    <div role="main" class="ui-content">
+        <div data-role="header" data-theme="b"> <!-- HEADER -->
+    
+    <div class="ui-grid-a ui-responsive">
+      <img class="ui-block-a" src="images/cup-transparent-logo.png" id="cup">
+      <img class="ui-block-b" src="images/cambridge-university.png" id="elt">
+    </div>
+
+    <!-- <h1>Cambridge Learning App</h1> -->
+
+    <div class="ui-btn-right ui-nodisc-icon">
+      
+    </div>
+
+</div>
+
+<!--     <div role="main" class="ui-content">
         <h1>
-            Please enter your details below <input type="button" value="Download" onclick="javascript:window.JSInterface.downloadContent();" />
+            Please enter your details below
         </h1>
         <div class="ui-field-contain" data-controltype="textinput">
             <input name="" id="textinput3" placeholder="Username" value="" type="text">
@@ -45,6 +55,35 @@
             Button
         </a>
     </div>
+ -->
+
+<div class="ui-grid-a ui-responsive">
+  <div class="ui-block-a login-box">
+    <div class="ui-bar ui-bar-a ui-responsive" >
+      
+      <p>Please enter your details below</p>
+      
+      <form>
+        <label for="text-enhanced">Username</label>
+        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
+          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="text-enhanced" value="" type="text">
+          <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a> </div>
+        <label for="search-enhanced">Password</label>
+        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
+          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="text-enhanced" value="" type="password">
+          <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a> </div>
+      </form>
+        
+        <a data-transition="pop" id="submit-5" href="#learning" class="ui-btn">
+            Login
+        </a>
+
+    </div>
+  </div>
+</div>
+
+
+
 </div>
 <!-- LOGIN PAGE -->
 
@@ -55,11 +94,21 @@
 
         <!-- PANEL -->
           <div data-role="panel" id="menuPanel" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
-            <img src="images/profile-photo.png">
+            
+            <div class="ui-grid-a">
+              <div class="ui-block-a">
+                <!-- <i class="fa fa-cog fa-half-2x"></i> -->
+              </div>
+
+              <div class="ui-block-b">
+                <img src="images/profile-photo.png">
+              </div>
+            </div>
+
             <h4>Menu</h4>
             <ul data-role="listview">
               <li data-icon="false"><a href="#home">Home</a></li>
-              <li data-icon="false"><a href="#">Sign Out</a></li>
+              <li data-icon="false"><a href="#home">Sign Out</a></li>
             </ul>
           </div> 
         <!-- PANEL -->
@@ -69,11 +118,11 @@
             Learning App
         </h1>
 
+        <!-- <div class="ui-btn-left ui-nodisc-icon awesome"></div> -->
+
         <div class="ui-btn-right ui-nodisc-icon awesome">
             <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
-
             <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
-
             <a href="#menuPanel" class=""><i class="fa fa-bars fa-half-2x"></i></a>
         </div>
              
@@ -218,12 +267,12 @@ class="unit">
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li>
-                    <a href="#all-content-a" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#all-content-a" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
                         All Content
                     </a>
                 </li>
                 <li>
-                    <a href="#downloaded-a" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#downloaded-a" data-transition="none" data-theme="a">
                         Downloaded Content
                     </a>
                 </li>
@@ -235,7 +284,7 @@ class="unit">
             <input name="" id="searchinput8" placeholder="Filter" value="" type="search">
         </div>
         <div data-role="collapsible-set" data-iconpos="right">
-            <div data-role="collapsible" data-collapsed="false" data-theme="b">
+            <div data-role="collapsible" data-collapsed="false" data-theme="c">
                 <h3>
                     Unit 1
                 </h3>
@@ -310,26 +359,26 @@ class="unit">
 <!-- Class A | All Content -->
 
 
-
+<!-- Class A | Downloaded Content -->
 <div data-role="page" data-control-title="Class A | Downloaded Content"
 id="downloaded-a" class="unit">
     <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
         <h1 class="ui-title">
             Class A
         </h1>
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
-        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
-            Back
-        </a>
+        
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li>
-                    <a href="#all-content-a" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#all-content-a" data-transition="none" data-theme="a">
                         All Content
                     </a>
                 </li>
                 <li>
-                    <a href="#downloaded-a" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#downloaded-a" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
                         Downloaded Content
                     </a>
                 </li>
@@ -407,6 +456,9 @@ id="downloaded-a" class="unit">
         </div>
     </div>
 </div>
+<!-- Class A | Downloaded Content -->
+
+
 
 <!-- CLASS B | ALL CONTENT -->
 <div data-role="page" data-control-title="Class B | All Content" id="all-content-b"
@@ -424,12 +476,12 @@ class="unit">
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
                         All Content
                     </a>
                 </li>
                 <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#downloaded-b" data-transition="none" data-theme="a">
                         Downloaded Content
                     </a>
                 </li>
@@ -519,26 +571,26 @@ class="unit">
 
 
 
-
+<!-- Class B | Downloaded Content -->
 <div data-role="page" data-control-title="Class B | Downloaded Content"
 id="downloaded-b" class="unit">
     <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
         <h1 class="ui-title">
             Class B
         </h1>
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
-        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
-            Back
-        </a>
+
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#all-content-b" data-transition="none" data-theme="a">
                         All Content
                     </a>
                 </li>
                 <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#downloaded-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
                         Downloaded Content
                     </a>
                 </li>
@@ -622,25 +674,29 @@ id="downloaded-b" class="unit">
         </div>
     </div>
 </div>
+<!-- Class B | Downloaded Content -->
+
+
+<!-- Vocabulary | Lesson Page -->
 <div data-role="page" data-control-title="Vocabulary | Lesson Page" id="lesson-vocabulary"
 class="lesson">
     <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
         <h1 class="ui-title">
             Lesson Page
         </h1>
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
-        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
-            Back
-        </a>
+        
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
                         All Content
                     </a>
                 </li>
                 <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#downloaded-b" data-transition="none" data-theme="a">
                         Downloaded Content
                     </a>
                 </li>
@@ -673,25 +729,29 @@ class="lesson">
         </ul>
     </div>
 </div>
+<!-- Vocabulary | Lesson Page -->
+
+
+
 <div data-role="page" data-control-title="Spelling | Lesson Page" id="lesson-spelling"
 class="lesson">
     <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
         <h1 class="ui-title">
             Lesson Page
         </h1>
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#class-a"
-        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
-            Back
-        </a>
+        
         <div data-role="navbar" data-iconpos="top">
             <ul>
                 <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
                         All Content
                     </a>
                 </li>
                 <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a" data-icon="">
+                    <a href="#downloaded-b" data-transition="none" data-theme="a">
                         Downloaded Content
                     </a>
                 </li>
@@ -726,13 +786,13 @@ class="lesson">
 </div>
 <div data-role="page" data-control-title="Video Page" id="video" class="lesson-detail">
     <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
         <h1 class="ui-title">
             Video Page
         </h1>
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#video"
-        data-icon="back" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-back ui-btn-icon-left">
-            Back
-        </a>
+
     </div>
     <div role="main" class="ui-content">
         <h2>
@@ -754,6 +814,301 @@ class="lesson">
         </a>
     </div>
 </div>
+<!-- <div data-role="page" data-control-title="Sample" id="sample" class="sample">
+    <div data-theme="b" data-role="header">
 
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
+        <h1 class="ui-title">
+            Sample HTML
+        </h1>
+        
+    </div>
+    <div role="main" class="ui-content">
+        <h1>
+            Heading
+        </h1>
+        <h2>
+            Heading
+        </h2>
+        <h3>
+            Heading
+        </h3>
+        <div data-controltype="textblock">
+            <p>
+                HTML Samples.
+            </p>
+        </div>
+        <div style="width: 288px; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+        data-controltype="image">
+            <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+        </div>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <iframe data-controltype="youtube" id="youtube1" type="text/html" width="288px"
+        height="216px" src="https://www.youtube.com/embed/C0DPdy98e4c" frameborder="0">
+        </iframe>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <iframe data-controltype="vimeo" id="vimeo1" type="text/html" width="288px"
+        height="216px" src="https://player.vimeo.com/video/12643828" frameborder="0">
+        </iframe>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div id="googlemapsjs1" class="google-map" style="width: 288px; height: 200px; margin-left: auto; margin-right: auto">
+        </div>
+        <script type="text/javascript">
+                window.CodiqaControls && window.CodiqaControls.register('googlemaps', 'googlemapsjs1', {
+            ready: function(control) {
+
+                control.options = {
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                control.el = document.getElementById(control._id);
+                control.map = new google.maps.Map(control.el, control.options);
+
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({
+                    'address': 'Madison, WI'
+                }, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+
+                        var marker = new google.maps.Marker({
+                            map: control.map,
+                            position: results[0].geometry.location
+                        });
+                        control.center = results[0].geometry.location;
+                        control.map.setCenter(control.center);
+                    }
+                });
+
+            }
+        });
+        </script>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div class="ui-field-contain" data-controltype="toggleswitch">
+            <select name="toggleswitch3" id="toggleswitch3" data-theme="" data-role="slider">
+                <option value="off">
+                    Off
+                </option>
+                <option value="on">
+                    On
+                </option>
+            </select>
+        </div>
+        <a href="#grid" class="ui-btn ui-btn-b">
+            Grid Pages
+        </a>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div class="ui-field-contain" data-controltype="dateinput">
+            <label for="dateinput1">
+                Title
+            </label>
+            <input name="" id="dateinput1" placeholder="" value="" type="date">
+        </div>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div class="ui-field-contain" data-controltype="textarea">
+            <label for="textarea1">
+                Title
+            </label>
+            <textarea name="" id="textarea1" placeholder=""></textarea>
+        </div>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div class="ui-field-contain" data-controltype="radiobuttons">
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                <legend>
+                    Choose:
+                </legend>
+                <input id="radio3" name="" value="radio1" data-theme="b" type="radio">
+                <label for="radio3">
+                    A
+                </label>
+                <input id="radio4" name="" value="radio2" data-theme="b" type="radio">
+                <label for="radio4">
+                    B
+                </label>
+                <input id="radio5" name="" value="radio3" data-theme="b" type="radio">
+                <label for="radio5">
+                    C
+                </label>
+            </fieldset>
+        </div>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div id="checkboxes1" class="ui-field-contain" data-controltype="checkboxes">
+            <fieldset data-role="controlgroup" data-type="vertical">
+                <legend>
+                    Choose:
+                </legend>
+                <input id="checkbox1" name="" data-theme="a" type="checkbox">
+                <label for="checkbox1">
+                    Option
+                </label>
+                <input id="checkbox2" name="" data-theme="a" type="checkbox">
+                <label for="checkbox2">
+                    Checkbox
+                </label>
+                <input id="checkbox3" name="" data-theme="a" type="checkbox">
+                <label for="checkbox3">
+                    Checkbox
+                </label>
+            </fieldset>
+        </div>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div class="ui-field-contain" data-controltype="slider">
+            <label for="slider1">
+                Value
+            </label>
+            <input id="slider1" type="range" name="slider" value="50" min="0" max="100"
+            data-highlight="false">
+        </div>
+        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+        <div class="ui-field-contain" data-controltype="selectmenu">
+            <label for="selectmenu1">
+                Choose:
+            </label>
+            <select id="selectmenu1" name="">
+                <option value="option1">
+                    Option 1
+                </option>
+                <option value="value">
+                    Option 2
+                </option>
+                <option value="value">
+                    Option 3
+                </option>
+            </select>
+        </div>
+    </div>
+    <div data-theme="a" data-role="footer" data-position="fixed">
+        <h3>
+            Footer
+        </h3>
+    </div>
+    <div data-role="tabbar" data-iconpos="top" data-theme="a">
+        <ul>
+            <li>
+                <a href="#home" data-transition="fade" data-theme="" data-icon="home">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="#sample" data-transition="fade" data-theme="" data-icon="info">
+                    Samples
+                </a>
+            </li>
+            <li>
+                <a href="#grid" data-transition="fade" data-theme="" data-icon="gear">
+                    Settings
+                </a>
+            </li>
+        </ul>
+    </div>
+</div> -->
+<!-- <div data-role="page" data-control-title="Grid Page" id="grid" class="sample">
+    <div data-theme="b" data-role="header">
+
+        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+
+        <h1 class="ui-title">
+            Grid Page
+        </h1>
+        
+    </div>
+    <div role="main" class="ui-content">
+        <div data-controltype="textblock">
+            <p>
+                Grid samples.
+            </p>
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+        </div>
+        <div class="ui-grid-b">
+            <div class="ui-block-a">
+                <a href="#grid" class="ui-btn ">
+                    Button
+                </a>
+            </div>
+            <div class="ui-block-b">
+                <a href="#grid" class="ui-btn ">
+                    Button
+                </a>
+            </div>
+            <div class="ui-block-c">
+                <a href="#grid" class="ui-btn ">
+                    Button
+                </a>
+            </div>
+        </div>
+        <div class="ui-grid-c">
+            <div class="ui-block-a">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-d">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+        </div>
+        <div class="ui-grid-d">
+            <div class="ui-block-a">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-c">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-d">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+            <div class="ui-block-e">
+                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
+                data-controltype="image">
+                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
 </body>
 </html>
