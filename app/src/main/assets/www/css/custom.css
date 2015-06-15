@@ -40,7 +40,7 @@ div[data-role="panel"] img {
     border-radius: 50%;
     max-width: 80px;
     position: relative;
-    left: 100%;
+    left: 30%;
 }
 /* PANEL */
 
@@ -89,6 +89,32 @@ div[data-role="panel"] img {
     background-color:transparent; 
     border:none; min-height:0;
 }
+
+#submit-5 {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #3890cf 0%, #2e7ebb 100%) repeat scroll 0 0;
+    border: 0 none;
+    color:#fff;
+    text-shadow: none;
+}
+
+#submit-5:hover {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, #2e7ebb 0%, #3890cf 100%) repeat scroll 0 0;
+    color:#fff;
+}
+
+img#cup {
+    max-width: 143px;
+    max-height: 30px;
+    display: block;
+    margin: .75em;
+}
+
+img#elt {
+    max-width: 186px;
+    max-height: 30px;
+    display: block;
+    margin: .75em;
+}
 /* LOGIN */
 
 
@@ -108,7 +134,7 @@ div[data-role="panel"] img {
 
 .ui-header .ui-title,
 .ui-footer .ui-title {
-    margin: 0 1em;
+    margin: 0.3em 1em;
     text-align: left;
 }
 div[data-role="header"] a.ui-btn-left.ui-nodisc-icon + h1.ui-title {
@@ -123,17 +149,11 @@ div[data-role="header"] a.ui-btn-left.ui-nodisc-icon + h1.ui-title {
 
 
 /* ######################################## BUTTONS ######################################## */
-.ui-page-theme-a .navbar .ui-btn, 
-html .ui-bar-a .ui-btn, 
-html .ui-body-a .ui-btn, 
-html body .ui-group-theme-a .ui-btn, 
-html head + body .ui-btn.ui-btn-a, 
-
-.ui-page-theme-a  .navbar .ui-btn:visited, 
-html .ui-bar-a .ui-btn:visited, 
-html .ui-body-a .ui-btn:visited, 
-html body .ui-group-theme-a .ui-btn:visited, 
-html head + body .ui-btn.ui-btn-a:visited {
+.ui-navbar .ui-page-theme-a .navbar .ui-btn, 
+html .ui-navbar .ui-bar-a .ui-btn, 
+html .ui-navbar .ui-body-a .ui-btn, 
+html body .ui-navbar .ui-group-theme-a .ui-btn, 
+html head + body .ui-navbar .ui-btn.ui-btn-a {
     background-color: #b99d19;
     border-color: #b99d19;
     color: #fff;
@@ -167,7 +187,23 @@ html head + body .ui-btn.ui-btn-a:visited {
 
 
 /* ######################################## HOVER BUTTONS ################################## */
-.ui-page-theme-a .navbar .ui-btn:hover, html .ui-bar-a .ui-btn:hover, html .ui-body-a .ui-btn:hover, html body .ui-group-theme-a .ui-btn:hover, html head + body .ui-btn.ui-btn-a:hover {
+.ui-navbar.ui-page-theme-a .navbar .ui-btn:active,
+html .ui-navbar .ui-bar-a .ui-btn:active, 
+html .ui-navbar .ui-body-a .ui-btn:active, 
+html body .ui-navbar .ui-group-theme-a .ui-btn:active, 
+html head + body .ui-navbar .ui-btn.ui-btn-a:active,
+
+.ui-navbar.ui-page-theme-a .navbar .ui-btn:hover,
+html .ui-navbar .ui-bar-a .ui-btn:hover, 
+html .ui-navbar .ui-body-a .ui-btn:hover, 
+html body .ui-navbar .ui-group-theme-a .ui-btn:hover, 
+html head + body .ui-navbar .ui-btn.ui-btn-a:hover,
+
+.ui-page-theme-a .navbar .ui-btn:hover,
+html .ui-bar-a .ui-btn:hover, 
+html .ui-body-a .ui-btn:hover, 
+html body .ui-group-theme-a .ui-btn:hover, 
+html head + body .ui-btn.ui-btn-a:hover {
     background-color: #fff;
     border-color: #fff;
     color: #1d1d1d;
@@ -213,7 +249,7 @@ html head + body .ui-btn.ui-btn-a:visited {
 
 /* ######################################## FONT-AWESOME ################################### */
 .awesome a i {
-    margin: .3em .4em;
+    margin: 0.55em .3em;
 }
 
 div[data-role="header"] .awesome a {
