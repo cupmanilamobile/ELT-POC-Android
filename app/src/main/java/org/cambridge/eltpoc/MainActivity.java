@@ -2,14 +2,15 @@ package org.cambridge.eltpoc;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.webkit.WebView;
 
 import org.cambridge.eltpoc.javascript.JavaScriptInterface;
+import org.cambridge.eltpoc.model.CLMSClass;
 
-import java.io.File;
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +20,19 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
         this.initializeWebView();
+        Realm.deleteRealmFile(this);
+        Realm realm = Realm.getInstance(this);
+        Log.d("", "path: " + realm.getPath());
+
+        realm.beginTransaction();
+
+        CLMSClass c = realm.createObject(CLMSClass.class);
+        c.setId(938);
+        c.setClassName("Feeding Time: The Feeding Habits Selft-study");
+        c.setClassRole("Student");
+        c.setCourseId(890);
+
+        realm.commitTransaction();
     }
 
     @Override
