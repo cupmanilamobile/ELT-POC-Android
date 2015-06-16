@@ -36,12 +36,12 @@
             Please enter your details below <input type="button" value="Download" onclick="javascript:window.JSInterface.downloadContent();" />
         </h1>
         <div class="ui-field-contain" data-controltype="textinput">
-            <input name="" id="textinput3" placeholder="Username" value="" type="text">
+            <input name="userName" id="textinput3" placeholder="Username" value="" type="text">
         </div>
         <div class="ui-field-contain" data-controltype="textinput">
-            <input name="" id="textinput4" placeholder="Password" value="" type="password">
+            <input name="password" id="textinput4" placeholder="Password" value="" type="password">
         </div>
-        <a data-transition="pop" href="#learning" class="ui-btn">
+        <a data-transition="pop" class="ui-btn" onclick="getLoginCredentials()" id ="loginButton">
             Button
         </a>
     </div>

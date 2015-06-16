@@ -9,9 +9,9 @@ import android.webkit.WebView;
 
 import org.cambridge.eltpoc.javascript.JavaScriptInterface;
 
-import java.io.File;
-
 public class MainActivity extends AppCompatActivity {
+
+    public WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* Private methods */
     private void initializeWebView() {
-        WebView webView = (WebView)findViewById(R.id.webview);
+        webView = (WebView)findViewById(R.id.webview);
         webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
         webView.getSettings().setJavaScriptEnabled(true);
