@@ -1,3 +1,4 @@
+
 // SWIPE PANEL
 $( document ).on( "pagecreate", "#demo-page", function() {
     $( document ).on( "swipeleft swiperight", "#demo-page", function( e ) {
@@ -33,6 +34,25 @@ $( document ).on( "click", ".show-page-loading-msg", function() {
 .on( "click", ".hide-page-loading-msg", function() {
     $.mobile.loading( "hide" );
 });
+
+function getLoginCredentials(){
+
+
+var user =document.getElementById('textinput3').value;
+var password = document.getElementById('textinput4').value;;
+
+
+var valid = window.JSInterface.authenticateLogin(user,password);
+
+if(valid){
+
+    var url = location.href;               //Save down the URL without hash.
+    location.href = "#learning";                 //Go to the target element.
+    history.replaceState(null,null,url);
+}
+
+
+}
 
 // SPIN
 $('.fa-spinner').hover(function() {

@@ -2,26 +2,20 @@ package org.cambridge.eltpoc;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
-
-import org.cambridge.eltpoc.api.TestHarnessService;
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
-import org.cambridge.eltpoc.model.CLMSUser;
-
-import java.util.List;
+import org.cambridge.eltpoc.model.CLMSClass;
 
 import io.realm.Realm;
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    public WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,34 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
         this.initializeWebView();
+        Realm.deleteRealmFile(this);
+        Realm realm = Realm.getInstance(this);
+        Log.d("", "path: " + realm.getPath());
 
+        realm.beginTransaction();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint("http://content-poc-api.cambridgelms.org")
-                        .build();
+        CLMSClass c = realm.createObject(CLMSClass.class);
+        c.setId(938);
+        c.setClassName("Feeding Time: The Feeding Habits Selft-study");
+        c.setClassRole("Student");
+        c.setCourseId(890);
 
-                TestHarnessService th = restAdapter.create(TestHarnessService.class);
-                th.getBearerToken("password", "app", "satya", "password");
-            }
-        }).start();
-////
-//        Realm.deleteRealmFile(this);
-//
-//        Realm realm = Realm.getInstance(this);
-//        Log.d("", "path: " + realm.getPath());
-//
-//        realm.beginTransaction();
-//
-//        CLMSClass c = realm.createObject(CLMSClass.class);
-//        c.setId(938);
-//        c.setClassName("Feeding Time: The Feeding Habits Selft-study");
-//        c.setClassRole("Student");
-//        c.setCourseId(890);
-
-//        realm.commitTransaction();
+        realm.commitTransaction();
     }
 
     @Override
@@ -83,12 +62,26 @@ public class MainActivity extends AppCompatActivity {
 
     /* Private methods */
     private void initializeWebView() {
-        WebView webView = (WebView)findViewById(R.id.webview);
-        CLMSJavaScriptInterface jsInterface = new CLMSJavaScriptInterface(this);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(jsInterface, "JSInterface");
-//        webView.addJavascriptInterface(new CLMSJavaScriptInterface(this), "JSInterface");
+        webView = (WebView)findViewById(R.id.webview);
+        webView.addJavascriptInterface(new CLMSJavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
+        webView.getSettings().setJavaScriptEnabled(true);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN){
+            switch(keyCode)
+            {
+                case KeyEvent.KEYCODE_BACK:
+                    if(webView.canGoBack()){
+                        webView.goBack();
+                    }else{
+                        finish();
+                    }
+                    return true;
+            }
 
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
