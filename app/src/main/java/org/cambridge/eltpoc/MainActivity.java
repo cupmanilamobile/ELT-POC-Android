@@ -3,6 +3,7 @@ package org.cambridge.eltpoc;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -65,5 +66,22 @@ public class MainActivity extends AppCompatActivity {
         webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
         webView.getSettings().setJavaScriptEnabled(true);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN){
+            switch(keyCode)
+            {
+                case KeyEvent.KEYCODE_BACK:
+                    if(webView.canGoBack()){
+                        webView.goBack();
+                    }else{
+                        finish();
+                    }
+                    return true;
+            }
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

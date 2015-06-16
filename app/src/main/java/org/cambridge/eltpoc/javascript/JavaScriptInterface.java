@@ -13,6 +13,7 @@ import android.webkit.JavascriptInterface;
 
 import org.cambridge.eltpoc.download.DownloadReceiver;
 import org.cambridge.eltpoc.download.DownloadService;
+import org.cambridge.eltpoc.model.CLMSUser;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -28,6 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
+
+import io.realm.Realm;
 
 /**
  * Created by mbaltazar on 6/10/15.
@@ -58,9 +61,7 @@ public class JavaScriptInterface {
     @JavascriptInterface
     public boolean authenticateLogin(String user, String password) {
 
-
-
-
+        // To dismiss the dialog
 
         String urlString = "http://content-poc-api.cambridgelms.org/v1.0/authorize";
 
@@ -100,16 +101,21 @@ public class JavaScriptInterface {
             object = (JSONObject) new JSONTokener(response).nextValue();
             System.out.println(response + "xxxxxxx");
             if(object.getString("access_token") != null){
-
-
+                Realm realm = Realm.getInstance(this.activity);
+                realm.beginTransaction();
+                CLMSUser realmUser = realm.createObject(CLMSUser.class);
+                realmUser.setAccessToken(object.getString("access_token"));
+                realmUser.setUsername(user);
+                realmUser.setPassword(password);
+                realm.commitTransaction();;
                 SharedPreferences preferences = activity.getApplicationContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
                 return true;
             }
             else {
 
-
             }
         } catch (Exception e) {
+
             AlertDialog alertDialog = new AlertDialog.Builder(this.activity).create();
             alertDialog.setTitle("Authentication Failed");
             alertDialog.setMessage(e.getMessage());
@@ -121,8 +127,10 @@ public class JavaScriptInterface {
                     });
 
             alertDialog.show();
+
             //this.mException = e;
         } finally {
+
             if (inStream != null) {
                 try {
                     // this will close the bReader as well
