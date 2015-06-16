@@ -37,10 +37,10 @@ import io.realm.RealmResults;
 /**
  * Created by mbaltazar on 6/10/15.
  */
-public class JavaScriptInterface {
+public class CLMSJavaScriptInterface {
     private Activity activity;
 
-    public JavaScriptInterface(Activity activity) {
+    public CLMSJavaScriptInterface(Activity activity) {
         this.activity = activity;
     }
 

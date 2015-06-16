@@ -18,6 +18,14 @@ public class CLMSUser extends RealmObject {
 
     @Ignore
     private String accessToken;
+    @Ignore
+    private int expires_n;
+    @Ignore
+    private String token_type;
+    @Ignore
+    private String scope;
+    @Ignore
+    private String refresh_token;
 
 
     public String getUsername() {
@@ -66,5 +74,37 @@ public class CLMSUser extends RealmObject {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public int getExpires_n() {
+        return expires_n;
+    }
+
+    public void setExpires_n(int expires_n) {
+        this.expires_n = expires_n;
+    }
+
+    public String getToken_type() {
+        return token_type;
+    }
+
+    public void setToken_type(String token_type) {
+        this.token_type = token_type;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
+    public String getRefresh_token() {
+        return refresh_token;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
     }
 }

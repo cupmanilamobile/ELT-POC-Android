@@ -46,12 +46,12 @@
             Please enter your details below
         </h1>
         <div class="ui-field-contain" data-controltype="textinput">
-            <input name="userName" id="textinput3" placeholder="Username" value="" type="text">
+            <input name="" id="textinput3" placeholder="Username" value="" type="text">
         </div>
         <div class="ui-field-contain" data-controltype="textinput">
-            <input name="password" id="textinput4" placeholder="Password" value="" type="password">
+            <input name="" id="textinput4" placeholder="Password" value="" type="password">
         </div>
-        <a data-transition="pop" class="ui-btn" onclick="getLoginCredentials()" id ="loginButton">
+        <a data-transition="pop" href="#learning" class="ui-btn">
             Button
         </a>
     </div>
@@ -64,17 +64,17 @@
       <p>Please enter your details below</p>
       
       <form>
-        <label for="text-enhanced">Username</label>
+        <label class="hidden" for="text-enhanced">Username</label>
         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
-          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput3" value="" type="text">
+          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput3" value="" type="text" placeholder="Username">
           <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a> </div>
-        <label for="search-enhanced">Password</label>
+        <label class="hidden" for="search-enhanced">Password</label>
         <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
-          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput4" value="" type="password">
+          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="4" value="" type="password" placeholder="Password">
           <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a> </div>
       </form>
         
-        <a data-transition="pop" id="submit-5"  class="ui-btn" onclick="getLoginCredentials()">
+        <a data-transition="pop" id="submit-5" href="#learning" class="ui-btn" onclick="getLoginCredentials()">
             Login
         </a>
 
@@ -107,7 +107,7 @@
 
             <h4>Menu</h4>
             <ul data-role="listview">
-              <li data-icon="false"><a href="#home">Home</a></li>
+              <li data-icon="false"><a href="#learning">Class List</a></li>
               <li data-icon="false"><a href="#home">Sign Out</a></li>
             </ul>
           </div> 
@@ -281,9 +281,9 @@ class="unit">
     </div>
     <div role="main" class="ui-content" data-corners="false">
         <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="searchinput8" placeholder="Filter" value="" type="search">
+            <input name="" id="all-content-a-filter" placeholder="Filter" value="" type="search">
         </div>
-        <div data-role="collapsible-set" data-iconpos="right">
+        <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#all-content-a-filter">
             <div data-role="collapsible" data-collapsed="false" data-theme="c">
                 <h3>
                     Unit 1
@@ -387,9 +387,9 @@ id="downloaded-a" class="unit">
     </div>
     <div role="main" class="ui-content">
         <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="searchinput9" placeholder="Filter" value="" type="search">
+            <input name="" id="downloaded-a-filter" placeholder="Filter" value="" type="search">
         </div>
-        <div data-role="collapsible-set" data-iconpos="right">
+        <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#myFilter">
             <div data-role="collapsible" data-theme="b">
                 <h3>
                     Unit 1

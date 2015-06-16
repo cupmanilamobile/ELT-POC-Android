@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import org.cambridge.eltpoc.javascript.JavaScriptInterface;
+import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSClass;
 
 import io.realm.Realm;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     /* Private methods */
     private void initializeWebView() {
         webView = (WebView)findViewById(R.id.webview);
-        webView.addJavascriptInterface(new JavaScriptInterface(this), "JSInterface");
+        webView.addJavascriptInterface(new CLMSJavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
         webView.getSettings().setJavaScriptEnabled(true);
     }
