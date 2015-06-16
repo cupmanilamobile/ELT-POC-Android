@@ -44,7 +44,9 @@ div[data-role="panel"] h4 + ul li a {
 
 div[data-role="panel"] h4 + ul li i {
     font-size: 1.2em;
+    width: 25px;
     margin-right: .25em;
+    text-align: center;
 }
 
 div[data-role="panel"] img {

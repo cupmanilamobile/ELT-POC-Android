@@ -94,6 +94,8 @@
             <h4>Menu</h4>
             <ul data-role="listview">
                 <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+                <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
                 <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
             </ul>
         </div> 
@@ -168,20 +170,17 @@
         <!-- PANEL -->
         <div data-role="panel" id="panel-teaching" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <i class="fa fa-cog fa-half-2x"></i>
-                </div>
-
-                <div class="ui-block-b">
-                    <img src="images/profile-photo.png">
-                </div>
+            <div class="account">
+                <img src="images/profile-photo.png">
+                <p>Raymond Bonoan</p>
             </div>
 
             <h4>Menu</h4>
             <ul data-role="listview">
-                <li data-icon="false"><a href="#learning">Home</a></li>
-                <li data-icon="false"><a href="#home">Sign Out</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+                <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+                <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
             </ul>
         </div> 
         <!-- PANEL -->
@@ -193,10 +192,9 @@
 
             <div class="ui-btn-right ui-nodisc-icon awesome">
                 <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
-                <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop">
-                    <i class="fa fa-refresh fa-half-2x"></i></a>
-                    <a href="#panel-teaching" class=""><i class="fa fa-bars fa-half-2x"></i></a>
-                </div>
+                <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+                <a href="#panel-teaching" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+            </div>
 
                 <div data-role="navbar" data-iconpos="left">
                     <ul>
@@ -251,8 +249,26 @@
         <!-- Class A | All Content -->
         <div data-role="page" data-control-title="Class A | All Content" id="all-content-a"
         class="unit">
-        <div data-theme="b" data-role="header">
 
+        <!-- PANEL -->
+        <div data-role="panel" id="panel-all-content-a" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+            <div class="account">
+                    <img src="images/profile-photo.png">
+                    <p>Raymond Bonoan</p>
+            </div>
+
+            <h4>Menu</h4>
+            <ul data-role="listview">
+                <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+                <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+                <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+            </ul>
+        </div> 
+        <!-- PANEL -->
+
+        <div data-theme="b" data-role="header">
             <a data-direction="reverse" data-rel="back" data-transition="slide" href="#"
             data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
             Back
@@ -261,6 +277,12 @@
         <h1 class="ui-title">
             Class A
         </h1>
+
+        <div class="ui-btn-right ui-nodisc-icon awesome">
+            <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+            <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+            <a href="#panel-all-content-a" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+        </div>
 
         <div data-role="navbar" data-iconpos="top">
             <ul>
@@ -360,6 +382,25 @@
 <!-- Class A | Downloaded Content -->
 <div data-role="page" data-control-title="Class A | Downloaded Content"
 id="downloaded-a" class="unit">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-downloaded-a" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>Raymond Bonoan</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
 <div data-theme="b" data-role="header">
 
     <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
@@ -367,6 +408,12 @@ id="downloaded-a" class="unit">
     <h1 class="ui-title">
         Class A
     </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-downloaded-a" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     <div data-role="navbar" data-iconpos="top">
         <ul>
@@ -461,6 +508,25 @@ id="downloaded-a" class="unit">
 <!-- CLASS B | ALL CONTENT -->
 <div data-role="page" data-control-title="Class B | All Content" id="all-content-b"
 class="unit">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-all-content-b" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>Raymond Bonoan</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
 <div data-theme="b" data-role="header">
 
     <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
@@ -470,6 +536,12 @@ class="unit">
     <h1 class="ui-title">
         Class B
     </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-all-content-b" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     <div data-role="navbar" data-iconpos="top">
         <ul>
@@ -572,6 +644,25 @@ class="unit">
 <!-- Class B | Downloaded Content -->
 <div data-role="page" data-control-title="Class B | Downloaded Content"
 id="downloaded-b" class="unit">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-downloaded-b" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>Raymond Bonoan</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
 <div data-theme="b" data-role="header">
 
     <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
@@ -579,6 +670,12 @@ id="downloaded-b" class="unit">
     <h1 class="ui-title">
         Class B
     </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-downloaded-b" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     <div data-role="navbar" data-iconpos="top">
         <ul>
@@ -678,6 +775,25 @@ id="downloaded-b" class="unit">
 <!-- Vocabulary | Lesson Page -->
 <div data-role="page" data-control-title="Vocabulary | Lesson Page" id="lesson-vocabulary"
 class="lesson">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-lesson-vocabulary" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>Raymond Bonoan</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
 <div data-theme="b" data-role="header">
 
     <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
@@ -685,6 +801,12 @@ class="lesson">
     <h1 class="ui-title">
         Lesson Page
     </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-lesson-vocabulary" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     <div data-role="navbar" data-iconpos="top">
         <ul>
@@ -730,9 +852,28 @@ class="lesson">
 <!-- Vocabulary | Lesson Page -->
 
 
-
+<!-- Spelling | Lesson Page -->
 <div data-role="page" data-control-title="Spelling | Lesson Page" id="lesson-spelling"
 class="lesson">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-lesson-spelling" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>Raymond Bonoan</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
 <div data-theme="b" data-role="header">
 
     <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
@@ -740,6 +881,12 @@ class="lesson">
     <h1 class="ui-title">
         Lesson Page
     </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-lesson-spelling" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     <div data-role="navbar" data-iconpos="top">
         <ul>
@@ -782,7 +929,30 @@ class="lesson">
     </ul>
 </div>
 </div>
+<!-- Spelling | Lesson Page -->
+
+
+<!-- VIDEO -->
 <div data-role="page" data-control-title="Video Page" id="video" class="lesson-detail">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-video" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>Raymond Bonoan</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
     <div data-theme="b" data-role="header">
 
         <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
@@ -790,6 +960,12 @@ class="lesson">
         <h1 class="ui-title">
             Video Page
         </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-video" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     </div>
     <div role="main" class="ui-content">
@@ -802,16 +978,19 @@ class="lesson">
             </p>
         </div>
         <div data-controltype="htmlblock">
-            <video width="288" height="216" controls="">
+            <video width="100%" controls="">
                 <source src="images/rickroll.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
-            <a href="#sample" class="ui-btn ">
+            <!-- <a href="#sample" class="ui-btn ">
                 Go to Sample Pages
-            </a>
+            </a> -->
         </div>
     </div>
+<!-- VIDEO -->
+
+
 <!-- <div data-role="page" data-control-title="Sample" id="sample" class="sample">
 <div data-theme="b" data-role="header">
 
