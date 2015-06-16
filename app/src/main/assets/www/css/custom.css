@@ -11,7 +11,7 @@ a {text-decoration: none;}
     text-shadow: none;
 }
 
-.carousel {
+/*.carousel {
     width: 100%;
     height: 200px;
     position: relative;
@@ -22,6 +22,10 @@ a {text-decoration: none;}
 
 .carousel > img {
 
+}*/
+
+.hidden {
+    display: none !important;
 }
 /* GENERAL */
 
@@ -30,17 +34,29 @@ a {text-decoration: none;}
 /* ######################################## PANEL ########################################## */
 div[data-role="panel"] h4 {
     text-transform: uppercase;
+    margin-left: -5px;
 }
 
 div[data-role="panel"] h4 + ul li a {
-    font-size: .8em;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+div[data-role="panel"] h4 + ul li i {
+    font-size: 1.2em;
+    margin-right: .25em;
 }
 
 div[data-role="panel"] img {
     border-radius: 50%;
     max-width: 80px;
     position: relative;
-    left: 30%;
+    left: 33%;
+}
+
+div[data-role="panel"] .account p {
+    margin: .2em 0;
+    text-align: center;
 }
 /* PANEL */
 
@@ -79,15 +95,11 @@ div[data-role="panel"] img {
 
 /* ######################################## LOGIN ########################################## */
 #home {
-    background:url('../images/bg.jpg') no-repeat scroll center -100px;
+    background:url('../images/bg.jpg') no-repeat scroll center -200px;
     min-height:1024px; 
     width:100%; 
     background-attachment:fixed;
-}
-
-.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper { 
-    background-color:transparent; 
-    border:none; min-height:0;
+    fil
 }
 
 #submit-5 {
@@ -103,17 +115,62 @@ div[data-role="panel"] img {
 }
 
 img#cup {
-    max-width: 143px;
-    max-height: 30px;
+    max-width: 181px;
+    max-height: 38px;
     display: block;
     margin: .75em;
 }
 
 img#elt {
-    max-width: 186px;
-    max-height: 30px;
+    max-width: 236px;
+    max-height: 38px;
     display: block;
     margin: .75em;
+}
+
+.login-box {
+    position: absolute;
+    top: 14%;
+    left: 1em;
+}
+
+.login-box .ui-input-text.ui-input-has-clear a.ui-input-clear {
+    margin:0;
+    right: -0.6em;
+    top: -0.3em;
+}
+
+.login-box div {
+    background: rgba(51, 51, 51, 0.7); 
+    border: 0;
+}
+
+.login-box h2 {
+    font-size: 1.8em;
+    text-shadow: none !important;
+    color: #fff;
+    font-weight: 400;
+    margin: .5em 0 0 0;
+}
+
+.login-box p {
+    text-shadow: none !important;
+    color: #fff;
+    font-weight: 400;
+}
+
+#home div[data-role="header"] {
+    background: none;
+}
+
+@media only screen and (max-width: 560px) {
+    .login-box {
+        position: absolute;
+        top: 14%;
+        left: 0em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
 }
 /* LOGIN */
 
@@ -259,4 +316,8 @@ div[data-role="header"] .awesome a {
 .fa-half-2x {
   font-size: 1.75em;
 }
-/* FONT-AWESOME 
+
+.fa-clear {
+  font-size: 1.4em;
+}
+/* FONT-AWESOME */
