@@ -31,6 +31,8 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 /**
  * Created by mbaltazar on 6/10/15.
@@ -103,11 +105,22 @@ public class JavaScriptInterface {
             if(object.getString("access_token") != null){
                 Realm realm = Realm.getInstance(this.activity);
                 realm.beginTransaction();
-                CLMSUser realmUser = realm.createObject(CLMSUser.class);
-                realmUser.setAccessToken(object.getString("access_token"));
-                realmUser.setUsername(user);
-                realmUser.setPassword(password);
-                realm.commitTransaction();;
+
+
+                RealmQuery<CLMSUser> query = realm.where(CLMSUser.class);
+
+                query.equalTo("username","satya");
+
+                RealmResults<CLMSUser> result = query.findAll();
+                realm.commitTransaction();
+                if(result.isEmpty()) {
+                    realm.beginTransaction();
+                    CLMSUser realmUser = realm.createObject(CLMSUser.class);
+                    realmUser.setAccessToken(object.getString("access_token"));
+                    realmUser.setUsername(user);
+                    realmUser.setPassword(password);
+                    realm.commitTransaction();
+                }
                 SharedPreferences preferences = activity.getApplicationContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
                 return true;
             }
