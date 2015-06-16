@@ -8,14 +8,15 @@ import android.webkit.JavascriptInterface;
 
 import org.cambridge.eltpoc.download.DownloadReceiver;
 import org.cambridge.eltpoc.download.DownloadService;
+import org.cambridge.eltpoc.model.CLMSClass;
 
 /**
  * Created by mbaltazar on 6/10/15.
  */
-public class JavaScriptInterface {
+public class CLMSJavaScriptInterface {
     private Activity activity;
 
-    public JavaScriptInterface(Activity activity) {
+    public CLMSJavaScriptInterface(Activity activity) {
         this.activity = activity;
     }
 
@@ -34,5 +35,16 @@ public class JavaScriptInterface {
         intent.putExtra(DownloadService.DOWNLOAD_RECEIVER, new DownloadReceiver(new Handler(), mProgressDialog));
         intent.putExtra(DownloadService.DOWNLOAD_OUTPUT_DIR, activity.getFilesDir().getAbsolutePath());
         this.activity.startService(intent);
+    }
+
+    @JavascriptInterface
+    public CLMSClass clmsLogin(String username, String password) {
+        CLMSClass c = new CLMSClass();
+        c.setId(143);
+        c.setClassName("Test class name");
+        c.setClassRole("Moron");
+        c.setCourseId(111);
+
+        return c;
     }
 }
