@@ -1,5 +1,5 @@
 /* ######################################## GENERAL ######################################## */
-body, h1 {
+html, body, h1 {
     font-family: 'Roboto', sans-serif;
     letter-spacing: 0.00625em;
 }
@@ -42,12 +42,13 @@ a {text-decoration: none;}
 /* ######################################## PANEL ########################################## */
 div[data-role="panel"] h4 {
     text-transform: uppercase;
-    margin-left: -5px;
+    font-weight: 100;
+    font-size: 1.25em;
 }
 
 div[data-role="panel"] h4 + ul li a {
     font-size: 1em;
-    font-weight: normal;
+    font-weight: 100;
 }
 
 div[data-role="panel"] h4 + ul li i {
@@ -368,4 +369,3 @@ div[data-role="header"] .awesome a {
     right: 0.5625em;
 }
 /* FONT-AWESOME */
-
