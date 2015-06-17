@@ -257,8 +257,8 @@ html head + body .ui-navbar .ui-btn.ui-btn-a {
 
 /* ######################################## ACTIVE BUTTONS ################################# */
 .ui-page-theme-a .navbar .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on::after, html .ui-bar-a .ui-checkbox-on::after, html .ui-body-a .ui-checkbox-on::after, html body .ui-group-theme-a .ui-checkbox-on::after, .ui-btn.ui-checkbox-on.ui-btn-a::after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
-    background-color: #fff;
-    border-color: #fff;
+    background-color: #f9f9f9;
+    border-color: #f9f9f9;
     color: #1d1d1d;
     text-shadow: none;
 }
@@ -324,8 +324,24 @@ html head + body .ui-btn.ui-btn-a:hover {
     color: #333;
 }
 
-div[data-role="collapsible"]div[data-theme="c"] {
+div[data-role="collapsible"]div[data-theme="c"] a {
+    background-color: #e9e9e9 !important;
+}
+
+.ui-page-theme-c .ui-btn, 
+html .ui-bar-c .ui-btn, 
+html .ui-body-c .ui-btn, 
+html body .ui-group-theme-c .ui-btn, 
+html head + body .ui-btn.ui-btn-c, 
+.ui-page-theme-c .ui-btn:visited, 
+html .ui-bar-c .ui-btn:visited, 
+html .ui-body-c .ui-btn:visited, 
+html body .ui-group-theme-c .ui-btn:visited, 
+html head + body .ui-btn.ui-btn-c:visited {
     background-color: #e9e9e9;
+    border-color: #d6d6d6;
+    color: #333;
+    text-shadow: 0 0 0 #f3f3f3;
 }
 /* LISTS UNDER COLLAPSIBLES */
 
@@ -347,4 +363,9 @@ div[data-role="header"] .awesome a {
 .fa-clear {
   font-size: 1.4em;
 }
+
+.ui-btn-icon-right::after {
+    right: 0.5625em;
+}
 /* FONT-AWESOME */
+

@@ -34,8 +34,6 @@
                 <img class="ui-block-b" src="images/cambridge-university.png" id="elt">
             </div>
 
-            <!-- <h1>Cambridge Learning App</h1> -->
-
             <div class="ui-btn-right ui-nodisc-icon">
 
             </div>
@@ -104,7 +102,7 @@
 
         <div data-theme="b" data-role="header">
             <h1 class="ui-title">
-                Learning App
+                Learning Classes
             </h1>
 
             <div class="ui-btn-right ui-nodisc-icon awesome">
@@ -188,12 +186,12 @@
 
         <div data-theme="b" data-role="header">
             <h1 class="ui-title">
-                Teaching App
+                Teaching Classes
             </h1>
 
             <div class="ui-btn-right ui-nodisc-icon awesome">
                 <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
-                <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+                <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x fa-spin"></i></a>
                 <a href="#panel-teaching" class=""><i class="fa fa-bars fa-half-2x"></i></a>
             </div>
 
@@ -304,12 +302,14 @@
         <div class="ui-field-contain" data-controltype="searchinput">
             <input name="" id="all-content-a-filter" placeholder="Filter" value="" type="search">
         </div>
-        <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#all-content-a-filter">
+        <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#all-content-a-filter">
             <div data-role="collapsible" data-collapsed="false" data-theme="c">
                 <h3>
                     Unit 1
                 </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+
+                <ul data-role="listview" data-split-icon="gear" data-divider-theme="a" data-inset="false" class="">
+                    
                     <li data-theme="a">
                         <a href="#lesson-vocabulary" data-transition="slide">
                             Vocabulary
@@ -317,7 +317,18 @@
                                 50%
                             </span>
                         </a>
+
+                        <!-- <a href="#myPopup" data-rel="popup" class="split-icon-link">
+                           <i class="fa fa-ellipsis-v fa-half-2x"></i>
+                        </a>
+
+                    <div data-role="popup" id="myPopup">
+                        <p>This is a simple popup.</p>
+                    </div> -->
+
                     </li>
+
+
                     <li data-theme="a">
                         <a href="#lesson-spelling" data-transition="slide">
                             Spelling
@@ -437,7 +448,7 @@ id="downloaded-a" class="unit">
     <div class="ui-field-contain" data-controltype="searchinput">
         <input name="" id="downloaded-a-filter" placeholder="Filter" value="" type="search">
     </div>
-    <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#downloaded-a-filter">
+    <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#downloaded-a-filter">
         <div data-role="collapsible" data-theme="c">
             <h3>
                 Unit 1
@@ -532,9 +543,9 @@ class="unit">
 
 <div data-theme="b" data-role="header">
 
-    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
-        Back
-    </a>
+    <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
 
     <h1 class="ui-title">
         Class B
@@ -567,7 +578,7 @@ class="unit">
         <input name="" id="all-content-b-filter" placeholder="Filter" value="" type="search">
     </div>
 
-    <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#all-content-b-filter">
+    <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#all-content-b-filter">
         <div data-role="collapsible" data-collapsed="false" data-theme="c">
             <h3>
                 Unit 1
@@ -701,7 +712,7 @@ id="downloaded-b" class="unit">
     <div class="ui-field-contain" data-controltype="searchinput">
         <input name="" id="panel-downloaded-b-filter" placeholder="Filter" value="" type="search">
     </div>
-    <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#panel-downloaded-b-filter">
+    <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#panel-downloaded-b-filter">
         <div data-role="collapsible" data-collapsed="false" data-theme="c">
             <h3>
                 Unit 1
