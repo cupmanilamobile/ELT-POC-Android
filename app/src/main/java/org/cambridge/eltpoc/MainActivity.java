@@ -1,5 +1,6 @@
 package org.cambridge.eltpoc;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSClass;
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
         this.initializeWebView();
-       // Realm.deleteRealmFile(this);
+        // Realm.deleteRealmFile(this);
         Realm realm = Realm.getInstance(this);
         Log.d("", "path: " + realm.getPath());
 
@@ -62,20 +64,20 @@ public class MainActivity extends AppCompatActivity {
 
     /* Private methods */
     private void initializeWebView() {
-        webView = (WebView)findViewById(R.id.webview);
+        webView = (WebView) findViewById(R.id.webview);
         webView.addJavascriptInterface(new CLMSJavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
         webView.getSettings().setJavaScriptEnabled(true);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(event.getAction() == KeyEvent.ACTION_DOWN){
-            switch(keyCode)
-            {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if(webView.canGoBack()){
+                    if (webView.canGoBack()) {
                         webView.goBack();
-                    }else{
+                    } else {
                         finish();
                     }
                     return true;
@@ -83,5 +85,17 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
     }
 }
