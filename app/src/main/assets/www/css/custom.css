@@ -1,6 +1,11 @@
 /* ######################################## GENERAL ######################################## */
-body {
+body, h1 {
     font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.00625em;
+}
+
+p {
+    font-weight: 100;
 }
 
 a {text-decoration: none;}
@@ -73,11 +78,16 @@ div[data-role="panel"] .account p {
     color: #3388cc;
 }
 
+.ui-listview > li h2 {
+    font-weight: 500;
+    letter-spacing: 0.00625em;
+}
+
 /* Line 3726 */
 .ui-listview .ui-li-has-thumb > img:first-child,
 .ui-listview .ui-li-has-thumb > .ui-btn > img:first-child,
 .ui-listview .ui-li-has-thumb .ui-li-thumb {
-    max-height: 6.3em;
+    max-height: 233px;
 }
 
 .ui-listview > li.ui-first-child,
@@ -156,12 +166,13 @@ img#elt {
     color: #fff;
     font-weight: 100;
     margin: .5em 0 0 0;
+    letter-spacing: 0.00625em;
 }
 
 .login-box p {
     text-shadow: none !important;
     color: #fff;
-    font-weight: 400;
+    letter-spacing: 0.0625em;
 }
 
 #home div[data-role="header"] {
@@ -196,15 +207,22 @@ img#elt {
 
 .ui-header .ui-title,
 .ui-footer .ui-title {
-    margin: 0.3em 1em;
+    margin: 0 1em;
     text-align: left;
+    font-weight: 100;
+    font-size: 1.4em;
 }
-div[data-role="header"] a.ui-btn-left.ui-nodisc-icon + h1.ui-title {
-    margin: 0 2.5em;
+
+div[data-role="header"] div.ui-btn-left + h1.ui-title {
+    margin: 0 1.8em;
 }
 
 .ui-bar-b, .ui-page-theme-b .ui-bar-inherit, html .ui-bar-b .ui-bar-inherit, html .ui-body-b .ui-bar-inherit, html body .ui-group-theme-b .ui-bar-inherit {
     border-bottom: medium none;
+}
+
+div[data-role="header"] div.ui-btn-left {
+    margin: -1.55em 0 0 -0.5em
 }
 /* HEADER BUTTONS */
 
@@ -305,13 +323,17 @@ html head + body .ui-btn.ui-btn-a:hover {
     background-color: #fff;
     color: #333;
 }
+
+div[data-role="collapsible"]div[data-theme="c"] {
+    background-color: #e9e9e9;
+}
 /* LISTS UNDER COLLAPSIBLES */
 
 
 
 /* ######################################## FONT-AWESOME ################################### */
 .awesome a i {
-    margin: 0.55em .3em;
+    margin: 0.7em .4em;
 }
 
 div[data-role="header"] .awesome a {
