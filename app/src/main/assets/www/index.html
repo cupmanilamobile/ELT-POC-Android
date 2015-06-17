@@ -8,12 +8,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">
-    <link rel="stylesheet" href="css/codiqa.css">
     <link rel="stylesheet" href="css/font-awesome.css">
 
     <link rel="stylesheet" href="css/custom.css">
 
-    
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,900,500' rel='stylesheet' type='text/css'>
+
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="js/codiqa.ext.js"></script>
@@ -23,245 +23,264 @@
 <body>
 
 
-<!-- LOGIN PAGE -->
+    <!-- LOGIN PAGE -->
     <div data-role="page" data-control-title="Home" id="home">
 
         <div data-role="header" data-theme="b"> <!-- HEADER -->
-    
-    <div class="ui-grid-a ui-responsive">
-      <img class="ui-block-a" src="images/cup-transparent-logo.png" id="cup">
-      <img class="ui-block-b" src="images/cambridge-university.png" id="elt">
-    </div>
 
-    <!-- <h1>Cambridge Learning App</h1> -->
+            <div class="ui-grid-a ui-responsive">
+                <img class="ui-block-a" src="images/cup-transparent-logo.png" id="cup">
+                <img class="ui-block-b" src="images/cambridge-university.png" id="elt">
+            </div>
 
-    <div class="ui-btn-right ui-nodisc-icon">
-      
-    </div>
+            <div class="ui-btn-right ui-nodisc-icon">
 
-</div>
+            </div>
 
-<!--     <div role="main" class="ui-content">
-        <h1>
-            Please enter your details below
-        </h1>
-        <div class="ui-field-contain" data-controltype="textinput">
-            <input name="" id="textinput3" placeholder="Username" value="" type="text">
         </div>
-        <div class="ui-field-contain" data-controltype="textinput">
-            <input name="" id="textinput4" placeholder="Password" value="" type="password">
+
+        <div class="ui-grid-a ui-responsive">
+            <div class="ui-block-a login-box">
+                <div class="ui-bar ui-bar-a ui-responsive" >
+
+                    <h2>Welcome</h2>
+
+                    <p>Please enter your details below</p>
+
+                    <form>
+                        <label class="hidden" for="text-enhanced">Username</label>
+                        <div class="ui-input-text ui-body-inherit ui-input-has-clear">
+                            <a href="#" class="ui-input-clear ui-btn" title="Clear text">
+                                <i class="fa fa-times fa-clear"></i>
+                            </a>
+                            <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput3" value="" type="text" placeholder="Username">
+                        </div>
+
+                        <label class="hidden" for="search-enhanced">Password</label>
+                        <div class="ui-input-text ui-body-inherit ui-input-has-clear">
+                            <a href="#" class="ui-input-clear ui-btn" title="Clear text">
+                                <i class="fa fa-times fa-clear"></i>
+                            </a>
+
+                            <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput4" value="" type="password" placeholder="Password">
+                        </div>
+                    </form> 
+
+                    <a data-transition="pop" id="submit-5" href="#learning" class="ui-btn" onclick="getLoginCredentials()">
+                        Login
+                    </a>
+
+                </div>
+            </div>
         </div>
-        <a data-transition="pop" href="#learning" class="ui-btn">
-            Button
-        </a>
     </div>
- -->
-
-<div class="ui-grid-a ui-responsive">
-  <div class="ui-block-a login-box">
-    <div class="ui-bar ui-bar-a ui-responsive" >
-      
-      <p>Please enter your details below</p>
-      
-      <form>
-        <label class="hidden" for="text-enhanced">Username</label>
-        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
-          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput3" value="" type="text" placeholder="Username">
-          <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a> </div>
-        <label class="hidden" for="search-enhanced">Password</label>
-        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset ui-input-has-clear">
-          <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput4" value="" type="password" placeholder="Password">
-          <a href="#" class="ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all ui-input-clear-hidden" title="Clear text">Clear text</a> </div>
-      </form>
-        
-        <a data-transition="pop" id="submit-5" class="ui-btn" onclick="getLoginCredentials()">
-            Login
-        </a>
-
-    </div>
-  </div>
-</div>
+    <!-- LOGIN PAGE -->
 
 
 
-</div>
-<!-- LOGIN PAGE -->
-
-
-
-<!-- LEARNING -->
-<div data-role="page" data-control-title="My Learning" id="learning" class="landing">
+    <!-- LEARNING -->
+    <div data-role="page" data-control-title="My Learning" id="learning" class="landing">
 
         <!-- PANEL -->
-          <div data-role="panel" id="menuPanel" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
-            
-            <div class="ui-grid-a">
-              <div class="ui-block-a">
-                <!-- <i class="fa fa-cog fa-half-2x"></i> -->
-              </div>
+        <div data-role="panel" id="panel-learning" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-              <div class="ui-block-b">
-                <img src="images/profile-photo.png">
-              </div>
+            <div class="account">
+                    <img src="images/profile-photo.png">
+                    <p>ELT Teacher Account</p>
             </div>
+
             <h4>Menu</h4>
             <ul data-role="listview">
-              <li data-icon="false"><a href="#learning">Class List</a></li>
-              <li data-icon="false"><a href="#home">Sign Out</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+                <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+                <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
             </ul>
-          </div> 
+        </div> 
         <!-- PANEL -->
 
-    <div data-theme="b" data-role="header">
-        <h1 class="ui-title">
-            Learning App
-        </h1>
+        <div data-theme="b" data-role="header">
+            <h1 class="ui-title">
+                Learning Classes
+            </h1>
 
-        <!-- <div class="ui-btn-left ui-nodisc-icon awesome"></div> -->
+            <div class="ui-btn-right ui-nodisc-icon awesome">
+                <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+                <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+                <a href="#panel-learning" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+            </div>
 
-        <div class="ui-btn-right ui-nodisc-icon awesome">
-            <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
-            <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
-            <a href="#menuPanel" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+            <div data-role="navbar" data-iconpos="left">
+                <ul>
+                    <li>
+                        <a href="#learning" class="ui-btn-active ui-state-persist" data-transition="none" data-theme="a">
+                            My Learning
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#teaching" data-transition="none" data-theme="a">
+                            My Teaching
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
-             
-        <div data-role="navbar" data-iconpos="left">
-            <ul>
+        <div role="main" class="ui-content">
+
+            <ul data-role="listview" data-inset="true">
                 <li>
-                    <a href="#learning" class="ui-btn-active ui-state-persist" data-transition="none" data-theme="a">
-                        My Learning
+                    <a href="#all-content-a" data-transition="slide">
+                        <img src="images/cambridge-unlock.jpg">
+                        <h2>Cambridge Unlock</h2>
+                        <p>Google Chrome is a free, open-source web browser. Released in 2008.</p>
+                        <span class="link">Class 1</span>
+                        <span class="ui-li-count">2</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#teaching" data-transition="none" data-theme="a">
-                        My Teaching
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-    <div role="main" class="ui-content">
-        
-        <div data-controltype="image" class="carousel">
-            <img src="images/bg-small.jpg" alt="image">
-        </div>
-
-        <ul data-role="listview" data-inset="true">
-            <li>
-                <a href="#all-content-a" data-transition="slide">
-                    <img src="images/cambridge-unlock.jpg">
-                    <h2>Cambridge Unlock</h2>
-                    <p>Google Chrome is a free, open-source web browser. Released in 2008.</p>
-                    <span class="link">Class 1</span>
-                    <span class="ui-li-count">2</span>
-                </a>
-            </li>
-            <li>
-                <a href="#all-content-b" data-transition="slide">
-                    <img src="images/cambridge-touchstone.jpg">
-                    <h2>Cambridge Touchstone</h2>
-                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
-                    <span class="link">Class 1</span>
-                    <span class="ui-li-count">4</span>
-                </a>
-            </li>
-            <li>
-                <a href="#all-content-a" data-transition="slide">
-                    <img src="images/cambridge-empower.jpg">
-                    <h2>Cambridge Empower</h2>
-                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
-                    <span class="link">Class 1</span>
-                    <span class="ui-li-count">8</span>
-                </a>
-            </li>
-        </ul>
-
-    </div>
-</div>
-<!-- LEARNING -->
-
-<!-- TEACHING -->
-<div data-role="page" data-control-title="My Teaching" id="teaching" class="landing">
-    <div data-theme="b" data-role="header">
-        <h1 class="ui-title">
-            Teaching App
-        </h1>
-
-        <div class="ui-btn-right ui-nodisc-icon awesome">
-            <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
-
-            <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
-
-            <a href="#menuPanel" class=""><i class="fa fa-bars fa-half-2x"></i></a>
-        </div>
-
-        <div data-role="navbar" data-iconpos="left">
-            <ul>
-                <li>
-                    <a href="#learning" data-transition="none" data-theme="a">
-                        My Learning
+                    <a href="#all-content-b" data-transition="slide">
+                        <img src="images/cambridge-touchstone.jpg">
+                        <h2>Cambridge Touchstone</h2>
+                        <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                        <span class="link">Class 1</span>
+                        <span class="ui-li-count">4</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#teaching" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
-                        My Teaching
+                    <a href="#all-content-a" data-transition="slide">
+                        <img src="images/cambridge-empower.jpg">
+                        <h2>Cambridge Empower</h2>
+                        <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                        <span class="link">Class 1</span>
+                        <span class="ui-li-count">8</span>
                     </a>
                 </li>
             </ul>
+
         </div>
     </div>
-    <div role="main" class="ui-content">
-        <div style="width: 100%; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-        data-controltype="image">
-            <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
+    <!-- LEARNING -->
+
+    <!-- TEACHING -->
+    <div data-role="page" data-control-title="My Teaching" id="teaching" class="landing">
+
+        <!-- PANEL -->
+        <div data-role="panel" id="panel-teaching" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+            <div class="account">
+                <img src="images/profile-photo.png">
+                <p>ELT Teacher Account</p>
+            </div>
+
+            <h4>Menu</h4>
+            <ul data-role="listview">
+                <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+                <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+                <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+            </ul>
+        </div> 
+        <!-- PANEL -->
+
+        <div data-theme="b" data-role="header">
+            <h1 class="ui-title">
+                Teaching Classes
+            </h1>
+
+            <div class="ui-btn-right ui-nodisc-icon awesome">
+                <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+                <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x fa-spin"></i></a>
+                <a href="#panel-teaching" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+            </div>
+
+                <div data-role="navbar" data-iconpos="left">
+                    <ul>
+                        <li>
+                            <a href="#learning" data-transition="none" data-theme="a">
+                                My Learning
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#teaching" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                                My Teaching
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div role="main" class="ui-content">
+
+                <ul data-role="listview" data-inset="true">
+                    <li>
+                        <a href="#all-content-a" data-transition="slide">
+                            <img src="images/cambridge-empower.jpg">
+                            <h2>Cambridge Empower</h2>
+                            <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                            <span class="link">Class 2</span>
+                            <span class="ui-li-count">8</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#all-content-b" data-transition="slide">
+                            <img src="images/cambridge-touchstone.jpg">
+                            <h2>Cambridge Touchstone</h2>
+                            <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
+                            <span class="link">Class 2</span>
+                            <span class="ui-li-count">4</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#all-content-a" data-transition="slide">
+                            <img src="images/cambridge-unlock.jpg">
+                            <h2>Cambridge Unlock</h2>
+                            <p>Google Chrome is a free, open-source web browser. Released in 2008.</p>
+                            <span class="link">Class 2</span>
+                            <span class="ui-li-count">2</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <ul data-role="listview" data-inset="true">
-            <li>
-                <a href="#all-content-a" data-transition="slide">
-                    <img src="images/cambridge-empower.jpg">
-                    <h2>Cambridge Empower</h2>
-                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
-                    <span class="link">Class 2</span>
-                    <span class="ui-li-count">8</span>
-                </a>
-            </li>
-            <li>
-                <a href="#all-content-b" data-transition="slide">
-                    <img src="images/cambridge-touchstone.jpg">
-                    <h2>Cambridge Touchstone</h2>
-                    <p>Firefox is a web browser from Mozilla. Released in 2004.</p>
-                    <span class="link">Class 2</span>
-                    <span class="ui-li-count">4</span>
-                </a>
-            </li>
-            <li>
-                <a href="#all-content-a" data-transition="slide">
-                    <img src="images/cambridge-unlock.jpg">
-                    <h2>Cambridge Unlock</h2>
-                    <p>Google Chrome is a free, open-source web browser. Released in 2008.</p>
-                    <span class="link">Class 2</span>
-                    <span class="ui-li-count">2</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
-<!-- TEACHING -->
+        <!-- TEACHING -->
 
-<!-- Class A | All Content -->
-<div data-role="page" data-control-title="Class A | All Content" id="all-content-a"
-class="unit">
-    <div data-theme="b" data-role="header">
+        <!-- Class A | All Content -->
+        <div data-role="page" data-control-title="Class A | All Content" id="all-content-a"
+        class="unit">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#"
-        data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
-            Back
-        </a>
+        <!-- PANEL -->
+        <div data-role="panel" id="panel-all-content-a" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+            <div class="account">
+                    <img src="images/profile-photo.png">
+                    <p>ELT Teacher Account</p>
+            </div>
+
+            <h4>Menu</h4>
+            <ul data-role="listview">
+                <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+                <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+                <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+                <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+            </ul>
+        </div> 
+        <!-- PANEL -->
+
+        <div data-theme="b" data-role="header">
+
+        <div class="ui-btn-left ui-nodisc-icon awesome">
+            <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+        </div>
 
         <h1 class="ui-title">
             Class A
         </h1>
+
+        <div class="ui-btn-right ui-nodisc-icon awesome">
+            <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+            <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+            <a href="#panel-all-content-a" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+        </div>
 
         <div data-role="navbar" data-iconpos="top">
             <ul>
@@ -282,12 +301,14 @@ class="unit">
         <div class="ui-field-contain" data-controltype="searchinput">
             <input name="" id="all-content-a-filter" placeholder="Filter" value="" type="search">
         </div>
-        <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#all-content-a-filter">
+        <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#all-content-a-filter">
             <div data-role="collapsible" data-collapsed="false" data-theme="c">
                 <h3>
                     Unit 1
                 </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+
+                <ul data-role="listview" data-split-icon="gear" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                    
                     <li data-theme="a">
                         <a href="#lesson-vocabulary" data-transition="slide">
                             Vocabulary
@@ -295,7 +316,18 @@ class="unit">
                                 50%
                             </span>
                         </a>
+
+                        <!-- <a href="#myPopup" data-rel="popup" class="split-icon-link">
+                           <i class="fa fa-ellipsis-v fa-half-2x"></i>
+                        </a>
+
+                    <div data-role="popup" id="myPopup">
+                        <p>This is a simple popup.</p>
+                    </div> -->
+
                     </li>
+
+
                     <li data-theme="a">
                         <a href="#lesson-spelling" data-transition="slide">
                             Spelling
@@ -306,11 +338,11 @@ class="unit">
                     </li>
                 </ul>
             </div>
-            <div data-role="collapsible" data-theme="b">
+            <div data-role="collapsible" data-theme="c">
                 <h3>
                     Unit 2
                 </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
                     <li data-theme="a">
                         <a href="#lesson-vocabulary" data-transition="slide">
                             Lesson A
@@ -337,11 +369,11 @@ class="unit">
                     </li>
                 </ul>
             </div>
-            <div data-role="collapsible" data-theme="b">
+            <div data-role="collapsible" data-theme="c">
                 <h3>
                     Unit 3
                 </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
+                <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
                     <li data-theme="a">
                         <a href="#lesson-vocabulary" data-transition="slide">
                             Lesson D
@@ -361,99 +393,126 @@ class="unit">
 <!-- Class A | Downloaded Content -->
 <div data-role="page" data-control-title="Class A | Downloaded Content"
 id="downloaded-a" class="unit">
-    <div data-theme="b" data-role="header">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+<!-- PANEL -->
+<div data-role="panel" id="panel-downloaded-a" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-        <h1 class="ui-title">
-            Class A
-        </h1>
-        
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li>
-                    <a href="#all-content-a" data-transition="none" data-theme="a">
-                        All Content
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>ELT Teacher Account</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
+<div data-theme="b" data-role="header">
+
+    <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
+
+    <h1 class="ui-title">
+        Class A
+    </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-downloaded-a" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
+
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li>
+                <a href="#all-content-a" data-transition="none" data-theme="a">
+                    All Content
+                </a>
+            </li>
+            <li>
+                <a href="#downloaded-a" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                    Downloaded Content
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div role="main" class="ui-content">
+    <div class="ui-field-contain" data-controltype="searchinput">
+        <input name="" id="downloaded-a-filter" placeholder="Filter" value="" type="search">
+    </div>
+    <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#downloaded-a-filter">
+        <div data-role="collapsible" data-theme="c">
+            <h3>
+                Unit 1
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Vocabulary
+                        <span class="ui-li-count">
+                            41%
+                        </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#downloaded-a" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
-                        Downloaded Content
+                <li data-theme="a">
+                    <a href="#lesson-spelling" data-transition="slide">
+                        Spelling
+                        <span class="ui-li-count">
+                            54%
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-collapsed="false" data-theme="c">
+
+            <h3>
+                Unit 2
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Vocabulary
+                        <span class="ui-li-count">
+                            41%
+                        </span>
+                    </a>
+                </li>
+                <li data-theme="a">
+                    <a href="#lesson-spelling" data-transition="slide">
+                        Spelling
+                        <span class="ui-li-count">
+                            54%
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <div data-role="collapsible" data-theme="c">
+            <h3>
+                Unit 3
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson D
+                        <span class="ui-li-count">
+                            10
+                        </span>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    <div role="main" class="ui-content">
-        <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="downloaded-a-filter" placeholder="Filter" value="" type="search">
-        </div>
-        <div data-role="collapsible-set" data-iconpos="right" data-filter="true" data-input="#myFilter">
-            <div data-role="collapsible" data-theme="b">
-                <h3>
-                    Unit 1
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Vocabulary
-                            <span class="ui-li-count">
-                                41%
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-spelling" data-transition="slide">
-                            Spelling
-                            <span class="ui-li-count">
-                                54%
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div data-role="collapsible" data-collapsed="false" data-theme="b">
-
-                <h3>
-                    Unit 2
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Vocabulary
-                            <span class="ui-li-count">
-                                41%
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-spelling" data-transition="slide">
-                            Spelling
-                            <span class="ui-li-count">
-                                54%
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            
-            </div>
-            <div data-role="collapsible" data-theme="b">
-                <h3>
-                    Unit 3
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson D
-                            <span class="ui-li-count">
-                                10
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 <!-- Class A | Downloaded Content -->
 
@@ -462,109 +521,134 @@ id="downloaded-a" class="unit">
 <!-- CLASS B | ALL CONTENT -->
 <div data-role="page" data-control-title="Class B | All Content" id="all-content-b"
 class="unit">
-    <div data-theme="b" data-role="header">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">
-        Back
-        </a>
+<!-- PANEL -->
+<div data-role="panel" id="panel-all-content-b" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-        <h1 class="ui-title">
-            Class B
-        </h1>
-        
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
-                        All Content
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>ELT Teacher Account</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
+<div data-theme="b" data-role="header">
+
+    <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
+
+    <h1 class="ui-title">
+        Class B
+    </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-all-content-b" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
+
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li>
+                <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                    All Content
+                </a>
+            </li>
+            <li>
+                <a href="#downloaded-b" data-transition="none" data-theme="a">
+                    Downloaded Content
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div role="main" class="ui-content">
+
+    <div class="ui-field-contain" data-controltype="searchinput">
+        <input name="" id="all-content-b-filter" placeholder="Filter" value="" type="search">
+    </div>
+
+    <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#all-content-b-filter">
+        <div data-role="collapsible" data-collapsed="false" data-theme="c">
+            <h3>
+                Unit 1
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Vocabulary
+                        <span class="ui-li-count">
+                            22%
+                        </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a">
-                        Downloaded Content
+                <li data-theme="a">
+                    <a href="#lesson-spelling" data-transition="slide">
+                        Spelling
+                        <span class="ui-li-count">
+                            32%
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-theme="c">
+            <h3>
+                Unit 2
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson A
+                        <span class="ui-li-count">
+                            7
+                        </span>
+                    </a>
+                </li>
+                <li data-theme="a">
+                    <a href="#lesson-spelling" data-transition="slide">
+                        Lesson B
+                        <span class="ui-li-count">
+                            13
+                        </span>
+                    </a>
+                </li>
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson C
+                        <span class="ui-li-count">
+                            85
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-theme="c">
+            <h3>
+                Unit 3
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson D
+                        <span class="ui-li-count">
+                            10
+                        </span>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    <div role="main" class="ui-content">
-        
-        <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="searchinput10" placeholder="Filter" value="" type="search">
-        </div>
-
-        <div data-role="collapsible-set" data-iconpos="right">
-            <div data-role="collapsible" data-collapsed="false" data-theme="b">
-                <h3>
-                    Unit 1
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Vocabulary
-                            <span class="ui-li-count">
-                                22%
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-spelling" data-transition="slide">
-                            Spelling
-                            <span class="ui-li-count">
-                                32%
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div data-role="collapsible" data-theme="b">
-                <h3>
-                    Unit 2
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson A
-                            <span class="ui-li-count">
-                                7
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-spelling" data-transition="slide">
-                            Lesson B
-                            <span class="ui-li-count">
-                                13
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson C
-                            <span class="ui-li-count">
-                                85
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div data-role="collapsible" data-theme="b">
-                <h3>
-                    Unit 3
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson D
-                            <span class="ui-li-count">
-                                10
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 <!-- CLASS B | ALL CONTENT -->
 
@@ -573,105 +657,132 @@ class="unit">
 <!-- Class B | Downloaded Content -->
 <div data-role="page" data-control-title="Class B | Downloaded Content"
 id="downloaded-b" class="unit">
-    <div data-theme="b" data-role="header">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+<!-- PANEL -->
+<div data-role="panel" id="panel-downloaded-b" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-        <h1 class="ui-title">
-            Class B
-        </h1>
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>ELT Teacher Account</p>
+    </div>
 
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a">
-                        All Content
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
+<div data-theme="b" data-role="header">
+
+    <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
+
+    <h1 class="ui-title">
+        Class B
+    </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-downloaded-b" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
+
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li>
+                <a href="#all-content-b" data-transition="none" data-theme="a">
+                    All Content
+                </a>
+            </li>
+            <li>
+                <a href="#downloaded-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                    Downloaded Content
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div role="main" class="ui-content">
+    <div class="ui-field-contain" data-controltype="searchinput">
+        <input name="" id="panel-downloaded-b-filter" placeholder="Filter" value="" type="search">
+    </div>
+    <div data-role="collapsible-set" data-iconpos="left" data-filter="true" data-input="#panel-downloaded-b-filter">
+        <div data-role="collapsible" data-collapsed="false" data-theme="c">
+            <h3>
+                Unit 1
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Vocabulary
+                        <span class="ui-li-count">
+                            14%
+                        </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
-                        Downloaded Content
+                <li data-theme="a">
+                    <a href="#lesson-spelling" data-transition="slide">
+                        Spelling
+                        <span class="ui-li-count">
+                            67%
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-theme="c">
+            <h3>
+                Unit 2
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson A
+                        <span class="ui-li-count">
+                            7
+                        </span>
+                    </a>
+                </li>
+                <li data-theme="a">
+                    <a href="#lesson-spelling" data-transition="slide">
+                        Lesson B
+                        <span class="ui-li-count">
+                            13
+                        </span>
+                    </a>
+                </li>
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson C
+                        <span class="ui-li-count">
+                            85
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div data-role="collapsible" data-theme="c">
+            <h3>
+                Unit 3
+            </h3>
+            <ul data-role="listview" data-divider-theme="a" data-inset="false" class="ui-nodisc-icon ui-alt-icon">
+                <li data-theme="a">
+                    <a href="#lesson-vocabulary" data-transition="slide">
+                        Lesson D
+                        <span class="ui-li-count">
+                            10
+                        </span>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    <div role="main" class="ui-content">
-        <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="searchinput11" placeholder="Filter" value="" type="search">
-        </div>
-        <div data-role="collapsible-set" data-iconpos="right">
-            <div data-role="collapsible" data-collapsed="false" data-theme="b">
-                <h3>
-                    Unit 1
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Vocabulary
-                            <span class="ui-li-count">
-                                14%
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-spelling" data-transition="slide">
-                            Spelling
-                            <span class="ui-li-count">
-                                67%
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div data-role="collapsible" data-theme="b">
-                <h3>
-                    Unit 2
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson A
-                            <span class="ui-li-count">
-                                7
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-spelling" data-transition="slide">
-                            Lesson B
-                            <span class="ui-li-count">
-                                13
-                            </span>
-                        </a>
-                    </li>
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson C
-                            <span class="ui-li-count">
-                                85
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div data-role="collapsible" data-theme="b">
-                <h3>
-                    Unit 3
-                </h3>
-                <ul data-role="listview" data-divider-theme="a" data-inset="false">
-                    <li data-theme="a">
-                        <a href="#lesson-vocabulary" data-transition="slide">
-                            Lesson D
-                            <span class="ui-li-count">
-                                10
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 <!-- Class B | Downloaded Content -->
 
@@ -679,118 +790,203 @@ id="downloaded-b" class="unit">
 <!-- Vocabulary | Lesson Page -->
 <div data-role="page" data-control-title="Vocabulary | Lesson Page" id="lesson-vocabulary"
 class="lesson">
-    <div data-theme="b" data-role="header">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+<!-- PANEL -->
+<div data-role="panel" id="panel-lesson-vocabulary" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-        <h1 class="ui-title">
-            Lesson Page
-        </h1>
-        
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
-                        All Content
-                    </a>
-                </li>
-                <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a">
-                        Downloaded Content
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>ELT Teacher Account</p>
     </div>
-    <div role="main" class="ui-content">
-        <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="searchinput5" placeholder="Filter" value="" type="search">
-        </div>
-        <ul data-role="listview" data-divider-theme="a" data-inset="true">
-            <li data-role="list-divider" role="heading">
-                Vocabulary
-            </li>
-            <li data-theme="a">
-                <a href="#video" data-transition="slide">
-                    Words
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
+<div data-theme="b" data-role="header">
+
+    <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
+
+    <h1 class="ui-title">
+        Lesson Page
+    </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-lesson-vocabulary" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
+
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li>
+                <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                    All Content
                 </a>
             </li>
-            <li data-theme="a">
-                <a href="#video" data-transition="slide">
-                    Meanings
-                </a>
-            </li>
-            <li data-theme="a">
-                <a href="#video" data-transition="slide">
-                    Diction
+            <li>
+                <a href="#downloaded-b" data-transition="none" data-theme="a">
+                    Downloaded Content
                 </a>
             </li>
         </ul>
     </div>
+</div>
+<div role="main" class="ui-content">
+    <div class="ui-field-contain" data-controltype="searchinput">
+        <input name="" id="lesson-vocabulary-filter" placeholder="Filter" value="" type="search">
+    </div>
+    <ul data-role="listview" data-divider-theme="a" data-inset="true" data-filter="true" data-input="#lesson-vocabulary-filter" class="ui-nodisc-icon ui-alt-icon">
+        <li data-role="list-divider" role="heading">
+            Vocabulary
+        </li>
+        <li data-theme="a">
+            <a href="#video" data-transition="slide">
+                Words
+            </a>
+        </li>
+        <li data-theme="a">
+            <a href="#video" data-transition="slide">
+                Meanings
+            </a>
+        </li>
+        <li data-theme="a">
+            <a href="#video" data-transition="slide">
+                Diction
+            </a>
+        </li>
+    </ul>
+</div>
 </div>
 <!-- Vocabulary | Lesson Page -->
 
 
-
+<!-- Spelling | Lesson Page -->
 <div data-role="page" data-control-title="Spelling | Lesson Page" id="lesson-spelling"
 class="lesson">
-    <div data-theme="b" data-role="header">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+<!-- PANEL -->
+<div data-role="panel" id="panel-lesson-spelling" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
-        <h1 class="ui-title">
-            Lesson Page
-        </h1>
-        
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li>
-                    <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
-                        All Content
-                    </a>
-                </li>
-                <li>
-                    <a href="#downloaded-b" data-transition="none" data-theme="a">
-                        Downloaded Content
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>ELT Teacher Account</p>
     </div>
-    <div role="main" class="ui-content">
-        <div class="ui-field-contain" data-controltype="searchinput">
-            <input name="" id="searchinput6" placeholder="Filter" value="" type="search">
-        </div>
-        <ul data-role="listview" data-divider-theme="a" data-inset="true">
-            <li data-role="list-divider" role="heading">
-                Spelling
-            </li>
-            <li data-theme="a">
-                <a href="#video" data-transition="slide">
-                    Diction
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
+<div data-theme="b" data-role="header">
+
+    <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
+
+    <h1 class="ui-title">
+        Lesson Page
+    </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-lesson-spelling" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
+
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li>
+                <a href="#all-content-b" data-transition="none" data-theme="a" class="ui-btn-active ui-state-persist">
+                    All Content
                 </a>
             </li>
-            <li data-theme="a">
-                <a href="#video" data-transition="slide">
-                    Words
-                </a>
-            </li>
-            <li data-theme="a">
-                <a href="#video" data-transition="slide">
-                    Meanings
+            <li>
+                <a href="#downloaded-b" data-transition="none" data-theme="a">
+                    Downloaded Content
                 </a>
             </li>
         </ul>
     </div>
 </div>
+<div role="main" class="ui-content">
+    <div class="ui-field-contain" data-controltype="searchinput">
+        <input name="" id="lesson-spelling-filter" placeholder="Filter" value="" type="search">
+    </div>
+    <ul data-role="listview" data-divider-theme="a" data-inset="true" data-filter="true" data-input="#lesson-spelling-filter" class="ui-nodisc-icon ui-alt-icon">
+        <li data-role="list-divider" role="heading">
+            Spelling
+        </li>
+        <li data-theme="a">
+            <a href="#video" data-transition="slide">
+                Diction
+            </a>
+        </li>
+        <li data-theme="a">
+            <a href="#video" data-transition="slide">
+                Words
+            </a>
+        </li>
+        <li data-theme="a">
+            <a href="#video" data-transition="slide">
+                Meanings
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+<!-- Spelling | Lesson Page -->
+
+
+<!-- VIDEO -->
 <div data-role="page" data-control-title="Video Page" id="video" class="lesson-detail">
+
+<!-- PANEL -->
+<div data-role="panel" id="panel-video" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
+
+    <div class="account">
+            <img src="images/profile-photo.png">
+            <p>ELT Teacher Account</p>
+    </div>
+
+    <h4>Menu</h4>
+    <ul data-role="listview">
+        <li data-icon="false"><a href="#learning"><i class="fa fa-home"></i> Home</a></li>
+        <li data-icon="false"><a href="#learning"><i class="fa fa-graduation-cap"></i> Learning</a></li>
+        <li data-icon="false"><a href="#teaching"><i class="fa fa-university"></i> Teaching</a></li>
+        <li data-icon="false"><a href="#home"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+    </ul>
+</div> 
+<!-- PANEL -->
+
     <div data-theme="b" data-role="header">
 
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
+        <div class="ui-btn-left ui-nodisc-icon awesome">
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+</div>
 
         <h1 class="ui-title">
             Video Page
         </h1>
+
+<div class="ui-btn-right ui-nodisc-icon awesome">
+    <a href="#" class=""><i class="fa fa-wifi fa-half-2x"></i></a>
+    <a href="#wifi" class="" data-rel="popup" data-position-to="origin" data-transition="pop"><i class="fa fa-refresh fa-half-2x"></i></a>
+    <a href="#panel-video" class=""><i class="fa fa-bars fa-half-2x"></i></a>
+</div>
 
     </div>
     <div role="main" class="ui-content">
@@ -803,311 +999,14 @@ class="lesson">
             </p>
         </div>
         <div data-controltype="htmlblock">
-            <video width="288" height="216" controls="">
+            <video width="100%" controls="">
                 <source src="images/rickroll.mp4" type="video/mp4">
                     Your browser does not support the video tag.
-            </video>
-        </div>
-        <a href="#sample" class="ui-btn ">
-            Go to Sample Pages
-        </a>
-    </div>
-</div>
-<!-- <div data-role="page" data-control-title="Sample" id="sample" class="sample">
-    <div data-theme="b" data-role="header">
-
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
-
-        <h1 class="ui-title">
-            Sample HTML
-        </h1>
-        
-    </div>
-    <div role="main" class="ui-content">
-        <h1>
-            Heading
-        </h1>
-        <h2>
-            Heading
-        </h2>
-        <h3>
-            Heading
-        </h3>
-        <div data-controltype="textblock">
-            <p>
-                HTML Samples.
-            </p>
-        </div>
-        <div style="width: 288px; height: 200px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-        data-controltype="image">
-            <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-        </div>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <iframe data-controltype="youtube" id="youtube1" type="text/html" width="288px"
-        height="216px" src="https://www.youtube.com/embed/C0DPdy98e4c" frameborder="0">
-        </iframe>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <iframe data-controltype="vimeo" id="vimeo1" type="text/html" width="288px"
-        height="216px" src="https://player.vimeo.com/video/12643828" frameborder="0">
-        </iframe>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div id="googlemapsjs1" class="google-map" style="width: 288px; height: 200px; margin-left: auto; margin-right: auto">
-        </div>
-        <script type="text/javascript">
-                window.CodiqaControls && window.CodiqaControls.register('googlemaps', 'googlemapsjs1', {
-            ready: function(control) {
-
-                control.options = {
-                    zoom: 14,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                control.el = document.getElementById(control._id);
-                control.map = new google.maps.Map(control.el, control.options);
-
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({
-                    'address': 'Madison, WI'
-                }, function(results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-
-                        var marker = new google.maps.Marker({
-                            map: control.map,
-                            position: results[0].geometry.location
-                        });
-                        control.center = results[0].geometry.location;
-                        control.map.setCenter(control.center);
-                    }
-                });
-
-            }
-        });
-        </script>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div class="ui-field-contain" data-controltype="toggleswitch">
-            <select name="toggleswitch3" id="toggleswitch3" data-theme="" data-role="slider">
-                <option value="off">
-                    Off
-                </option>
-                <option value="on">
-                    On
-                </option>
-            </select>
-        </div>
-        <a href="#grid" class="ui-btn ui-btn-b">
-            Grid Pages
-        </a>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div class="ui-field-contain" data-controltype="dateinput">
-            <label for="dateinput1">
-                Title
-            </label>
-            <input name="" id="dateinput1" placeholder="" value="" type="date">
-        </div>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div class="ui-field-contain" data-controltype="textarea">
-            <label for="textarea1">
-                Title
-            </label>
-            <textarea name="" id="textarea1" placeholder=""></textarea>
-        </div>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div class="ui-field-contain" data-controltype="radiobuttons">
-            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                <legend>
-                    Choose:
-                </legend>
-                <input id="radio3" name="" value="radio1" data-theme="b" type="radio">
-                <label for="radio3">
-                    A
-                </label>
-                <input id="radio4" name="" value="radio2" data-theme="b" type="radio">
-                <label for="radio4">
-                    B
-                </label>
-                <input id="radio5" name="" value="radio3" data-theme="b" type="radio">
-                <label for="radio5">
-                    C
-                </label>
-            </fieldset>
-        </div>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div id="checkboxes1" class="ui-field-contain" data-controltype="checkboxes">
-            <fieldset data-role="controlgroup" data-type="vertical">
-                <legend>
-                    Choose:
-                </legend>
-                <input id="checkbox1" name="" data-theme="a" type="checkbox">
-                <label for="checkbox1">
-                    Option
-                </label>
-                <input id="checkbox2" name="" data-theme="a" type="checkbox">
-                <label for="checkbox2">
-                    Checkbox
-                </label>
-                <input id="checkbox3" name="" data-theme="a" type="checkbox">
-                <label for="checkbox3">
-                    Checkbox
-                </label>
-            </fieldset>
-        </div>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div class="ui-field-contain" data-controltype="slider">
-            <label for="slider1">
-                Value
-            </label>
-            <input id="slider1" type="range" name="slider" value="50" min="0" max="100"
-            data-highlight="false">
-        </div>
-        <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
-        <div class="ui-field-contain" data-controltype="selectmenu">
-            <label for="selectmenu1">
-                Choose:
-            </label>
-            <select id="selectmenu1" name="">
-                <option value="option1">
-                    Option 1
-                </option>
-                <option value="value">
-                    Option 2
-                </option>
-                <option value="value">
-                    Option 3
-                </option>
-            </select>
-        </div>
-    </div>
-    <div data-theme="a" data-role="footer" data-position="fixed">
-        <h3>
-            Footer
-        </h3>
-    </div>
-    <div data-role="tabbar" data-iconpos="top" data-theme="a">
-        <ul>
-            <li>
-                <a href="#home" data-transition="fade" data-theme="" data-icon="home">
-                    Home
-                </a>
-            </li>
-            <li>
-                <a href="#sample" data-transition="fade" data-theme="" data-icon="info">
-                    Samples
-                </a>
-            </li>
-            <li>
-                <a href="#grid" data-transition="fade" data-theme="" data-icon="gear">
-                    Settings
-                </a>
-            </li>
-        </ul>
-    </div>
-</div> -->
-<!-- <div data-role="page" data-control-title="Grid Page" id="grid" class="sample">
-    <div data-theme="b" data-role="header">
-
-        <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" data-icon="carat" data-iconpos="left" class="ui-btn ui-btn-left ui-icon-carat-l ui-btn-icon-notext ui-nodisc-icon">Back</a>
-
-        <h1 class="ui-title">
-            Grid Page
-        </h1>
-        
-    </div>
-    <div role="main" class="ui-content">
-        <div data-controltype="textblock">
-            <p>
-                Grid samples.
-            </p>
-        </div>
-        <div class="ui-grid-a">
-            <div class="ui-block-a">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-b">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-        </div>
-        <div class="ui-grid-b">
-            <div class="ui-block-a">
-                <a href="#grid" class="ui-btn ">
-                    Button
-                </a>
-            </div>
-            <div class="ui-block-b">
-                <a href="#grid" class="ui-btn ">
-                    Button
-                </a>
-            </div>
-            <div class="ui-block-c">
-                <a href="#grid" class="ui-btn ">
-                    Button
-                </a>
-            </div>
-        </div>
-        <div class="ui-grid-c">
-            <div class="ui-block-a">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-b">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-c">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-d">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-        </div>
-        <div class="ui-grid-d">
-            <div class="ui-block-a">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-b">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-c">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-d">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
-            </div>
-            <div class="ui-block-e">
-                <div style="width: 100%; height: 50px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;"
-                data-controltype="image">
-                    <img src="https://codiqa.com/static/images/v2/image.png" alt="image" style="position: absolute; top: 50%; left: 50%; margin-left: -16px; margin-top: -18px">
-                </div>
+                </video>
             </div>
         </div>
     </div>
-</div> -->
+<!-- VIDEO -->
+
 </body>
 </html>
