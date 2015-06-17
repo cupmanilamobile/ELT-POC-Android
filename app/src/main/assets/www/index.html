@@ -248,6 +248,14 @@
         <div data-role="page" data-control-title="Class A | All Content" id="all-content-a"
         class="unit">
 
+        <div data-role="popup" id="all-content-a-popup">
+            <div class="list-group">
+              <a class="list-group-item" href="#"><i class="fa fa-download fa-lg"></i></a>
+              <!-- <a class="list-group-item" href="#"><i class="fa fa-circle-o-notch fa-lg fa-spin"></i></a> -->
+              <a class="list-group-item" href="#"><i class="fa fa-times fa-lg"></i></a>
+            </div>
+        </div>
+
         <!-- PANEL -->
         <div data-role="panel" id="panel-all-content-a" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
@@ -317,13 +325,7 @@
                             </span>
                         </a>
 
-                        <!-- <a href="#myPopup" data-rel="popup" class="split-icon-link">
-                           <i class="fa fa-ellipsis-v fa-half-2x"></i>
-                        </a>
-
-                    <div data-role="popup" id="myPopup">
-                        <p>This is a simple popup.</p>
-                    </div> -->
+                        <a href="#all-content-a-popup" data-rel="popup" class="">Show Popup</a>
 
                     </li>
 
@@ -791,6 +793,13 @@ id="downloaded-b" class="unit">
 <div data-role="page" data-control-title="Vocabulary | Lesson Page" id="lesson-vocabulary"
 class="lesson">
 
+<div data-role="popup" id="lesson-vocabulary-popup">
+    <div class="list-group">
+      <a class="list-group-item" href="#"><i class="fa fa-download fa-lg"></i></a>
+      <a class="list-group-item" href="#"><i class="fa fa-times fa-lg"></i></a>
+    </div>
+</div>
+
 <!-- PANEL -->
 <div data-role="panel" id="panel-lesson-vocabulary" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
 
@@ -848,20 +857,27 @@ class="lesson">
         <li data-role="list-divider" role="heading">
             Vocabulary
         </li>
-        <li data-theme="a">
+        <li data-theme="a" data-icon="gear">
             <a href="#video" data-transition="slide">
                 Words
             </a>
+
+            <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
+
         </li>
-        <li data-theme="a">
+        <li data-theme="a" data-icon="gear">
             <a href="#video" data-transition="slide">
                 Meanings
             </a>
+
+            <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
         </li>
-        <li data-theme="a">
+        <li data-theme="a" data-icon="gear">
             <a href="#video" data-transition="slide">
                 Diction
             </a>
+
+            <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
         </li>
     </ul>
 </div>
@@ -872,6 +888,13 @@ class="lesson">
 <!-- Spelling | Lesson Page -->
 <div data-role="page" data-control-title="Spelling | Lesson Page" id="lesson-spelling"
 class="lesson">
+
+<div data-role="popup" id="lesson-spelling-popup">
+    <div class="list-group">
+      <a class="list-group-item" href="#"><i class="fa fa-download fa-lg"></i></a>
+      <a class="list-group-item" href="#"><i class="fa fa-times fa-lg"></i></a>
+    </div>
+</div>
 
 <!-- PANEL -->
 <div data-role="panel" id="panel-lesson-spelling" data-display="overlay" data-position="right" data-swipe-close="true" data-theme="b">
@@ -930,20 +953,23 @@ class="lesson">
         <li data-role="list-divider" role="heading">
             Spelling
         </li>
-        <li data-theme="a">
+        <li data-theme="a" data-icon="gear">
             <a href="#video" data-transition="slide">
                 Diction
             </a>
+            <a href="#lesson-spelling-popup" data-rel="popup" class="">Show Popup</a>
         </li>
-        <li data-theme="a">
+        <li data-theme="a" data-icon="gear">
             <a href="#video" data-transition="slide">
                 Words
             </a>
+            <a href="#lesson-spelling-popup" data-rel="popup" class="">Show Popup</a>
         </li>
-        <li data-theme="a">
+        <li data-theme="a" data-icon="gear">
             <a href="#video" data-transition="slide">
                 Meanings
             </a>
+            <a href="#lesson-spelling-popup" data-rel="popup" class="">Show Popup</a>
         </li>
     </ul>
 </div>

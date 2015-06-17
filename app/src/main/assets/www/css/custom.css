@@ -40,6 +40,13 @@ a {text-decoration: none;}
 
 
 /* ######################################## PANEL ########################################## */
+.ui-page-theme-b .ui-btn.ui-btn-active, html .ui-bar-b .ui-btn.ui-btn-active, html .ui-body-b .ui-btn.ui-btn-active, html body .ui-group-theme-b .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-b.ui-btn-active, .ui-page-theme-b .ui-checkbox-on::after, html .ui-bar-b .ui-checkbox-on::after, html .ui-body-b .ui-checkbox-on::after, html body .ui-group-theme-b .ui-checkbox-on::after, .ui-btn.ui-checkbox-on.ui-btn-b::after, .ui-page-theme-b .ui-flipswitch-active, html .ui-bar-b .ui-flipswitch-active, html .ui-body-b .ui-flipswitch-active, html body .ui-group-theme-b .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-b.ui-flipswitch-active, .ui-page-theme-b .ui-slider-track .ui-btn-active, html .ui-bar-b .ui-slider-track .ui-btn-active, html .ui-body-b .ui-slider-track .ui-btn-active, html body .ui-group-theme-b .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-b .ui-btn-active {
+    background-color: #333;
+    border-color: #1f1f1f;
+    color: #fff;
+    text-shadow: 0 0px 0 #111;
+}
+
 div[data-role="panel"] h4 {
     text-transform: uppercase;
     font-weight: 100;
@@ -302,18 +309,6 @@ html head + body .ui-btn.ui-btn-a:hover {
 
 
 
-
-/* ######################################## SIDE PANEL ######################################## */
-.ui-page-theme-b .ui-btn.ui-btn-active, html .ui-bar-b .ui-btn.ui-btn-active, html .ui-body-b .ui-btn.ui-btn-active, html body .ui-group-theme-b .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-b.ui-btn-active, .ui-page-theme-b .ui-checkbox-on::after, html .ui-bar-b .ui-checkbox-on::after, html .ui-body-b .ui-checkbox-on::after, html body .ui-group-theme-b .ui-checkbox-on::after, .ui-btn.ui-checkbox-on.ui-btn-b::after, .ui-page-theme-b .ui-flipswitch-active, html .ui-bar-b .ui-flipswitch-active, html .ui-body-b .ui-flipswitch-active, html body .ui-group-theme-b .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-b.ui-flipswitch-active, .ui-page-theme-b .ui-slider-track .ui-btn-active, html .ui-bar-b .ui-slider-track .ui-btn-active, html .ui-body-b .ui-slider-track .ui-btn-active, html body .ui-group-theme-b .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-b .ui-btn-active {
-    background-color: #333;
-    border-color: #1f1f1f;
-    color: #fff;
-    text-shadow: 0 0px 0 #111;
-}
-/* SIDE PANEL */
-
-
-
 /* ######################################## LISTS UNDER COLLAPSIBLES ####################### */
 .ui-collapsible-heading,
 .ui-collapsible-heading > .ui-btn {
@@ -369,3 +364,30 @@ div[data-role="header"] .awesome a {
     right: 0.5625em;
 }
 /* FONT-AWESOME */
+
+
+/* ######################################## POP-UP ################################### */
+
+div[data-role="popup"] {
+    border-radius: 0;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.6);
+    border: 1px solid red;
+}
+
+div[data-role="popup"] a {
+    color: #333;
+}
+
+div[data-role="popup"] a:hover {
+    color: #ccc;
+}
+
+.ui-popup i {
+    margin: 0.5em 0.4375em;
+}
+
+.ui-popup > span {
+    display: inline-block;
+}
+
+/* POP-UP */
