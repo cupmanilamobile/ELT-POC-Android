@@ -293,7 +293,7 @@ html .ui-body-a .ui-btn:hover,
 html body .ui-group-theme-a .ui-btn:hover, 
 html head + body .ui-btn.ui-btn-a:hover {
     background-color: #fff;
-    border-color: #fff;
+    border-color: #ddd;
     color: #1d1d1d;
     text-shadow: none;
 }
@@ -391,3 +391,10 @@ div[data-role="popup"] a:hover {
 }
 
 /* POP-UP */
+
+/* VIDEO */
+
+#video video {
+  max-width: 100%;
+  height: auto;
+}
