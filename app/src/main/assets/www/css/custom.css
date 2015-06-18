@@ -1,4 +1,12 @@
 /* ######################################## GENERAL ######################################## */
+html, body, h1 {
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.00625em;
+}
+
+p {
+    font-weight: 100;
+}
 
 a {text-decoration: none;}
 
@@ -11,7 +19,7 @@ a {text-decoration: none;}
     text-shadow: none;
 }
 
-.carousel {
+/*.carousel {
     width: 100%;
     height: 200px;
     position: relative;
@@ -22,25 +30,51 @@ a {text-decoration: none;}
 
 .carousel > img {
 
+}*/
+
+.hidden {
+    display: none !important;
 }
 /* GENERAL */
 
 
 
 /* ######################################## PANEL ########################################## */
+.ui-page-theme-b .ui-btn.ui-btn-active, html .ui-bar-b .ui-btn.ui-btn-active, html .ui-body-b .ui-btn.ui-btn-active, html body .ui-group-theme-b .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-b.ui-btn-active, .ui-page-theme-b .ui-checkbox-on::after, html .ui-bar-b .ui-checkbox-on::after, html .ui-body-b .ui-checkbox-on::after, html body .ui-group-theme-b .ui-checkbox-on::after, .ui-btn.ui-checkbox-on.ui-btn-b::after, .ui-page-theme-b .ui-flipswitch-active, html .ui-bar-b .ui-flipswitch-active, html .ui-body-b .ui-flipswitch-active, html body .ui-group-theme-b .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-b.ui-flipswitch-active, .ui-page-theme-b .ui-slider-track .ui-btn-active, html .ui-bar-b .ui-slider-track .ui-btn-active, html .ui-body-b .ui-slider-track .ui-btn-active, html body .ui-group-theme-b .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-b .ui-btn-active {
+    background-color: #333;
+    border-color: #1f1f1f;
+    color: #fff;
+    text-shadow: 0 0px 0 #111;
+}
+
 div[data-role="panel"] h4 {
     text-transform: uppercase;
+    font-weight: 100;
+    font-size: 1.25em;
 }
 
 div[data-role="panel"] h4 + ul li a {
-    font-size: .8em;
+    font-size: 1em;
+    font-weight: 100;
+}
+
+div[data-role="panel"] h4 + ul li i {
+    font-size: 1.2em;
+    width: 25px;
+    margin-right: .25em;
+    text-align: center;
 }
 
 div[data-role="panel"] img {
     border-radius: 50%;
     max-width: 80px;
     position: relative;
-    left: 30%;
+    left: 33%;
+}
+
+div[data-role="panel"] .account p {
+    margin: .2em 0;
+    text-align: center;
 }
 /* PANEL */
 
@@ -52,11 +86,16 @@ div[data-role="panel"] img {
     color: #3388cc;
 }
 
+.ui-listview > li h2 {
+    font-weight: 500;
+    letter-spacing: 0.00625em;
+}
+
 /* Line 3726 */
 .ui-listview .ui-li-has-thumb > img:first-child,
 .ui-listview .ui-li-has-thumb > .ui-btn > img:first-child,
 .ui-listview .ui-li-has-thumb .ui-li-thumb {
-    max-height: 6.3em;
+    max-height: 233px;
 }
 
 .ui-listview > li.ui-first-child,
@@ -79,15 +118,11 @@ div[data-role="panel"] img {
 
 /* ######################################## LOGIN ########################################## */
 #home {
-    background:url('../images/bg.jpg') no-repeat scroll center -100px;
+    background:url('../images/bg.jpg') no-repeat scroll center -200px;
     min-height:1024px; 
     width:100%; 
     background-attachment:fixed;
-}
-
-.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper { 
-    background-color:transparent; 
-    border:none; min-height:0;
+    fil
 }
 
 #submit-5 {
@@ -103,17 +138,63 @@ div[data-role="panel"] img {
 }
 
 img#cup {
-    max-width: 143px;
-    max-height: 30px;
+    max-width: 181px;
+    max-height: 38px;
     display: block;
     margin: .75em;
 }
 
 img#elt {
-    max-width: 186px;
-    max-height: 30px;
+    max-width: 236px;
+    max-height: 38px;
     display: block;
     margin: .75em;
+}
+
+.login-box {
+    position: absolute;
+    top: 14%;
+    left: 1em;
+}
+
+.login-box .ui-input-text.ui-input-has-clear a.ui-input-clear {
+    margin:0;
+    right: -0.6em;
+    top: -0.3em;
+}
+
+.login-box div {
+    background: rgba(51, 51, 51, 0.7); 
+    border: 0;
+}
+
+.login-box h2 {
+    font-size: 1.8em;
+    text-shadow: none !important;
+    color: #fff;
+    font-weight: 100;
+    margin: .5em 0 0 0;
+    letter-spacing: 0.00625em;
+}
+
+.login-box p {
+    text-shadow: none !important;
+    color: #fff;
+    letter-spacing: 0.0625em;
+}
+
+#home div[data-role="header"] {
+    background: none;
+}
+
+@media only screen and (max-width: 560px) {
+    .login-box {
+        position: absolute;
+        top: 14%;
+        left: 0em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
 }
 /* LOGIN */
 
@@ -134,15 +215,22 @@ img#elt {
 
 .ui-header .ui-title,
 .ui-footer .ui-title {
-    margin: 0.3em 1em;
+    margin: 0 1em;
     text-align: left;
+    font-weight: 100;
+    font-size: 1.4em;
 }
-div[data-role="header"] a.ui-btn-left.ui-nodisc-icon + h1.ui-title {
-    margin: 0 2.5em;
+
+div[data-role="header"] div.ui-btn-left + h1.ui-title {
+    margin: 0 1.8em;
 }
 
 .ui-bar-b, .ui-page-theme-b .ui-bar-inherit, html .ui-bar-b .ui-bar-inherit, html .ui-body-b .ui-bar-inherit, html body .ui-group-theme-b .ui-bar-inherit {
     border-bottom: medium none;
+}
+
+div[data-role="header"] div.ui-btn-left {
+    margin: -1.55em 0 0 -0.5em
 }
 /* HEADER BUTTONS */
 
@@ -177,8 +265,8 @@ html head + body .ui-navbar .ui-btn.ui-btn-a {
 
 /* ######################################## ACTIVE BUTTONS ################################# */
 .ui-page-theme-a .navbar .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on::after, html .ui-bar-a .ui-checkbox-on::after, html .ui-body-a .ui-checkbox-on::after, html body .ui-group-theme-a .ui-checkbox-on::after, .ui-btn.ui-checkbox-on.ui-btn-a::after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
-    background-color: #fff;
-    border-color: #fff;
+    background-color: #f9f9f9;
+    border-color: #f9f9f9;
     color: #1d1d1d;
     text-shadow: none;
 }
@@ -221,18 +309,6 @@ html head + body .ui-btn.ui-btn-a:hover {
 
 
 
-
-/* ######################################## SIDE PANEL ######################################## */
-.ui-page-theme-b .ui-btn.ui-btn-active, html .ui-bar-b .ui-btn.ui-btn-active, html .ui-body-b .ui-btn.ui-btn-active, html body .ui-group-theme-b .ui-btn.ui-btn-active, html head + body .ui-btn.ui-btn-b.ui-btn-active, .ui-page-theme-b .ui-checkbox-on::after, html .ui-bar-b .ui-checkbox-on::after, html .ui-body-b .ui-checkbox-on::after, html body .ui-group-theme-b .ui-checkbox-on::after, .ui-btn.ui-checkbox-on.ui-btn-b::after, .ui-page-theme-b .ui-flipswitch-active, html .ui-bar-b .ui-flipswitch-active, html .ui-body-b .ui-flipswitch-active, html body .ui-group-theme-b .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-b.ui-flipswitch-active, .ui-page-theme-b .ui-slider-track .ui-btn-active, html .ui-bar-b .ui-slider-track .ui-btn-active, html .ui-body-b .ui-slider-track .ui-btn-active, html body .ui-group-theme-b .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-b .ui-btn-active {
-    background-color: #333;
-    border-color: #1f1f1f;
-    color: #fff;
-    text-shadow: 0 0px 0 #111;
-}
-/* SIDE PANEL */
-
-
-
 /* ######################################## LISTS UNDER COLLAPSIBLES ####################### */
 .ui-collapsible-heading,
 .ui-collapsible-heading > .ui-btn {
@@ -243,13 +319,33 @@ html head + body .ui-btn.ui-btn-a:hover {
     background-color: #fff;
     color: #333;
 }
+
+div[data-role="collapsible"]div[data-theme="c"] a {
+    background-color: #e9e9e9 !important;
+}
+
+.ui-page-theme-c .ui-btn, 
+html .ui-bar-c .ui-btn, 
+html .ui-body-c .ui-btn, 
+html body .ui-group-theme-c .ui-btn, 
+html head + body .ui-btn.ui-btn-c, 
+.ui-page-theme-c .ui-btn:visited, 
+html .ui-bar-c .ui-btn:visited, 
+html .ui-body-c .ui-btn:visited, 
+html body .ui-group-theme-c .ui-btn:visited, 
+html head + body .ui-btn.ui-btn-c:visited {
+    background-color: #e9e9e9;
+    border-color: #d6d6d6;
+    color: #333;
+    text-shadow: 0 0 0 #f3f3f3;
+}
 /* LISTS UNDER COLLAPSIBLES */
 
 
 
 /* ######################################## FONT-AWESOME ################################### */
 .awesome a i {
-    margin: 0.55em .3em;
+    margin: 0.7em .4em;
 }
 
 div[data-role="header"] .awesome a {
@@ -259,4 +355,39 @@ div[data-role="header"] .awesome a {
 .fa-half-2x {
   font-size: 1.75em;
 }
-/* FONT-AWESOME 
+
+.fa-clear {
+  font-size: 1.4em;
+}
+
+.ui-btn-icon-right::after {
+    right: 0.5625em;
+}
+/* FONT-AWESOME */
+
+
+/* ######################################## POP-UP ################################### */
+
+div[data-role="popup"] {
+    border-radius: 0;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.6);
+    border: 1px solid red;
+}
+
+div[data-role="popup"] a {
+    color: #333;
+}
+
+div[data-role="popup"] a:hover {
+    color: #ccc;
+}
+
+.ui-popup i {
+    margin: 0.5em 0.4375em;
+}
+
+.ui-popup > span {
+    display: inline-block;
+}
+
+/* POP-UP */
