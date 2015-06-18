@@ -1,16 +1,26 @@
 package org.cambridge.eltpoc.model;
 
-import io.realm.RealmObject;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by jlundang on 6/10/15.
- */
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 public class CLMSCourse extends RealmObject {
-    private String TYPE = "clms#course"; // This should be final
+    @Expose
+    private String TYPE = "clms#course";
+    @PrimaryKey
+    @Expose
     private int nid;
+    @Expose
     private String name;
+    @Expose
     private String url;
+    @Expose
+    @SerializedName("product-name")
     private String productName;
+    @Expose
+    @SerializedName("product-logo")
     private String productLogo;
 
     public int getNid() {

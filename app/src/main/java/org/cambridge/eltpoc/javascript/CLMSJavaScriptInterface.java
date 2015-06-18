@@ -107,20 +107,20 @@ public class CLMSJavaScriptInterface {
                 realm.beginTransaction();
 
 
-                RealmQuery<CLMSUser> query = realm.where(CLMSUser.class);
-
-                query.equalTo("username","satya");
-
-                RealmResults<CLMSUser> result = query.findAll();
-                realm.commitTransaction();
-                if(result.isEmpty()) {
-                    realm.beginTransaction();
-                    CLMSUser realmUser = realm.createObject(CLMSUser.class);
-                    realmUser.setAccessToken(object.getString("access_token"));
-                    realmUser.setUsername(user);
-                    realmUser.setPassword(password);
-                    realm.commitTransaction();
-                }
+//                RealmQuery<CLMSUser> query = realm.where(CLMSUser.class);
+//
+//                query.equalTo("username", "satya");
+//
+//                RealmResults<CLMSUser> result = query.findAll();
+//                realm.commitTransaction();
+//                if(result.isEmpty()) {
+//                    realm.beginTransaction();
+//                    CLMSUser realmUser = realm.createObject(CLMSUser.class);
+//                    realmUser.setAccess_token(object.getString("access_token"));
+//                    realmUser.setUsername(user);
+//                    realmUser.setPassword(password);
+//                    realm.commitTransaction();
+//                }
                 SharedPreferences preferences = activity.getApplicationContext().getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
                 return true;
             }

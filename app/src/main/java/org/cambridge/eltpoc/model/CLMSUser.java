@@ -1,5 +1,8 @@
 package org.cambridge.eltpoc.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -17,16 +20,25 @@ public class CLMSUser extends RealmObject {
     private String displayName;
 
     @Ignore
-    private String accessToken;
+    @Expose
+    @SerializedName("access_token")
+    private String access_token;
     @Ignore
-    private int expires_n;
+    @Expose
+    @SerializedName("expires_in")
+    private int expires_in;
     @Ignore
+    @Expose
+    @SerializedName("token_type")
     private String token_type;
     @Ignore
+    @Expose
+    @SerializedName("scope")
     private String scope;
     @Ignore
+    @Expose
+    @SerializedName("refresh_token")
     private String refresh_token;
-
 
     public String getUsername() {
         return username;
@@ -68,20 +80,20 @@ public class CLMSUser extends RealmObject {
         this.displayName = displayName;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
-    public int getExpires_n() {
-        return expires_n;
+    public int getExpires_in() {
+        return expires_in;
     }
 
-    public void setExpires_n(int expires_n) {
-        this.expires_n = expires_n;
+    public void setExpires_in(int expires_in) {
+        this.expires_in = expires_in;
     }
 
     public String getToken_type() {

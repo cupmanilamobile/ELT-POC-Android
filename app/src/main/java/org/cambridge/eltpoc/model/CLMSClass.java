@@ -1,15 +1,28 @@
 package org.cambridge.eltpoc.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by jlundang on 6/15/15.
  */
 public class CLMSClass extends RealmObject {
-    private String TYPE = "clms#class"; // This should be final
+    @Expose
+    private String TYPE = "clms#class";
+    @PrimaryKey
+    @Expose
     private int id;
+    @Expose
+    @SerializedName("class-name")
     private String className;
+    @Expose
+    @SerializedName("class-role")
     private String classRole;
+    @Expose
+    @SerializedName("course-id")
     private int courseId;
 
     public int getId() {
