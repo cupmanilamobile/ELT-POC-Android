@@ -248,7 +248,7 @@ public class CLMSJavaScriptInterface {
                 if(mediaController != null) {
                     FrameLayout f = (FrameLayout) mediaController.getParent();
                     ((RelativeLayout) f.getParent()).removeView(f);
-                }
+                }//
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

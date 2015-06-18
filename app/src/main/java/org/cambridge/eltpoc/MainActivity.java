@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
         this.initializeWebView();
-       // Realm.deleteRealmFile(this);
+        Realm.deleteRealmFile(this);
         Realm realm = Realm.getInstance(this);
         Log.d("", "path: " + realm.getPath());
 
