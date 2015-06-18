@@ -892,23 +892,23 @@ class="lesson">
         <li data-role="list-divider" role="heading">
             Vocabulary
         </li>
-        <li data-theme="a" data-icon="gear">
-            <a href="#video" data-transition="slide">
+        <li data-theme="a" data-icon="gear" onclick="showVideo()">
+            <a href="#video" data-transition="slide" onclick="showVideo()">
                 Words
             </a>
 
             <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
 
         </li>
-        <li data-theme="a" data-icon="gear">
-            <a href="#video" data-transition="slide">
+        <li data-theme="a" data-icon="gear" onclick="showVideo()">
+            <a href="#video" data-transition="slide" onclick="showVideo()">
                 Meanings
             </a>
 
             <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
         </li>
-        <li data-theme="a" data-icon="gear">
-            <a href="#video" data-transition="slide">
+        <li data-theme="a" data-icon="gear" onclick="showVideo()">
+            <a href="#video" data-transition="slide" onclick="showVideo()">
                 Diction
             </a>
 
@@ -1036,7 +1036,7 @@ class="lesson">
     <div data-theme="b" data-role="header">
 
         <div class="ui-btn-left ui-nodisc-icon awesome">
-    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="fa fa-angle-left fa-3x"></i></a>
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack" onclick="hideVideo()"><i class="fa fa-angle-left fa-3x"></i></a>
 </div>
 
         <h1 class="ui-title">
@@ -1065,12 +1065,17 @@ class="lesson">
                     Your browser does not support the video tag.
                 </video>
             </div>
-            <h3>Empower B1 and A2 Maintenance - Extended</h2>
+            <h3>Empower B1 and A2 Maintenance - Extended</h3>
         <p>
             Please be advised of the extended downtime which is required in order to carry out essential maintenance on Cambridge English Empower A2 Elementary and Cambridge English Empower B1 Pre-intermediate, the revised dates are as follows
         </p>
+        <!--<div data-controltype="htmlblock">-->
+            <!--<video width="100%" controls="">-->
+                <!--<source src="images/rickroll.mp4" type="video/mp4">-->
+                    <!--Your browser does not support the video tag.-->
+                <!--</video>-->
+            <!--</div>-->
         </div>
-
     </div>
 <!-- VIDEO -->
 

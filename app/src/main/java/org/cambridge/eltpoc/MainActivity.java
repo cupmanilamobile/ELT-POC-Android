@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 case KeyEvent.KEYCODE_BACK:
                     if (webView.canGoBack()) {
                         webView.goBack();
+                        if(findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
+                            new CLMSJavaScriptInterface(this).hideVideo();
                     } else {
                         finish();
                     }

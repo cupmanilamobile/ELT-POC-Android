@@ -58,3 +58,12 @@ if(valid){
 $('.fa-spinner').hover(function() {
     $(this).addClass('fa-spin');
 });
+
+
+function showVideo() {
+    window.JSInterface.showVideo();
+}
+
+function hideVideo() {
+    window.JSInterface.hideVideo();
+}
