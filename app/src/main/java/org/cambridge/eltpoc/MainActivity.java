@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
     /* Private methods */
     private void initializeWebView() {
         webView = (WebView) findViewById(R.id.webview);
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new CLMSJavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
+        webView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override
@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 case KeyEvent.KEYCODE_BACK:
                     if (webView.canGoBack()) {
                         webView.goBack();
+                        if(findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
+                            new CLMSJavaScriptInterface(this).hideVideo();
                     } else {
                         finish();
                     }

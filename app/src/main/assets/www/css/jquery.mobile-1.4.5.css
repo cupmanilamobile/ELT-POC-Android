@@ -1076,9 +1076,9 @@ html .ui-bar-a .ui-slider-track .ui-btn-active,
 html .ui-body-a .ui-slider-track .ui-btn-active,
 html body .ui-group-theme-a .ui-slider-track .ui-btn-active,
 html body div.ui-slider-track.ui-body-a .ui-btn-active {
-	background-color: 		#b99d19 /*{a-active-background-color}*/;
-	border-color:	 		#b99d19 /*{a-active-border}*/;
-	color: 					#fff /*{a-active-color}*/;
+	background-color: 		#f6f6f6 /*{a-active-background-color}*/;
+	border-color:	 		#ddd /*{a-active-border}*/;
+	color: 					#333 /*{a-active-color}*/;
 	text-shadow: 0 /*{a-active-shadow-x}*/ 0px /*{a-active-shadow-y}*/ 0 /*{a-active-shadow-radius}*/ #005599 /*{a-active-shadow-color}*/;
 }
 /* CUSTOM RAYMOND */

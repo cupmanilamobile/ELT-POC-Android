@@ -1,3 +1,4 @@
+
 // SWIPE PANEL
 $( document ).on( "pagecreate", "#demo-page", function() {
     $( document ).on( "swipeleft swiperight", "#demo-page", function( e ) {
@@ -60,3 +61,12 @@ $(document).ready(function() {
         }, "json");;
     });
 });
+
+
+function showVideo() {
+    window.JSInterface.showVideo();
+}
+
+function hideVideo() {
+    window.JSInterface.hideVideo();
+}
