@@ -3,18 +3,27 @@ package org.cambridge.eltpoc.javascript;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.RelativeLayout;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.api.ClassDeserializer;
 import org.cambridge.eltpoc.api.CourseDeserializer;
 import org.cambridge.eltpoc.api.TestHarnessService;
+import org.cambridge.eltpoc.customviews.CustomVideoView;
 import org.cambridge.eltpoc.download.DownloadReceiver;
 import org.cambridge.eltpoc.download.DownloadService;
 import org.cambridge.eltpoc.model.CLMSClass;
@@ -38,6 +47,7 @@ import retrofit.converter.GsonConverter;
  */
 public class CLMSJavaScriptInterface {
     private Activity activity;
+    private MediaController mediaController;
     private TestHarnessService testHarnessService;
     private final String END_POINT = "http://content-poc-api.cambridgelms.org";
     private Gson defaultGson;
@@ -67,6 +77,7 @@ public class CLMSJavaScriptInterface {
             public boolean shouldSkipField(FieldAttributes f) {
                 return f.getDeclaringClass().equals(RealmObject.class);
             }
+
             @Override
             public boolean shouldSkipClass(Class<?> clazz) {
                 return false;
@@ -235,5 +246,73 @@ public class CLMSJavaScriptInterface {
         intent.putExtra(DownloadService.DOWNLOAD_RECEIVER, new DownloadReceiver(new Handler(), mProgressDialog));
         intent.putExtra(DownloadService.DOWNLOAD_OUTPUT_DIR, activity.getFilesDir().getAbsolutePath());
         this.activity.startService(intent);
+    }
+
+    @JavascriptInterface
+    public void showVideo() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final CustomVideoView videoView = (CustomVideoView) (activity.findViewById(R.id.video_player));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        videoView.setVisibility(View.VISIBLE);
+                        mediaController = new MediaController(videoView.getContext(), false);
+                        final int videoSize = activity.getResources().getDimensionPixelSize(R.dimen.video_size);
+                        videoView.setDimensions(videoSize, videoSize);
+                        videoView.getHolder().setFixedSize(videoSize, videoSize);
+                        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                // set correct height
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) videoView.getLayoutParams();
+                                params.height = mp.getVideoHeight();
+                                videoView.setLayoutParams(params);
+
+                                videoView.setMediaController(mediaController);
+                                mediaController.show(0);
+
+                                FrameLayout f = (FrameLayout) mediaController.getParent();
+                                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                                lp.addRule(RelativeLayout.ALIGN_BOTTOM, videoView.getId());
+                                lp.addRule(RelativeLayout.ALIGN_LEFT, videoView.getId());
+                                lp.width = videoSize;
+
+                                ((LinearLayout) f.getParent()).removeView(f);
+                                ((RelativeLayout) videoView.getParent()).addView(f, lp);
+
+                                mediaController.setAnchorView(videoView);
+                            }
+                        });
+
+                    }
+                }, 600);
+                String UrlPath = "android.resource://" + activity.getPackageName() + "/" + R.raw.rickroll;
+                videoView.setVideoURI(Uri.parse(UrlPath));
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void hideVideo() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                final CustomVideoView videoView = (CustomVideoView) (activity.findViewById(R.id.video_player));
+                videoView.stopPlayback();
+                if (mediaController != null) {
+                    FrameLayout f = (FrameLayout) mediaController.getParent();
+                    ((RelativeLayout) f.getParent()).removeView(f);
+                }//
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        videoView.setVisibility(View.GONE);
+                    }
+                }, 100);
+            }
+        });
     }
 }
