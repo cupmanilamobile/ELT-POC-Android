@@ -33,8 +33,8 @@ import org.cambridge.eltpoc.model.CLMSCourse;
 import org.cambridge.eltpoc.model.CLMSCourseList;
 import org.cambridge.eltpoc.model.CLMSUnitLessonScore;
 import org.cambridge.eltpoc.model.CLMSUser;
+import org.cambridge.eltpoc.util.RealmTransactionUtils;
 
-import io.realm.Realm;
 import io.realm.RealmObject;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -86,9 +86,8 @@ public class CLMSJavaScriptInterface {
         CLMSUser user = gson.fromJson(jsonAuth, CLMSUser.class);
         user.setUsername(username);
         user.setPassword(password);
-
-        Realm.deleteRealmFile(this.activity);
-//        saveCourseList(user.getAccessToken());
+        RealmTransactionUtils.saveUser(activity, user);
+        saveCourseList(user.getAccessToken());
 //        saveClassList(user.getAccessToken());
 //        getUnitScore(user.getAccessToken(), 111597, 108116);
 //        getLessonScore(user.getAccessToken(), 111597, 108116, 240);
@@ -122,7 +121,7 @@ public class CLMSJavaScriptInterface {
             @Override
             public void success(CLMSCourseList clmsCourseList, Response response) {
                 // Save course lists here!
-                System.out.println("test");
+                RealmTransactionUtils.saveCourseList(activity, clmsCourseList);
             }
 
             @Override

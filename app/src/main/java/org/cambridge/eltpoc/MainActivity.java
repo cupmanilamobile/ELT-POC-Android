@@ -3,7 +3,6 @@ package org.cambridge.eltpoc;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +11,6 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
-import org.cambridge.eltpoc.model.CLMSClass;
-
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
