@@ -25,19 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
         this.initializeWebView();
-       // Realm.deleteRealmFile(this);
-        Realm realm = Realm.getInstance(this);
-        Log.d("", "path: " + realm.getPath());
-
-        realm.beginTransaction();
-
-        CLMSClass c = realm.createObject(CLMSClass.class);
-        c.setId(938);
-        c.setClassName("Feeding Time: The Feeding Habits Selft-study");
-        c.setClassRole("Student");
-        c.setCourseId(890);
-
-        realm.commitTransaction();
     }
 
     @Override
@@ -65,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
     /* Private methods */
     private void initializeWebView() {
         webView = (WebView) findViewById(R.id.webview);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new CLMSJavaScriptInterface(this), "JSInterface");
         webView.loadUrl("file:///android_asset/www/index.html");
-        webView.getSettings().setJavaScriptEnabled(true);
     }
 
     @Override

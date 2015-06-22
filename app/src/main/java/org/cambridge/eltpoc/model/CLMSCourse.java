@@ -3,6 +3,7 @@ package org.cambridge.eltpoc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -22,6 +23,7 @@ public class CLMSCourse extends RealmObject {
     @Expose
     @SerializedName("product-logo")
     private String productLogo;
+    private RealmList<CLMSClass> classes;
 
     public int getNid() {
         return nid;
@@ -69,5 +71,13 @@ public class CLMSCourse extends RealmObject {
 
     public void setTYPE(String TYPE) {
         // Do nothing
+    }
+
+    public RealmList<CLMSClass> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(RealmList<CLMSClass> classes) {
+        this.classes = classes;
     }
 }
