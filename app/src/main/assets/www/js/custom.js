@@ -67,14 +67,10 @@ function showVideo() {
     window.JSInterface.showVideo();
 }
 
-<<<<<<< HEAD
-// SPIN
-$('.fa-spinner').hover(function() {
-    $(this).addClass('fa-spin');
-});
-
-=======
 function hideVideo() {
     window.JSInterface.hideVideo();
 }
->>>>>>> origin/master
+
+function signOutUser() {
+    window.JSInterface.signOutUser();
+}

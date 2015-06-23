@@ -2,6 +2,7 @@ package org.cambridge.eltpoc.javascript;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -19,10 +20,12 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.cambridge.eltpoc.LoginActivity;
 import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.api.ClassDeserializer;
 import org.cambridge.eltpoc.api.CourseDeserializer;
 import org.cambridge.eltpoc.api.TestHarnessService;
+import org.cambridge.eltpoc.connections.HTTPConnectionPost;
 import org.cambridge.eltpoc.customviews.CustomVideoView;
 import org.cambridge.eltpoc.download.DownloadReceiver;
 import org.cambridge.eltpoc.download.DownloadService;
@@ -31,9 +34,17 @@ import org.cambridge.eltpoc.model.CLMSClassList;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSCourse;
 import org.cambridge.eltpoc.model.CLMSCourseList;
+import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.model.CLMSUnitLessonScore;
 import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
+import org.cambridge.eltpoc.util.SharedPreferencesUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import io.realm.RealmObject;
 import retrofit.Callback;
@@ -52,8 +63,9 @@ public class CLMSJavaScriptInterface {
     private final String END_POINT = "http://content-poc-api.cambridgelms.org";
     private Gson defaultGson;
 
+    private CLMSModel webModel;
 
-    public CLMSJavaScriptInterface(Activity activity) {
+    public CLMSJavaScriptInterface(Activity activity, CLMSModel webModel) {
         this.activity = activity;
         defaultGson = new GsonBuilder()
                 .setExclusionStrategies(new ExclusionStrategy() {
@@ -68,6 +80,7 @@ public class CLMSJavaScriptInterface {
                     }
                 })
                 .create();
+        this.webModel = webModel;
     }
 
     @JavascriptInterface
@@ -247,6 +260,65 @@ public class CLMSJavaScriptInterface {
         this.activity.startService(intent);
     }
 
+    public void authenticateLogin(final String user, final String password) throws MalformedURLException {
+        //HTTP Connection Approach
+        ContentValues values = new ContentValues();
+        values.put("grant_type", "password");
+        values.put("client_id", "app");
+        values.put("username", user);
+        values.put("password", password);
+
+        String errorTitle = "Authentication Failed";
+        String urlString = "http://content-poc-api.cambridgelms.org/v1.0/authorize";
+        HTTPConnectionPost post = new HTTPConnectionPost(activity, new URL(urlString), values,
+                errorTitle);
+        post.setOnPostCompletedListener(new HTTPConnectionPost.OnPostCompletedListener() {
+            @Override
+            public void onPostCompleted(String response, boolean isFailed) {
+                JSONObject object = null;
+                try {
+                    object = (JSONObject) new JSONTokener(response).nextValue();
+                    if (object.getString("access_token") != null) {
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("RESPONSE: " + response + "xxxxxxx");
+                SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
+                webModel.setHasError(isFailed);
+                webModel.notifyObservers();
+            }
+        });
+        post.execute();
+
+//        //Retrofit Approach
+//        ConnectionClient connectionClient = new ConnectionClient();
+//        connectionClient.setupBearerTokenClient();
+//        connectionClient.getService().getBearerTokenWithCallback("password", "app", user, password,
+//                new Callback<CLMSUser>() {
+//                    @Override
+//                    public void success(CLMSUser clmsUser, Response response) {
+//                        SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
+//                        webModel.notifyObservers();
+//                    }
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+//                        alertDialog.setTitle("Authentication Failed");
+//                        alertDialog.setMessage(error.getMessage());
+//                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//                                    }
+//                                });
+//                        alertDialog.show();
+//                    }
+//                });
+
+    }
+
     @JavascriptInterface
     public void showVideo() {
         activity.runOnUiThread(new Runnable() {
@@ -313,5 +385,12 @@ public class CLMSJavaScriptInterface {
                 }, 100);
             }
         });
+    }
+
+    @JavascriptInterface
+    public void signOutUser() {
+        SharedPreferencesUtils.updateLoggedInUser(activity, "", "");
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
     }
 }

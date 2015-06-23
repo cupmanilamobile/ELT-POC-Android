@@ -19,10 +19,10 @@ public class CLMSCourse extends RealmObject {
     private String url;
     @Expose
     @SerializedName("product-name")
-    private String productName;
+    private String productName = "";
     @Expose
     @SerializedName("product-logo")
-    private String productLogo;
+    private String productLogo = "";
     private RealmList<CLMSClass> classes;
 
     public int getNid() {

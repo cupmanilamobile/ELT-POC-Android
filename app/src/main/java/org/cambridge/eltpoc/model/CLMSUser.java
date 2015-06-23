@@ -15,9 +15,9 @@ public class CLMSUser extends RealmObject {
     @PrimaryKey
     private String username;
     private String password;
-    private String kind;
+    private String kind = "";
     private long id;
-    private String displayName;
+    private String displayName = "";
 
     @Ignore
     @Expose
@@ -30,11 +30,11 @@ public class CLMSUser extends RealmObject {
     @Ignore
     @Expose
     @SerializedName("token_type")
-    private String tokenType;
+    private String tokenType = "";
     @Ignore
     @Expose
     @SerializedName("scope")
-    private String scope;
+    private String scope = "";
     @Ignore
     @Expose
     @SerializedName("refresh_token")

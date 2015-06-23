@@ -5,4 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MainTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionBarDivider">@null</item>
+        <item name="android:actionBarDivider">@null</item>
+    </style>
+
 </resources>

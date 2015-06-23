@@ -1,6 +1,11 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_wifi" android:title="Wifi"
+        android:showAsAction="always" android:icon="@drawable/ic_network_wifi_white_36dp"/>
+
+    <item android:id="@+id/action_sync" android:title="Sync"
+        android:showAsAction="always" android:actionLayout="@layout/refresh_action"/>
+
+    <item android:id="@+id/action_menu" android:title="Menu"
+        android:showAsAction="always" android:icon="@drawable/ic_menu_white_36dp"/>
 </menu>

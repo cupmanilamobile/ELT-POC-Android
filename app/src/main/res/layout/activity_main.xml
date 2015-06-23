@@ -1,27 +1,99 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:baselineAligned="false">
 
-        <WebView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/webview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"></WebView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <org.cambridge.eltpoc.customviews.CustomVideoView
-            android:id="@+id/video_player"
-            android:layout_width="@dimen/video_size"
-            android:layout_height="@dimen/video_size"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="400dp"
-            android:visibility="gone" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
 
-    </RelativeLayout>
-</ScrollView>
+                <RelativeLayout
+                    android:id="@+id/learning_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/tab_selector"
+                    android:onClick="learningPressed">
+
+                    <TextView
+                        android:id="@+id/learning_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/my_learning"
+                        android:textColor="@color/tab_text_selector"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/teaching_tab"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/tab_selector"
+                    android:onClick="teachingPressed">
+
+                    <TextView
+                        android:id="@+id/teaching_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/my_teaching"
+                        android:textColor="@color/tab_text_selector"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <WebView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/webview"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"></WebView>
+
+                    <org.cambridge.eltpoc.customviews.CustomVideoView
+                        android:id="@+id/video_player"
+                        android:layout_width="@dimen/video_size"
+                        android:layout_height="@dimen/video_size"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="@dimen/video_margin_top"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+            </ScrollView>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Right drawer -->
+    <ListView
+        android:id="@+id/right_drawer"
+        android:layout_width="@dimen/navigation_list_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="#2a2a2a"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

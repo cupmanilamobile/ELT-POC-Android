@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="navigation_list_width">320dp</dimen>
+    <dimen name="video_size">520dp</dimen>
+    <dimen name="video_margin_top">400dp</dimen>
+</resources>
