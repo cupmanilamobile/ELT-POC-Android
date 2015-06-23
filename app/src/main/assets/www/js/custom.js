@@ -58,3 +58,4 @@ if(valid){
 $('.fa-spinner').hover(function() {
     $(this).addClass('fa-spin');
 });
+

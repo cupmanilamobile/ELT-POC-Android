@@ -1,6 +1,31 @@
 /* ######################################## GENERAL ######################################## */
-html, body, h1 {
-    font-family: 'Roboto', sans-serif;
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto/roboto-thin-webfont.eot');
+    src: url('../fonts/roboto/roboto-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/roboto/roboto-thin-webfont.woff2') format('woff2'),
+         url('../fonts/roboto/roboto-thin-webfont.woff') format('woff'),
+         url('../fonts/roboto/roboto-thin-webfont.ttf') format('truetype'),
+         url('../fonts/roboto/roboto-thin-webfont.svg#robotothin') format('svg');
+    font-weight: 100;
+    font-style: normal;
+}
+
+
+/*@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto/roboto-medium-webfont.eot');
+    src: url('../fonts/roboto/roboto-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/roboto/roboto-medium-webfont.woff2') format('woff2'),
+         url('../fonts/roboto/roboto-medium-webfont.woff') format('woff'),
+         url('../fonts/roboto/roboto-medium-webfont.ttf') format('truetype'),
+         url('../fonts/roboto/roboto-medium-webfont.svg#robotomedium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}*/
+
+html, body {
+    font-family: 'Roboto', sans-serif !important;
     letter-spacing: 0.00625em;
 }
 
@@ -19,22 +44,10 @@ a {text-decoration: none;}
     text-shadow: none;
 }
 
-/*.carousel {
-    width: 100%;
-    height: 200px;
-    position: relative;
-    background-color: #fbfbfb;
-    border: 1px solid #b8b8b8;
-    overflow: hidden;
-}
-
-.carousel > img {
-
-}*/
-
 .hidden {
     display: none !important;
 }
+
 /* GENERAL */
 
 
@@ -59,10 +72,8 @@ div[data-role="panel"] h4 + ul li a {
 }
 
 div[data-role="panel"] h4 + ul li i {
-    font-size: 1.2em;
-    width: 25px;
     margin-right: .25em;
-    text-align: center;
+    vertical-align: bottom;
 }
 
 div[data-role="panel"] img {
@@ -83,7 +94,7 @@ div[data-role="panel"] .account p {
 /* ######################################## LIST VIEW ###################################### */
 .link {
     font-size: 0.75em;
-    color: #3388cc;
+    color: #333;
 }
 
 .ui-listview > li h2 {
@@ -217,12 +228,12 @@ img#elt {
 .ui-footer .ui-title {
     margin: 0 1em;
     text-align: left;
-    font-weight: 100;
+    /*font-weight: 100;*/
     font-size: 1.4em;
 }
 
 div[data-role="header"] div.ui-btn-left + h1.ui-title {
-    margin: 0 1.8em;
+    margin: 0 2em;
 }
 
 .ui-bar-b, .ui-page-theme-b .ui-bar-inherit, html .ui-bar-b .ui-bar-inherit, html .ui-body-b .ui-bar-inherit, html body .ui-group-theme-b .ui-bar-inherit {
@@ -230,8 +241,23 @@ div[data-role="header"] div.ui-btn-left + h1.ui-title {
 }
 
 div[data-role="header"] div.ui-btn-left {
-    margin: -1.55em 0 0 -0.5em
+    margin: -1.25em 0 0 -1.25em
 }
+
+div[data-role="header"] .awesome a {
+    color: #fff;
+}
+
+.awesome a i {
+    margin: 0.7em .4em;
+}
+
+@media only screen and (max-width: 345px) {
+    .ui-btn-right.awesome a i {
+        margin: 0.7em .2em;
+    }
+}
+
 /* HEADER BUTTONS */
 
 
@@ -343,29 +369,6 @@ html head + body .ui-btn.ui-btn-c:visited {
 
 
 
-/* ######################################## FONT-AWESOME ################################### */
-.awesome a i {
-    margin: 0.7em .4em;
-}
-
-div[data-role="header"] .awesome a {
-    color: #fff;
-}
-
-.fa-half-2x {
-  font-size: 1.75em;
-}
-
-.fa-clear {
-  font-size: 1.4em;
-}
-
-.ui-btn-icon-right::after {
-    right: 0.5625em;
-}
-/* FONT-AWESOME */
-
-
 /* ######################################## POP-UP ################################### */
 
 div[data-role="popup"] {
@@ -396,4 +399,103 @@ div[data-role="popup"] a:hover {
 #video video {
   max-width: 100%;
   height: auto;
+}
+
+
+/* ######################################## Material Icon Set ################################### */
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+/*// Rules for sizing the icon.*/
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/*// Rules for using icons as black on a light background.*/
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/*// Rules for using icons as white on a dark background.*/
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+
+/* ######################################## FONT-AWESOME ################################### */
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+  animation: fa-spin 1s infinite steps(8);
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+/* FONT-AWESOME */
+
+
+.ui-alt-icon.ui-icon-gear:after,
+.ui-alt-icon .ui-icon-gear:after {
+    background-image: url("../images/ic_more_vert_black_24px.svg");
+}
+
+.collapsed-link i {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
 }
