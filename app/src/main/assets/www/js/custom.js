@@ -35,27 +35,46 @@ $( document ).on( "click", ".show-page-loading-msg", function() {
     $.mobile.loading( "hide" );
 });
 
-function getLoginCredentials(){
-
-
-var user =document.getElementById('textinput3').value;
-var password = document.getElementById('textinput4').value;;
-
-
-var valid = window.JSInterface.authenticateLogin(user,password);
-
-if(valid){
-
-    var url = location.href;               //Save down the URL without hash.
-    location.href = "#learning";                 //Go to the target element.
-    history.replaceState(null,null,url);
-}
-
-
-}
-
 // SPIN
 $('.fa-spinner').hover(function() {
     $(this).addClass('fa-spin');
 });
 
+// Authentication
+var testHarnessDomain = "http://content-poc-api.cambridgelms.org";
+
+$(document).ready(function() {
+    $('#submit-5').click(function() {
+        $.post(testHarnessDomain + "/v1.0/authorize",
+        "grant_type=password&client_id=app&username=" + $("#username").val() + "&password=" + $("#password").val(),
+        function(json) {
+            if (json.error_message) {
+                // Inform the user to confirm his / her credentials
+                alert(json.error_message);
+                console.error(json);
+            } else  {
+                window.location = "#learning";
+                // Call native function here
+                window.JSInterface.saveAuthenticationLogin(JSON.stringify(json), $("#username").val(), $("#password").val());
+                console.info(json);
+            }
+        }, "json");;
+    });
+});
+
+
+function showVideo() {
+    window.JSInterface.showVideo();
+}
+
+<<<<<<< HEAD
+// SPIN
+$('.fa-spinner').hover(function() {
+    $(this).addClass('fa-spin');
+});
+
+=======
+function hideVideo() {
+    window.JSInterface.hideVideo();
+}
+>>>>>>> origin/master

@@ -24,6 +24,8 @@ public class CLMSClass extends RealmObject {
     @Expose
     @SerializedName("course-id")
     private int courseId;
+    private CLMSUnitLessonScore unitScore;
+    private CLMSUnitLessonScore lessonScore;
 
     public int getId() {
         return id;
@@ -63,5 +65,21 @@ public class CLMSClass extends RealmObject {
 
     public void setTYPE(String TYPE) {
         // Do nothing
+    }
+
+    public CLMSUnitLessonScore getUnitScore() {
+        return unitScore;
+    }
+
+    public void setUnitScore(CLMSUnitLessonScore unitScore) {
+        this.unitScore = unitScore;
+    }
+
+    public CLMSUnitLessonScore getLessonScore() {
+        return lessonScore;
+    }
+
+    public void setLessonScore(CLMSUnitLessonScore lessonScore) {
+        this.lessonScore = lessonScore;
     }
 }

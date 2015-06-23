@@ -3,17 +3,14 @@ package org.cambridge.eltpoc;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
-import org.cambridge.eltpoc.model.CLMSClass;
-
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,19 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
         this.initializeWebView();
-       // Realm.deleteRealmFile(this);
-        Realm realm = Realm.getInstance(this);
-        Log.d("", "path: " + realm.getPath());
-
-        realm.beginTransaction();
-
-        CLMSClass c = realm.createObject(CLMSClass.class);
-        c.setId(938);
-        c.setClassName("Feeding Time: The Feeding Habits Selft-study");
-        c.setClassRole("Student");
-        c.setCourseId(890);
-
-        realm.commitTransaction();
     }
 
     @Override
@@ -77,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 case KeyEvent.KEYCODE_BACK:
                     if (webView.canGoBack()) {
                         webView.goBack();
+                        if(findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
+                            new CLMSJavaScriptInterface(this).hideVideo();
                     } else {
                         finish();
                     }

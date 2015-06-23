@@ -22,15 +22,15 @@ public class CLMSUser extends RealmObject {
     @Ignore
     @Expose
     @SerializedName("access_token")
-    private String access_token;
+    private String accessToken;
     @Ignore
     @Expose
     @SerializedName("expires_in")
-    private int expires_in;
+    private int expiresIn;
     @Ignore
     @Expose
     @SerializedName("token_type")
-    private String token_type;
+    private String tokenType;
     @Ignore
     @Expose
     @SerializedName("scope")
@@ -38,7 +38,7 @@ public class CLMSUser extends RealmObject {
     @Ignore
     @Expose
     @SerializedName("refresh_token")
-    private String refresh_token;
+    private String refreshToken;
 
     public String getUsername() {
         return username;
@@ -80,28 +80,28 @@ public class CLMSUser extends RealmObject {
         this.displayName = displayName;
     }
 
-    public String getAccess_token() {
-        return access_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setAccessToken(String access_token) {
+        this.accessToken = access_token;
     }
 
-    public int getExpires_in() {
-        return expires_in;
+    public int getExpiresIn() {
+        return expiresIn;
     }
 
-    public void setExpires_in(int expires_in) {
-        this.expires_in = expires_in;
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
     }
 
-    public String getToken_type() {
-        return token_type;
+    public String getTokenType() {
+        return tokenType;
     }
 
-    public void setToken_type(String token_type) {
-        this.token_type = token_type;
+    public void setTokenType(String token_type) {
+        this.tokenType = token_type;
     }
 
     public String getScope() {
@@ -112,11 +112,11 @@ public class CLMSUser extends RealmObject {
         this.scope = scope;
     }
 
-    public String getRefresh_token() {
-        return refresh_token;
+    public String getRefreshToken() {
+        return refreshToken;
     }
 
-    public void setRefresh_token(String refresh_token) {
-        this.refresh_token = refresh_token;
+    public void setRefreshToken(String refresh_token) {
+        this.refreshToken = refresh_token;
     }
 }

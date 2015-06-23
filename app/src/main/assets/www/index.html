@@ -51,7 +51,7 @@
                             <a href="#" class="ui-input-clear ui-btn" title="Clear text">
                                 <i class="fa fa-times fa-clear"></i>
                             </a>
-                            <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput3" value="" type="text" placeholder="Username">
+                            <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="username" value="satya" type="text" placeholder="Username">
                         </div>
 
                         <label class="hidden" for="search-enhanced">Password</label>
@@ -60,16 +60,13 @@
                                 <i class="fa fa-times fa-clear"></i>
                             </a>
 
-                            <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="textinput4" value="" type="password" placeholder="Password">
+                            <input data-enhanced="true" data-clear-btn="true" name="text-enhanced" id="password" value="123456" type="password" placeholder="Password">
                         </div>
+                    </form>
+                    <button data-transition="pop" id="submit-5" class="ui-btn">
+                        Login/*onclick="getLoginCredentials()"*/
+                    </button>
 
-                    <button data-transition="pop" id="submit-5" class="ui-btn" onclick="getLoginCredentials()">Login</button>
-                    
-                    </form> 
-
-                    <!-- <a data-transition="pop" id="submit-5" class="ui-btn" onclick="getLoginCredentials()">
-                        Login
-                    </a> -->
 
                 </div>
             </div>
@@ -891,23 +888,23 @@ class="lesson">
         <li data-role="list-divider" role="heading">
             Vocabulary
         </li>
-        <li data-theme="a" data-icon="gear">
-            <a href="#video" data-transition="slide">
+        <li data-theme="a" data-icon="gear" onclick="showVideo()">
+            <a href="#video" data-transition="slide" onclick="showVideo()">
                 Words
             </a>
 
             <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
 
         </li>
-        <li data-theme="a" data-icon="gear">
-            <a href="#video" data-transition="slide">
+        <li data-theme="a" data-icon="gear" onclick="showVideo()">
+            <a href="#video" data-transition="slide" onclick="showVideo()">
                 Meanings
             </a>
 
             <a href="#lesson-vocabulary-popup" data-rel="popup" class="">Show Popup</a>
         </li>
-        <li data-theme="a" data-icon="gear">
-            <a href="#video" data-transition="slide">
+        <li data-theme="a" data-icon="gear" onclick="showVideo()">
+            <a href="#video" data-transition="slide" onclick="showVideo()">
                 Diction
             </a>
 
@@ -1035,7 +1032,10 @@ class="lesson">
     <div data-theme="b" data-role="header">
 
         <div class="ui-btn-left ui-nodisc-icon awesome">
-    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack"><i class="material-icons md-36">chevron_left</i></a>
+
+    <a data-direction="reverse" data-rel="back" data-transition="slide" href="#" class="headerBack" onclick="hideVideo()"><i class="material-icons md-36">chevron_left</i></a>
+
+
 </div>
 
         <h1 class="ui-title">
@@ -1059,17 +1059,22 @@ class="lesson">
             </p>
         </div>
         <div data-controltype="htmlblock">
-            <video controls>
+            <!--video controls>
                 <source src="images/rickroll.mp4#t=43" type="video/mp4">
                     Your browser does not support the video tag.
-                </video>
+                </video-->
             </div>
-            <h3>Empower B1 and A2 Maintenance - Extended</h2>
+            <h3>Empower B1 and A2 Maintenance - Extended</h3>
         <p>
             Please be advised of the extended downtime which is required in order to carry out essential maintenance on Cambridge English Empower A2 Elementary and Cambridge English Empower B1 Pre-intermediate, the revised dates are as follows
         </p>
+        <!--<div data-controltype="htmlblock">-->
+            <!--<video width="100%" controls="">-->
+                <!--<source src="images/rickroll.mp4" type="video/mp4">-->
+                    <!--Your browser does not support the video tag.-->
+                <!--</video>-->
+            <!--</div>-->
         </div>
-
     </div>
 <!-- VIDEO -->
 
