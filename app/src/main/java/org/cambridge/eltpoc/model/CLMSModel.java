@@ -17,13 +17,11 @@ public class CLMSModel implements ModelObservable {
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
-
     }
 
     @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
-
     }
 
     @Override

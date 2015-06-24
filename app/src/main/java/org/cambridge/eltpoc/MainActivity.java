@@ -1,13 +1,12 @@
 package org.cambridge.eltpoc;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -18,6 +17,7 @@ import android.view.animation.RotateAnimation;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,15 +25,32 @@ import android.widget.TextView;
 import org.cambridge.eltpoc.adapters.NavigationDrawerAdapter;
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSModel;
+import org.cambridge.eltpoc.model.CLMSWebModel;
 import org.cambridge.eltpoc.observers.Observer;
+import org.cambridge.eltpoc.util.Misc;
 
-public class MainActivity extends Activity implements Observer<CLMSModel> {
+public class MainActivity extends AppCompatActivity implements Observer<CLMSModel> {
     private WebView webView;
     private static final String HOME_URL = "file:///android_asset/www/index.html";
     private static final String LEARNING_URL = "file:///android_asset/www/index.html#learning";
     private static final String TEACHING_URL = "file:///android_asset/www/index.html#teaching";
+    private static final String ALL_CONTENT_URL = "file:///android_asset/www/index.html#all-content-a";
+    private static final String DOWNLOADED_CONTENT_URL = "file:///android_asset/www/index.html#downloaded-a";
+    private static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/index.html#lesson-vocabulary";
+    private static final String LESSON_DOWNLOADED_CONTENT_URL = "file:///android_asset/www/index.html#lesson-spelling";
+    private static final String VIDEO_URL = "file:///android_asset/www/index.html#video";
+
+    private static final int HOME_LEVEL = 0;
+    private static final int CLASS_LEVEL = 1;
+    private static final int LESSON_LEVEL = 2;
+    private static final int VIDEO_LEVEL = 3;
+
+    private int webLevel = HOME_LEVEL;
+    private int prevWebLevel = webLevel;
 
     private CLMSModel webModel = new CLMSModel();
+    private CLMSWebModel internetModel = ELTApplication.getInstance().getWebModel();
+
     private String[] navigationArray = new String[4];
     private int[] navigationDrawables = new int[4];
     private NavigationDrawerAdapter navigationDrawerAdapter;
@@ -52,19 +69,46 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
     private int navigationPositionPressed;
 
     private View refreshIcon;
+    private ImageView wifiIcon;
     private RotateAnimation rotate;
+
+    private TextView toolbarTitle;
+    private ImageView backArrow;
+    private CLMSJavaScriptInterface javaScriptInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        javaScriptInterface = new CLMSJavaScriptInterface(MainActivity.this, webModel);
+
+        initToolbar();
+        initInternetConnectionStatus();
         initDrawer();
         initializeWebView();
         initTabs();
+
+        addWebViewListener();
+    }
+
+    private void addWebViewListener() {
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
+                if (url.equalsIgnoreCase(LEARNING_URL) || url.equalsIgnoreCase(TEACHING_URL))
+                    updateArrowIcon(false);
+                else
+                    updateArrowIcon(true);
+                updateWebLevel(url);
+                updateTabTitle();
+                updateTabs();
+                prevWebLevel = webLevel;
                 if (rotate.hasStarted())
                     rotate.cancel();
+                if(webLevel == VIDEO_LEVEL)
+                    javaScriptInterface.showVideo();
+                else if(findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
+                    javaScriptInterface.hideVideo();
             }
 
             @Override
@@ -75,11 +119,70 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
         });
     }
 
-    /* Private methods */
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        backArrow = (ImageView) toolbar.findViewById(R.id.back_arrow);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void updateWebLevel(String url) {
+        switch (url) {
+            case HOME_URL:
+            case TEACHING_URL:
+            case LEARNING_URL:
+                webLevel = HOME_LEVEL;
+                break;
+            case ALL_CONTENT_URL:
+            case DOWNLOADED_CONTENT_URL:
+                webLevel = CLASS_LEVEL;
+                break;
+            case LESSON_ALL_CONTENT_URL:
+            case LESSON_DOWNLOADED_CONTENT_URL:
+                webLevel = LESSON_LEVEL;
+                break;
+            case VIDEO_URL:
+                webLevel = VIDEO_LEVEL;
+                break;
+            default:
+                webLevel = HOME_LEVEL;
+        }
+    }
+
+    private void updateTabTitle() {
+        int title = 0;
+        switch (webLevel) {
+            case HOME_LEVEL:
+                if (webView.getUrl().equalsIgnoreCase(LEARNING_URL))
+                    title = R.string.learning;
+                else if (webView.getUrl().equalsIgnoreCase(TEACHING_URL))
+                    title = R.string.teaching;
+                break;
+            case CLASS_LEVEL:
+                break;
+            case LESSON_LEVEL:
+                title = R.string.lesson_page;
+                break;
+            case VIDEO_LEVEL:
+                title = R.string.video_page;
+                break;
+        }
+
+        if (title == 0)
+            toolbarTitle.setText("CLASS A");
+        else
+            toolbarTitle.setText(title);
+    }
+
+    private void initInternetConnectionStatus() {
+        internetModel.registerObserver(this);
+    }
+
     private void initializeWebView() {
         webView = (WebView) findViewById(R.id.webview);
         webModel.registerObserver(this);
-        webView.addJavascriptInterface(new CLMSJavaScriptInterface(this, webModel), "JSInterface");
+        webView.addJavascriptInterface(javaScriptInterface, "JSInterface");
         webView.loadUrl(LEARNING_URL);
         webView.getSettings().setJavaScriptEnabled(true);
     }
@@ -117,27 +220,23 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
                             teachingPressed(null);
                             break;
                         case SIGN_OUT:
-                            new CLMSJavaScriptInterface(MainActivity.this, webModel).signOutUser();
+                            javaScriptInterface.signOutUser();
                             break;
                     }
                 }
                 isNavigationPressed = false;
             }
 
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
         };
 
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        getActionBar().setIcon(
-                new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1d1d1d")));
-        getActionBar().setTitle(R.string.learning_classes);
 
+        toolbarTitle.setText(R.string.learning);
         View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
         navigationList.addHeaderView(header);
     }
@@ -174,8 +273,6 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
                     if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(LEARNING_URL) &&
                             !webView.getUrl().equalsIgnoreCase(HOME_URL)) {
                         webView.goBack();
-                        if (findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
-                            new CLMSJavaScriptInterface(this, webModel).hideVideo();
                     } else {
                         finish();
                     }
@@ -201,17 +298,26 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        webModel.removeObserver(this);
+        internetModel.removeObserver(this);
     }
 
     @Override
     public void update(CLMSModel model) {
-        webView.loadUrl(LEARNING_URL);
+        if (model instanceof CLMSWebModel) {
+            CLMSWebModel webModel = (CLMSWebModel) model;
+            updateInternetConnectionIcon(webModel.isHasInternetConnection());
+        } else
+            webView.loadUrl(LEARNING_URL);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        refreshIcon = menu.findItem(R.id.action_sync).getActionView();
+        refreshIcon = menu.findItem(R.id.action_sync).getActionView().findViewById(R.id.refresh_icon);
+        wifiIcon = (ImageView) menu.findItem(R.id.action_wifi).getActionView()
+                .findViewById(R.id.wifi_icon);
+        updateInternetConnectionIcon(Misc.checkInternetConnection(this));
         initRotation();
         refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,21 +347,53 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
     }
 
     public void learningPressed(View view) {
-        learningLayout.setSelected(true);
-        learningText.setSelected(true);
-        teachingLayout.setSelected(false);
-        teachingText.setSelected(false);
-        webView.loadUrl(LEARNING_URL);
-        getActionBar().setTitle(R.string.learning_classes);
+        if (!learningLayout.isSelected()) {
+            learningLayout.setSelected(true);
+            learningText.setSelected(true);
+            teachingLayout.setSelected(false);
+            teachingText.setSelected(false);
+            switch (webLevel) {
+                case HOME_LEVEL:
+//                    webView.loadUrl("javascript:updateLink('"+LEARNING_URL+"')");
+                    webView.loadUrl(LEARNING_URL);
+                    toolbarTitle.setText(R.string.learning);
+                    break;
+                case CLASS_LEVEL:
+                    webView.loadUrl(DOWNLOADED_CONTENT_URL);
+                    break;
+                case LESSON_LEVEL:
+                    webView.loadUrl(LESSON_DOWNLOADED_CONTENT_URL);
+                    break;
+            }
+        }
     }
 
     public void teachingPressed(View view) {
-        teachingLayout.setSelected(true);
-        teachingText.setSelected(true);
+        if (!teachingLayout.isSelected()) {
+            teachingLayout.setSelected(true);
+            teachingText.setSelected(true);
+            learningLayout.setSelected(false);
+            learningText.setSelected(false);
+            switch (webLevel) {
+                case HOME_LEVEL:
+                    webView.loadUrl(TEACHING_URL);
+                    toolbarTitle.setText(R.string.teaching);
+                    break;
+                case CLASS_LEVEL:
+                    webView.loadUrl(ALL_CONTENT_URL);
+                    break;
+                case LESSON_LEVEL:
+                    webView.loadUrl(LESSON_ALL_CONTENT_URL);
+                    break;
+            }
+        }
+    }
+
+    private void resetTabs() {
         learningLayout.setSelected(false);
         learningText.setSelected(false);
-        webView.loadUrl(TEACHING_URL);
-        getActionBar().setTitle(R.string.teaching_classes);
+        teachingLayout.setSelected(false);
+        teachingText.setSelected(false);
     }
 
     private void refreshWebView() {
@@ -275,5 +413,29 @@ public class MainActivity extends Activity implements Observer<CLMSModel> {
             refreshIcon.findViewById(R.id.refresh_icon).setAnimation(rotate);
             refreshIcon.startAnimation(rotate);
         }
+    }
+
+    private void updateInternetConnectionIcon(boolean hasInternet) {
+        wifiIcon.setSelected(hasInternet);
+    }
+
+    private void updateTabs() {
+        findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
+        if (webLevel == CLASS_LEVEL || webLevel == LESSON_LEVEL) {
+            learningText.setText(R.string.all_content);
+            teachingText.setText(R.string.downloaded_content);
+        } else if (webLevel == HOME_LEVEL) {
+            learningText.setText(R.string.my_learning);
+            teachingText.setText(R.string.my_teaching);
+        } else if (webLevel == VIDEO_LEVEL)
+            findViewById(R.id.tab_layout).setVisibility(View.GONE);
+    }
+
+    private void updateArrowIcon(boolean show) {
+        backArrow.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    public void goBack(View View) {
+        webView.goBack();
     }
 }

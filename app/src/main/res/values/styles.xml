@@ -5,9 +5,9 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="MainTheme" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="actionBarDivider">@null</item>
-        <item name="android:actionBarDivider">@null</item>
+    <style name="MainTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
 </resources>

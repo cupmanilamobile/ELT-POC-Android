@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_wifi" android:title="Wifi"
-        android:showAsAction="always" android:icon="@drawable/ic_network_wifi_white_36dp"/>
+        app:showAsAction="always" app:actionLayout="@layout/wifi_action"/>
 
     <item android:id="@+id/action_sync" android:title="Sync"
-        android:showAsAction="always" android:actionLayout="@layout/refresh_action"/>
+        app:showAsAction="always" app:actionLayout="@layout/refresh_action"/>
 
     <item android:id="@+id/action_menu" android:title="Menu"
-        android:showAsAction="always" android:icon="@drawable/ic_menu_white_36dp"/>
+        app:showAsAction="always" android:icon="@drawable/ic_menu_white_36dp"/>
 </menu>

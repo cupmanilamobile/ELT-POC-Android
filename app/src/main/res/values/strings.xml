@@ -24,4 +24,10 @@
 
     <string name="my_learning">My Learning</string>
     <string name="my_teaching">My Teaching</string>
+
+    <string name="all_content">All Content</string>
+    <string name="downloaded_content">Downloaded Content</string>
+
+    <string name="lesson_page">Lesson Page</string>
+    <string name="video_page">Video Page</string>
 </resources>

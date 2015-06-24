@@ -20,6 +20,7 @@ import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.observers.Observer;
+import org.cambridge.eltpoc.util.Misc;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.cambridge.eltpoc.util.UIUtils;
 
@@ -97,7 +98,8 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
 
     private void checkLogin() {
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
-        if (!user.getPassword().equalsIgnoreCase("") && !user.getUsername().equalsIgnoreCase("")) {
+        if (!user.getPassword().equalsIgnoreCase("") && !user.getUsername().equalsIgnoreCase("") &&
+                Misc.checkInternetConnection(this)) {
             startMainActivity();
             try {
                 new CLMSJavaScriptInterface(this, webModel).authenticateLogin(

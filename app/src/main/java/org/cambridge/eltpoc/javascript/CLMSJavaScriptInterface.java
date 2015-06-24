@@ -101,9 +101,9 @@ public class CLMSJavaScriptInterface {
         user.setPassword(password);
         RealmTransactionUtils.saveUser(activity, user);
         saveCourseList(user.getAccessToken());
-//        saveClassList(user.getAccessToken());
-//        getUnitScore(user.getAccessToken(), 111597, 108116);
-//        getLessonScore(user.getAccessToken(), 111597, 108116, 240);
+        saveClassList(user.getAccessToken());
+        getUnitScore(user.getAccessToken(), 111597, 108116);
+        getLessonScore(user.getAccessToken(), 111597, 108116, 240);
         getContentScore(user.getAccessToken(), 111597, 108116, 240, 241);
     }
 
@@ -133,13 +133,12 @@ public class CLMSJavaScriptInterface {
         testHarnessService.getCoursesList("Bearer " + authentication, new Callback<CLMSCourseList>() {
             @Override
             public void success(CLMSCourseList clmsCourseList, Response response) {
-                // Save course lists here!
                 RealmTransactionUtils.saveCourseList(activity, clmsCourseList);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("getClassList()", error.getMessage());
+                Log.e("getCourseList()", error.getMessage());
             }
         });
     }
@@ -169,14 +168,15 @@ public class CLMSJavaScriptInterface {
         testHarnessService = restAdapter.create(TestHarnessService.class);
         testHarnessService.getClassesList("Bearer " + authentication, new Callback<CLMSClassList>() {
             @Override
-            public void success(CLMSClassList clmsCourseList, Response response) {
+            public void success(CLMSClassList clmsClassList, Response response) {
                 // Save class lists here!
-                System.out.println("test");
+                for(CLMSClass clmsClass : clmsClassList.getClassLists())
+                    RealmTransactionUtils.saveClass(activity, clmsClass, true);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("getCourseList()", error.getMessage());
+                Log.e("getClassList()", error.getMessage());
             }
         });
     }
@@ -192,7 +192,7 @@ public class CLMSJavaScriptInterface {
         testHarnessService.getUnitScore("Bearer " + tokenAccess, classId, userId, new Callback<CLMSUnitLessonScore>() {
             @Override
             public void success(CLMSUnitLessonScore clmsUnitScore, Response response) {
-                System.out.println("test");
+                RealmTransactionUtils.saveScore(activity, clmsUnitScore, true);
             }
 
             @Override
@@ -213,12 +213,12 @@ public class CLMSJavaScriptInterface {
         testHarnessService.getLessonScore("Bearer " + tokenAccess, classId, userId, unitId, new Callback<CLMSUnitLessonScore>() {
             @Override
             public void success(CLMSUnitLessonScore clmsUnitLessonScore, Response response) {
-                System.out.println("test");
+                RealmTransactionUtils.saveScore(activity, clmsUnitLessonScore, true);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("getUnitScore()", error.getMessage());
+                Log.e("getLessonScore()", error.getMessage());
             }
         });
     }
@@ -234,12 +234,12 @@ public class CLMSJavaScriptInterface {
         testHarnessService.getContentScore("Bearer " + tokenAccess, classId, userId, unitId, lessonId, new Callback<CLMSContentScore>() {
             @Override
             public void success(CLMSContentScore clmsContentScore, Response response) {
-                System.out.println("test");
+                RealmTransactionUtils.saveContentScore(activity, clmsContentScore, true);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("getCourseList()", error.getMessage());
+                Log.e("getContentScore()", error.getMessage());
             }
         });
     }
@@ -279,12 +279,11 @@ public class CLMSJavaScriptInterface {
                 try {
                     object = (JSONObject) new JSONTokener(response).nextValue();
                     if (object.getString("access_token") != null) {
-
+                        saveAuthenticationLogin(response, user, password);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                System.out.println("RESPONSE: " + response + "xxxxxxx");
                 SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
                 webModel.setHasError(isFailed);
                 webModel.notifyObservers();

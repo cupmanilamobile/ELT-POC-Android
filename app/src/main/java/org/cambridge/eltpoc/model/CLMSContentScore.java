@@ -5,20 +5,19 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
 
 /**
  * Created by jlundang on 6/22/15.
  */
 public class CLMSContentScore extends RealmObject {
     @Expose
-    private String kind;
+    private String kind = "";
     @PrimaryKey
     @Expose
     private int id;
     @Expose
     @SerializedName("content-name")
-    private String contentName;
+    private String contentName = "";
     @Expose
     @SerializedName("calc-progress")
     private double calcProgress;
