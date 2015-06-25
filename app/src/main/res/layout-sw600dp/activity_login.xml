@@ -5,10 +5,10 @@
     tools:context="org.cambridge.eltpoc.LoginActivity">
 
     <ImageView
+        android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/login_layout"
-        android:scaleType="matrix"/>
+        android:scaleType="matrix" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,10 +42,10 @@
                 <LinearLayout
                     android:layout_width="620dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
                     android:background="#B2333333"
                     android:orientation="vertical"
                     android:padding="20dp">
@@ -66,31 +66,71 @@
                         android:textColor="@android:color/white"
                         android:textSize="16dp" />
 
-                    <EditText
-                        android:id="@+id/username_edit"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="20dp"
                         android:background="@android:color/white"
-                        android:hint="@string/username"
-                        android:padding="5dp"
-                        android:singleLine="true"
-                        android:textColor="@android:color/black"
-                        android:textSize="16dp" />
+                        android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/password_edit"
+                        <EditText
+                            android:id="@+id/username_edit"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.9"
+                            android:background="@android:color/white"
+                            android:hint="@string/username"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/username_clear"
+                            android:layout_width="0dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="0.05"
+                            android:onClick="clearUsername"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/clear"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="20dp"
                         android:background="@android:color/white"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"
-                        android:padding="5dp"
-                        android:singleLine="true"
-                        android:textColor="@android:color/black"
-                        android:textSize="16dp"
-                        android:imeOptions="actionGo"/>
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/password_edit"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="0.9"
+                            android:background="@android:color/white"
+                            android:hint="@string/password"
+                            android:imeOptions="actionGo"
+                            android:inputType="textPassword"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:id="@+id/password_clear"
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="0.05"
+                            android:onClick="clearPasword"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/clear"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <Button
                         android:layout_width="match_parent"
@@ -105,6 +145,7 @@
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
+
     <View
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"

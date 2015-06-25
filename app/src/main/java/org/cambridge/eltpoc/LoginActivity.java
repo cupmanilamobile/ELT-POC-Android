@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,6 +38,9 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
     private View loadingLayout;
     private ImageView loginLayout;
 
+    private ImageView usernameClear;
+    private ImageView passwordClear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,8 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         progressBar = (ProgressBar) findViewById(R.id.progress);
         loadingLayout = findViewById(R.id.loading_layout);
         loginLayout = (ImageView) findViewById(R.id.login_layout);
+        usernameClear = (ImageView) findViewById(R.id.username_clear);
+        passwordClear = (ImageView) findViewById(R.id.password_clear);
 
         if(isPortrait())
             updateBackground(1.5f, 1);
@@ -67,6 +74,46 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
                 if (actionId == EditorInfo.IME_ACTION_GO)
                     login(null);
                 return false;
+            }
+        });
+
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count == 0)
+                    usernameClear.setVisibility(View.GONE);
+                else
+                    usernameClear.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(count == 0)
+                    passwordClear.setVisibility(View.GONE);
+                else
+                    passwordClear.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -144,5 +191,15 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
     private boolean isPortrait() {
         int orientation = this.getResources().getConfiguration().orientation;
         return orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    public void clearUsername(View view) {
+        username.setText("");
+        usernameClear.setVisibility(View.GONE);
+    }
+
+    public void clearPasword(View view) {
+        password.setText("");
+        passwordClear.setVisibility(View.GONE);
     }
 }

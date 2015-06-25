@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 prevWebLevel = webLevel;
                 if (rotate.hasStarted())
                     rotate.cancel();
-                if(webLevel == VIDEO_LEVEL)
+                if (webLevel == VIDEO_LEVEL)
                     javaScriptInterface.showVideo();
-                else if(findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
+                else if (findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
                     javaScriptInterface.hideVideo();
             }
 
@@ -270,15 +270,17 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(LEARNING_URL) &&
-                            !webView.getUrl().equalsIgnoreCase(HOME_URL)) {
-                        webView.goBack();
-                    } else {
-                        finish();
+                    if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+                        drawerLayout.closeDrawer(Gravity.RIGHT);
+                    else {
+                        if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(LEARNING_URL) &&
+                                !webView.getUrl().equalsIgnoreCase(HOME_URL)) {
+                            webView.goBack();
+                        } else
+                            finish();
                     }
                     return true;
             }
-
         }
         return super.onKeyDown(keyCode, event);
     }
