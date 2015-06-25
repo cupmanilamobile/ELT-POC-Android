@@ -85,15 +85,15 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count == 0)
-                    usernameClear.setVisibility(View.GONE);
-                else
-                    usernameClear.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (s.toString().length() == 0)
+                    usernameClear.setVisibility(View.GONE);
+                else
+                    usernameClear.setVisibility(View.VISIBLE);
             }
         });
 
@@ -105,15 +105,15 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count == 0)
-                    passwordClear.setVisibility(View.GONE);
-                else
-                    passwordClear.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (s.toString().length() == 0)
+                    passwordClear.setVisibility(View.GONE);
+                else
+                    passwordClear.setVisibility(View.VISIBLE);
             }
         });
     }
