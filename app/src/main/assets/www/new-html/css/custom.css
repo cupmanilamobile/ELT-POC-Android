@@ -1,0 +1,159 @@
+/* Material Icons */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  vertical-align: bottom;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+/* Material Icons */
+
+
+.collection i {
+  margin-right: .5rem;
+}
+
+.secondary-content {
+  margin: .5em;
+  color: #757575;
+}
+
+/* CLASS VIEW */
+h2 {
+  font-size: 1.5em;
+}
+
+h6 {
+  margin-bottom: 2em;
+}
+
+.collapsible-body {
+  padding: 2em;
+}
+
+.collapsible-body p {
+  padding: 0;
+}
+
+.collapsible-body img {
+   max-width: 100%;
+}
+
+.author {
+  font-style: italic;
+  color: #666;
+  margin-bottom: .25em;
+}
+
+.collapsible-header.class {
+  background-color: #607D8B;
+  border: 1px solid #546E7A;
+  color: #fff;
+}
+
+.collapsible-body.class {
+  background-color: #FAFAFA;
+  border: 1px solid #BDBDBD;
+}
+
+@media only screen and (min-width : 600px) {
+    .collapsible-body h2 {
+      margin: 0 0 .5em;
+    }
+}
+
+
+/* CONTENT VIEW */
+/* Unit */
+.collapsible-header.content {
+  background-color: #3F51B5;
+  border: 1px solid #303F9F;
+  color: #fff;
+  position: relative;
+}
+
+.collapsible-header.content.active:before {
+  border-color: #3F51B5 transparent transparent;
+  border-style: solid;
+  border-width: 10px;
+  bottom: -50%;
+  content: "";
+  display: block;
+  height: 0;
+  left: 2.5em;
+  position: absolute;
+  width: 0;
+  z-index: 100;
+}
+/* Unit */
+
+/* Lesson */
+.collapsible-body.content ul.collapsible .collapsible-header {
+  background-color: #2196F3;
+  border: 1px solid #1976D2;
+  color: #fff;
+  position: relative;
+}
+
+.collapsible-body.content ul.collapsible .collapsible-header.active:before {
+  border-color: #2196f3 transparent transparent;
+  border-style: solid;
+  border-width: 10px;
+  bottom: -50%;
+  content: "";
+  display: block;
+  height: 0;
+  left: 2.5em;
+  position: absolute;
+  width: 0;
+  z-index: 10;
+}
+
+.collapsible-body.content span.badge {
+    margin-right: -15px;
+}
+/* Lesson */
+
+/* Margins */
+.collapsible-body.content,
+.collapsible-body.content ul.collapsible .collapsible-body {
+  padding: 0;
+}
+
+.collapsible-body.content ul.collapsible,
+.collapsible-body.content ul.collapsible .collapsible-body .collection {
+  margin: 0;
+  border: 0;
+}
+/* Margins */
+
