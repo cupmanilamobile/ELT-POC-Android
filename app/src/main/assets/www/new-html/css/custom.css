@@ -39,6 +39,19 @@
 /* Material Icons */
 
 
+html, body {
+  font-weight: 100;
+}
+
+
+.collection a.collection-item {
+    color: #2196F3;
+}
+
+span.badge.new {
+    background-color: #FF8F00;
+}
+
 .collection i {
   margin-right: .5rem;
 }
@@ -51,6 +64,7 @@
 /* CLASS VIEW */
 h2 {
   font-size: 1.5em;
+  color: #616161;
 }
 
 h6 {
@@ -76,8 +90,8 @@ h6 {
 }
 
 .collapsible-header.class {
-  background-color: #607D8B;
-  border: 1px solid #546E7A;
+  background-color: #c8b269;
+  border: 1px solid #b4a05c;
   color: #fff;
 }
 
@@ -96,14 +110,14 @@ h6 {
 /* CONTENT VIEW */
 /* Unit */
 .collapsible-header.content {
-  background-color: #3F51B5;
-  border: 1px solid #303F9F;
+  background-color: #37474F;
+  border: 1px solid #263238;
   color: #fff;
   position: relative;
 }
 
 .collapsible-header.content.active:before {
-  border-color: #3F51B5 transparent transparent;
+  border-color: #37474F transparent transparent;
   border-style: solid;
   border-width: 10px;
   bottom: -50%;
@@ -119,14 +133,14 @@ h6 {
 
 /* Lesson */
 .collapsible-body.content ul.collapsible .collapsible-header {
-  background-color: #2196F3;
-  border: 1px solid #1976D2;
+  background-color: #607D8B;
+  border: 1px solid #546E7A;
   color: #fff;
   position: relative;
 }
 
 .collapsible-body.content ul.collapsible .collapsible-header.active:before {
-  border-color: #2196f3 transparent transparent;
+  border-color: #607D8B transparent transparent;
   border-style: solid;
   border-width: 10px;
   bottom: -50%;
@@ -141,6 +155,10 @@ h6 {
 
 .collapsible-body.content span.badge {
     margin-right: -15px;
+}
+
+ul.collapsible li.active div.collapsible-body.content {
+  border-bottom: 0;
 }
 /* Lesson */
 
