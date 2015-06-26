@@ -175,3 +175,30 @@ ul.collapsible li.active div.collapsible-body.content {
 }
 /* Margins */
 
+
+/* Video */
+@media only screen and (max-width : 600px) {
+    .material-icons {
+        line-height: inherit;
+    }
+}
+
+nav {
+    background-color: #D50000;
+}
+
+nav .brand-logo {
+    font-size: 1.2em;
+}
+
+nav ul a {
+  padding: 0 10px;
+}
+
+video.responsive-video {
+  margin: 1.14rem 0 0.912rem;
+}
+
+.video h3 {
+  color: #212121;
+}
