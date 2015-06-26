@@ -213,6 +213,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         navigationDrawerAdapter = new NavigationDrawerAdapter(this, navigationArray, navigationDrawables);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationList = (ListView) findViewById(R.id.right_drawer);
+        View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
+        navigationList.addHeaderView(header);
         navigationList.setAdapter(navigationDrawerAdapter);
         navigationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -259,8 +261,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         toolbarTitle.setText(R.string.learning);
-        View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
-        navigationList.addHeaderView(header);
 
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
         ((TextView) header.findViewById(R.id.profile_name)).setText(user.getUsername());
