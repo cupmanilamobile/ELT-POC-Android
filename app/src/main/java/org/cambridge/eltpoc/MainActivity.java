@@ -28,11 +28,13 @@ import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSClass;
 import org.cambridge.eltpoc.model.CLMSCourse;
 import org.cambridge.eltpoc.model.CLMSModel;
+import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.model.CLMSWebModel;
 import org.cambridge.eltpoc.observers.CLMSClassListObserver;
 import org.cambridge.eltpoc.observers.Observer;
 import org.cambridge.eltpoc.util.Misc;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
+import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -259,6 +261,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         toolbarTitle.setText(R.string.learning);
         View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
         navigationList.addHeaderView(header);
+
+        CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
+        ((TextView) header.findViewById(R.id.profile_name)).setText(user.getUsername());
     }
 
     private void initTabs() {

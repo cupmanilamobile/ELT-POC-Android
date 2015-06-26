@@ -96,8 +96,7 @@ public class CLMSJavaScriptInterface {
             public boolean shouldSkipClass(Class<?> clazz) {
                 return false;
             }
-        }).create()
-                ;
+        }).create();
         CLMSUser user = gson.fromJson(jsonAuth, CLMSUser.class);
         user.setUsername(username);
         user.setPassword(password);
@@ -177,9 +176,8 @@ public class CLMSJavaScriptInterface {
             @Override
             public void success(CLMSClassList clmsClassList, Response response) {
                 // Save class lists here!
-                for (CLMSClass clmsClass : clmsClassList.getClassLists()) {
+                for (CLMSClass clmsClass : clmsClassList.getClassLists())
                     RealmTransactionUtils.saveClass(activity, clmsClass, true);
-                }
                 ELTApplication.getInstance().getClassListObserver().setClassList(clmsClassList);
                 ELTApplication.getInstance().getClassListObserver().notifyObservers();
             }
