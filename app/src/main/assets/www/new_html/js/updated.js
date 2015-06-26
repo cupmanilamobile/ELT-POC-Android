@@ -32,57 +32,40 @@ function addClass(count, classes) {
     return name;
 }
 
-function addLearningCourse(count, courses) {
-    clearList();
+function addCourse(count, courses) {
     for(var i = 0; i < count; i++) {
-        $('#course-list').append('<li>' +
-                            '<div class="collapsible-header class">' +
-                                '<i class="material-icons">class</i>' + courses[i].Name +
-                            '</div>' +
-                                '<div class="collapsible-body class">' +
-                                    '<div class="row">' +
-                                        '<div class="col s12 m4 l3">' +
-                                            '<img src="images/cambridge-touchstone.jpg">' +
-                                        '</div>' +
-                                        '<div class="col s12 m8 l9">' +
-                                            '<h2>'+ courses[i].Name +'</h2>' +
-                                            '<div class="author">Dr. Julius Wilson</div>' +
-                                            '<p>Uniquely incubate one-to-one manufactured products through 24/365 niches. Monotonectally unleash. </p>' +
-                                            '<div class="collection">' +
-                                            addClass(courses[i].ClassSize, courses[i].Classes) +
+            $('#course-list').append('<li>' +
+                                '<div class="collapsible-header class">' +
+                                    '<i class="material-icons">class</i>' + courses[i].Name +
+                                '</div>' +
+                                    '<div class="collapsible-body class">' +
+                                        '<div class="row">' +
+                                            '<div class="col s12 m4 l3">' +
+                                                '<img src="images/cambridge-touchstone.jpg">' +
+                                            '</div>' +
+                                            '<div class="col s12 m8 l9">' +
+                                                '<h2>'+ courses[i].Name +'</h2>' +
+                                                '<div class="author">Dr. Julius Wilson</div>' +
+                                                '<p>Uniquely incubate one-to-one manufactured products through 24/365 niches. Monotonectally unleash. </p>' +
+                                                '<div class="collection">' +
+                                                addClass(courses[i].ClassSize, courses[i].Classes) +
+                                                '</div>' +
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +
-                                '</div>' +
-                            '</li>').collapsible();
-//                            '<a href="content.html" class="collection-item">Class 2<span class="new badge">4</span></a>'
-    }
+                                '</li>').collapsible();
+    //                            '<a href="content.html" class="collection-item">Class 2<span class="new badge">4</span></a>'
+        }
+}
+
+function addLearningCourse(count, courses) {
+    clearList();
+    addCourse(count, courses);
 }
 
 function addTeachingCourse(count, courses) {
     clearList();
-    for(var i = 0; i < count; i++) {
-        $('#course-list').append('<li>' +
-                                    '<div class="collapsible-header class">' +
-                                        '<i class="material-icons">class</i>' + courses[i].Name +
-                                    '</div>' +
-                                        '<div class="collapsible-body class">' +
-                                            '<div class="row">' +
-                                                '<div class="col s12 m4 l3">' +
-                                                    '<img src="images/cambridge-touchstone.jpg">' +
-                                                '</div>' +
-                                                '<div class="col s12 m8 l9">' +
-                                                    '<h2>'+ courses[i].Name +'</h2>' +
-                                                    '<div class="author">Dr. Julius Wilson</div>' +
-                                                    '<p>Uniquely incubate one-to-one manufactured products through 24/365 niches. Monotonectally unleash. </p>' +
-                                                    '<div class="collection">' +
-                                                    addClass(courses[i].ClassSize, courses[i].Classes) +
-                                                    '</div>' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</li>').collapsible();
-    }
+    addCourse(count, courses);
 }
 
 function scrollToElement(id) {

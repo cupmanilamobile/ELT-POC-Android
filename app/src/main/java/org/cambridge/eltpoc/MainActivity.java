@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private static final String TEACHING_URL = "file:///android_asset/www/new_html/index_teaching.html";
     private static final String LESSON_DONWLOADED_URL = "file:///android_asset/www/new_html/content_downloaded.html";
     private static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/new_html/content.html";
-    private static final String VIDEO_URL = "file:///android_asset/www/index.html#video";
+    private static final String VIDEO_URL = "file:///android_asset/www/new_html/video.html";
 
     private static final int HOME_LEVEL = 0;
     private static final int LESSON_LEVEL = 1;
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     toolbarTitle.setText(R.string.learning);
                     break;
                 case LESSON_LEVEL:
-                    webView.loadUrl(LESSON_DONWLOADED_URL);
+                    webView.loadUrl(LESSON_ALL_CONTENT_URL);
                     break;
             }
         }
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     toolbarTitle.setText(R.string.teaching);
                     break;
                 case LESSON_LEVEL:
-                    webView.loadUrl(LESSON_ALL_CONTENT_URL);
+                    webView.loadUrl(LESSON_DONWLOADED_URL);
                     break;
             }
         }
