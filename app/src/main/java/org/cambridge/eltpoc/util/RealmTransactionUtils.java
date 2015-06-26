@@ -28,6 +28,24 @@ public class RealmTransactionUtils {
         return users;
     }
 
+    public static ArrayList<CLMSCourse> getAllCourses(Context context) {
+        Realm realm = Realm.getInstance(context);
+        RealmResults<CLMSCourse> result = realm.where(CLMSCourse.class).findAll();
+        ArrayList<CLMSCourse> courses = new ArrayList<>();
+        for (CLMSCourse course : result)
+            courses.add(course);
+        return courses;
+    }
+
+    public static ArrayList<CLMSClass> getClassesByCourseId(Context context, int id) {
+        Realm realm = Realm.getInstance(context);
+        RealmResults<CLMSClass> result = realm.where(CLMSClass.class).equalTo("courseId", id).findAll();
+        ArrayList<CLMSClass> classes = new ArrayList<>();
+        for (CLMSClass cClass : result)
+            classes.add(cClass);
+        return classes;
+    }
+
     public static void saveUser(Context context, CLMSUser user) {
         Realm realm = Realm.getInstance(context);
         RealmResults<CLMSUser> result = realm.where(CLMSUser.class)

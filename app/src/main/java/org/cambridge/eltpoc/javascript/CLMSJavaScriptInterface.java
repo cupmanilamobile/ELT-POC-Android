@@ -20,6 +20,7 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.LoginActivity;
 import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.api.ClassDeserializer;
@@ -95,16 +96,20 @@ public class CLMSJavaScriptInterface {
             public boolean shouldSkipClass(Class<?> clazz) {
                 return false;
             }
-        }).create();
+        }).create()
+                ;
         CLMSUser user = gson.fromJson(jsonAuth, CLMSUser.class);
         user.setUsername(username);
         user.setPassword(password);
+
+        ELTApplication.getInstance().setCurrentUser(user);
+
         RealmTransactionUtils.saveUser(activity, user);
         saveCourseList(user.getAccessToken());
         saveClassList(user.getAccessToken());
-        getUnitScore(user.getAccessToken(), 111597, 108116);
-        getLessonScore(user.getAccessToken(), 111597, 108116, 240);
-        getContentScore(user.getAccessToken(), 111597, 108116, 240, 241);
+//        getUnitScore(user.getAccessToken(), 111597, 108116);
+//        getLessonScore(user.getAccessToken(), 111597, 108116, 240);
+//        getContentScore(user.getAccessToken(), 111597, 108116, 240, 241);
     }
 
     @JavascriptInterface
@@ -134,6 +139,8 @@ public class CLMSJavaScriptInterface {
             @Override
             public void success(CLMSCourseList clmsCourseList, Response response) {
                 RealmTransactionUtils.saveCourseList(activity, clmsCourseList);
+                ELTApplication.getInstance().getCourseListObserver().setCourseList(clmsCourseList);
+                ELTApplication.getInstance().getCourseListObserver().notifyObservers();
             }
 
             @Override
@@ -170,8 +177,10 @@ public class CLMSJavaScriptInterface {
             @Override
             public void success(CLMSClassList clmsClassList, Response response) {
                 // Save class lists here!
-                for(CLMSClass clmsClass : clmsClassList.getClassLists())
+                for (CLMSClass clmsClass : clmsClassList.getClassLists())
                     RealmTransactionUtils.saveClass(activity, clmsClass, true);
+                ELTApplication.getInstance().getClassListObserver().setClassList(clmsClassList);
+                ELTApplication.getInstance().getClassListObserver().notifyObservers();
             }
 
             @Override
@@ -277,45 +286,21 @@ public class CLMSJavaScriptInterface {
             public void onPostCompleted(String response, boolean isFailed) {
                 JSONObject object = null;
                 try {
+                    System.out.println("RESPONSE: " + response);
                     object = (JSONObject) new JSONTokener(response).nextValue();
-                    if (object.getString("access_token") != null) {
+                    if (object.getString("access_token") != null)
                         saveAuthenticationLogin(response, user, password);
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
-                webModel.setHasError(isFailed);
-                webModel.notifyObservers();
+                if (webModel != null) {
+                    webModel.setHasError(isFailed);
+                    webModel.notifyObservers();
+                }
             }
         });
         post.execute();
-
-//        //Retrofit Approach
-//        ConnectionClient connectionClient = new ConnectionClient();
-//        connectionClient.setupBearerTokenClient();
-//        connectionClient.getService().getBearerTokenWithCallback("password", "app", user, password,
-//                new Callback<CLMSUser>() {
-//                    @Override
-//                    public void success(CLMSUser clmsUser, Response response) {
-//                        SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
-//                        webModel.notifyObservers();
-//                    }
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
-//                        alertDialog.setTitle("Authentication Failed");
-//                        alertDialog.setMessage(error.getMessage());
-//                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                });
-//                        alertDialog.show();
-//                    }
-//                });
-
     }
 
     @JavascriptInterface
@@ -391,5 +376,22 @@ public class CLMSJavaScriptInterface {
         SharedPreferencesUtils.updateLoggedInUser(activity, "", "");
         Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
+    }
+
+    @JavascriptInterface
+    public void print() {
+        System.out.println("THIS IS A TEST");
+    }
+
+    @JavascriptInterface
+    public void showClass() {
+        String CLASS_URL = "file:///android_asset/www/new_html/content.html";
+        ELTApplication.getInstance().getLinkModel().setWebLink(CLASS_URL);
+        ELTApplication.getInstance().getLinkModel().notifyObservers();
+    }
+
+    @JavascriptInterface
+    public void updateClassName(String className) {
+        ELTApplication.getInstance().getLinkModel().setClassName(className);
     }
 }

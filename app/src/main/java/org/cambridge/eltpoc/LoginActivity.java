@@ -149,7 +149,7 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
                 Misc.checkInternetConnection(this)) {
             startMainActivity();
             try {
-                new CLMSJavaScriptInterface(this, webModel).authenticateLogin(
+                new CLMSJavaScriptInterface(this, null).authenticateLogin(
                         user.getUsername(), user.getPassword());
             } catch (MalformedURLException e) {
                 e.printStackTrace();

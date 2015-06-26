@@ -18,7 +18,6 @@ public class CLMSClassList extends RealmObject {
 
     public CLMSClassList() { }
 
-
     public String getKind() {
         return kind;
     }

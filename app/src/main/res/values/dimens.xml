@@ -5,4 +5,5 @@
     <dimen name="video_size">300dp</dimen>
     <dimen name="navigation_list_width">240dp</dimen>
     <dimen name="video_margin_top">550dp</dimen>
+    <dimen name="nav_text_size">18sp</dimen>
 </resources>
