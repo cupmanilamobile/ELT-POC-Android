@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private static final int VIDEO_LEVEL = 2;
 
     private int webLevel = HOME_LEVEL;
-    private int prevWebLevel = webLevel;
 
     private CLMSModel webModel = new CLMSModel();
     private CLMSWebModel internetModel = ELTApplication.getInstance().getWebModel();
@@ -145,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 updateWebLevel(url);
                 updateTabTitle();
                 updateTabs();
-                prevWebLevel = webLevel;
                 if (rotate.hasStarted())
                     rotate.cancel();
                 if (webLevel == VIDEO_LEVEL)
@@ -169,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 super.onPageStarted(view, url, favicon);
                 loadingLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                webView.setLayoutParams(params);
                 rotateIcon();
             }
         });
