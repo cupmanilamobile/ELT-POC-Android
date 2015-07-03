@@ -14,10 +14,11 @@ import org.cambridge.eltpoc.R;
  * Created by etorres on 6/23/15.
  */
 public class NavigationDrawerAdapter extends BaseAdapter {
-    private static final int ITEM_COUNT = 4;
+    private static final int ITEM_COUNT = 3;
     private String[] navigationArray;
     private int[] navigationDrawables;
     private Context context;
+    private boolean isRemoved = false;
 
     public NavigationDrawerAdapter(Context context, String[] navigationArray, int[] navigationDrawables) {
         this.navigationArray = navigationArray;
@@ -25,8 +26,18 @@ public class NavigationDrawerAdapter extends BaseAdapter {
         this.context = context;
     }
 
+    public void removeTeachingTab(boolean isRemoved) {
+        this.isRemoved = isRemoved;
+    }
+
+    public boolean isRemoved() {
+        return isRemoved;
+    }
+
     @Override
     public int getCount() {
+        if (isRemoved)
+            return ITEM_COUNT - 1;
         return ITEM_COUNT;
     }
 
@@ -45,14 +56,19 @@ public class NavigationDrawerAdapter extends BaseAdapter {
         ViewHolder viewHolder = new ViewHolder();
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.navigation_item, parent, false);
-            viewHolder.text = (TextView)convertView.findViewById(R.id.navigation_text);
-            viewHolder.icon = (ImageView)convertView.findViewById(R.id.navigation_icon);
+            viewHolder.text = (TextView) convertView.findViewById(R.id.navigation_text);
+            viewHolder.icon = (ImageView) convertView.findViewById(R.id.navigation_icon);
             convertView.setTag(viewHolder);
+        } else
+            viewHolder = (ViewHolder) convertView.getTag();
+        if(!isRemoved || position < getCount()-1) {
+            viewHolder.text.setText(navigationArray[position]);
+            viewHolder.icon.setImageResource(navigationDrawables[position]);
         }
-        else
-            viewHolder = (ViewHolder)convertView.getTag();
-        viewHolder.text.setText(navigationArray[position]);
-        viewHolder.icon.setImageResource(navigationDrawables[position]);
+        else if(isRemoved && position == getCount()-1) {
+            viewHolder.text.setText(navigationArray[2]);
+            viewHolder.icon.setImageResource(navigationDrawables[2]);
+        }
         return convertView;
     }
 

@@ -35,6 +35,7 @@ import org.cambridge.eltpoc.observers.Observer;
 import org.cambridge.eltpoc.util.Misc;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
+import org.cambridge.eltpoc.util.UIUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,23 +44,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements Observer<CLMSModel> {
     private WebView webView;
-    private static final String LEARNING_URL = "file:///android_asset/www/new_html/index.html";
-    private static final String TEACHING_URL = "file:///android_asset/www/new_html/index_teaching.html";
-    private static final String LESSON_DONWLOADED_URL = "file:///android_asset/www/new_html/content_downloaded.html";
-    private static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/new_html/content.html";
-    private static final String VIDEO_URL = "file:///android_asset/www/new_html/video.html";
-
-    private static final int HOME_LEVEL = 0;
-    private static final int LESSON_LEVEL = 1;
-    private static final int VIDEO_LEVEL = 2;
-
-    private int webLevel = HOME_LEVEL;
+    private int webLevel = Constants.HOME_LEVEL;
 
     private CLMSModel webModel = new CLMSModel();
     private CLMSWebModel internetModel = ELTApplication.getInstance().getWebModel();
 
-    private String[] navigationArray = new String[4];
-    private int[] navigationDrawables = new int[4];
     private NavigationDrawerAdapter navigationDrawerAdapter;
     private DrawerLayout drawerLayout;
     private ListView navigationList;
@@ -71,11 +60,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private View refreshIcon;
     private ImageView wifiIcon;
     private RotateAnimation rotate;
-
-    private static final int HOME = 1;
-    private static final int LEARNING = 2;
-    private static final int TEACHING = 3;
-    private static final int SIGN_OUT = 4;
 
     private boolean isNavigationPressed = false;
     private int navigationPositionPressed;
@@ -94,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         javaScriptInterface = new CLMSJavaScriptInterface(MainActivity.this, webModel);
         initViews();
         addWebViewListener();
+        updateTabVisibility(0, 0);
     }
 
     private void initViews() {
@@ -118,13 +103,10 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private void updateTabTitle() {
         int title = 0;
         switch (webLevel) {
-            case HOME_LEVEL:
-                if (webView.getUrl().equalsIgnoreCase(LEARNING_URL))
-                    title = R.string.learning;
-                else if (webView.getUrl().equalsIgnoreCase(TEACHING_URL))
-                    title = R.string.teaching;
+            case Constants.HOME_LEVEL:
+                title = R.string.app_name;
                 break;
-            case VIDEO_LEVEL:
+            case Constants.VIDEO_LEVEL:
                 title = R.string.video_page;
                 break;
         }
@@ -137,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private void addWebViewListener() {
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-                if (url.equalsIgnoreCase(LEARNING_URL) || url.equalsIgnoreCase(TEACHING_URL))
+                if (url.equalsIgnoreCase(Constants.LEARNING_URL) ||
+                        url.equalsIgnoreCase(Constants.TEACHING_URL))
                     updateArrowIcon(false);
                 else
                     updateArrowIcon(true);
@@ -146,15 +129,16 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 updateTabs();
                 if (rotate.hasStarted())
                     rotate.cancel();
-                if (webLevel == VIDEO_LEVEL)
+                if (webLevel == Constants.VIDEO_LEVEL)
                     javaScriptInterface.showVideo();
                 else if (findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
                     javaScriptInterface.hideVideo();
-                if (url.equalsIgnoreCase(TEACHING_URL))
+                if (url.equalsIgnoreCase(Constants.TEACHING_URL))
                     updateContent(false);
-                else if (url.equalsIgnoreCase(LEARNING_URL))
+                else if (url.equalsIgnoreCase(Constants.LEARNING_URL))
                     updateContent(true);
-                if (url.equalsIgnoreCase(LEARNING_URL) || url.equalsIgnoreCase(LESSON_ALL_CONTENT_URL))
+                if (url.equalsIgnoreCase(Constants.LEARNING_URL) ||
+                        url.equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL))
                     updateTabPressed(true);
                 else
                     updateTabPressed(false);
@@ -177,19 +161,19 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
 
     private void updateWebLevel(String url) {
         switch (url) {
-            case LEARNING_URL:
-            case TEACHING_URL:
-                webLevel = HOME_LEVEL;
+            case Constants.LEARNING_URL:
+            case Constants.TEACHING_URL:
+                webLevel = Constants.HOME_LEVEL;
                 break;
-            case LESSON_ALL_CONTENT_URL:
-            case LESSON_DONWLOADED_URL:
-                webLevel = LESSON_LEVEL;
+            case Constants.LESSON_ALL_CONTENT_URL:
+            case Constants.LESSON_DONWLOADED_URL:
+                webLevel = Constants.LESSON_LEVEL;
                 break;
-            case VIDEO_URL:
-                webLevel = VIDEO_LEVEL;
+            case Constants.VIDEO_URL:
+                webLevel = Constants.VIDEO_LEVEL;
                 break;
             default:
-                webLevel = HOME_LEVEL;
+                webLevel = Constants.HOME_LEVEL;
         }
     }
 
@@ -204,14 +188,13 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         webView = (WebView) findViewById(R.id.webview);
         webModel.registerObserver(this);
         webView.addJavascriptInterface(javaScriptInterface, "JSInterface");
-        webView.loadUrl(LEARNING_URL);
+        webView.loadUrl(Constants.LEARNING_URL);
         webView.getSettings().setJavaScriptEnabled(true);
     }
 
     private void initDrawer() {
-        initNavigationArray();
-        initNavigationDrawables();
-        navigationDrawerAdapter = new NavigationDrawerAdapter(this, navigationArray, navigationDrawables);
+        navigationDrawerAdapter = new NavigationDrawerAdapter(this, UIUtils.getNavigationArray(this),
+                UIUtils.getNavigationDrawables());
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationList = (ListView) findViewById(R.id.right_drawer);
         View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
@@ -227,24 +210,23 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         });
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.home, R.string.home) {
-
-            /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
                 if (isNavigationPressed) {
                     switch (navigationPositionPressed) {
-                        case HOME:
-                            break;
-                        case LEARNING:
-                            webLevel = HOME_LEVEL;
+                        case Constants.LEARNING:
+                            webLevel = Constants.HOME_LEVEL;
                             learningPressed(null);
                             break;
-                        case TEACHING:
-                            webLevel = HOME_LEVEL;
-                            teachingPressed(null);
+                        case Constants.TEACHING:
+                            webLevel = Constants.HOME_LEVEL;
+                            if(navigationDrawerAdapter.isRemoved())
+                                javaScriptInterface.signOutUser();
+                            else
+                                teachingPressed(null);
                             break;
-                        case SIGN_OUT:
+                        case Constants.SIGN_OUT:
                             javaScriptInterface.signOutUser();
                             break;
                     }
@@ -261,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-        toolbarTitle.setText(R.string.learning);
+        toolbarTitle.setText(R.string.app_name);
 
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
         ((TextView) header.findViewById(R.id.profile_name)).setText(user.getUsername());
@@ -277,20 +259,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         learningText.setSelected(true);
     }
 
-    private void initNavigationArray() {
-        navigationArray[0] = getResources().getString(R.string.home);
-        navigationArray[1] = getResources().getString(R.string.learning);
-        navigationArray[2] = getResources().getString(R.string.teaching);
-        navigationArray[3] = getResources().getString(R.string.sign_out);
-    }
-
-    private void initNavigationDrawables() {
-        navigationDrawables[0] = R.drawable.ic_home_white_36dp;
-        navigationDrawables[1] = R.drawable.ic_school_white_36dp;
-        navigationDrawables[2] = R.drawable.ic_account_balance_white_36dp;
-        navigationDrawables[3] = R.drawable.ic_input_white_36dp;
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
@@ -299,8 +267,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
                         drawerLayout.closeDrawer(Gravity.RIGHT);
                     else {
-                        if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(LEARNING_URL) &&
-                                !webView.getUrl().equalsIgnoreCase(TEACHING_URL)) {
+                        if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(Constants.LEARNING_URL) &&
+                                !webView.getUrl().equalsIgnoreCase(Constants.TEACHING_URL)) {
                             webView.goBack();
                         } else
                             finish();
@@ -381,12 +349,12 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         if (!learningLayout.isSelected()) {
             updateTabPressed(true);
             switch (webLevel) {
-                case HOME_LEVEL:
-                    webView.loadUrl(LEARNING_URL);
-                    toolbarTitle.setText(R.string.learning);
+                case Constants.HOME_LEVEL:
+                    webView.loadUrl(Constants.LEARNING_URL);
+                    toolbarTitle.setText(R.string.app_name);
                     break;
-                case LESSON_LEVEL:
-                    webView.loadUrl(LESSON_ALL_CONTENT_URL);
+                case Constants.LESSON_LEVEL:
+                    webView.loadUrl(Constants.LESSON_ALL_CONTENT_URL);
                     break;
             }
         }
@@ -410,12 +378,12 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         if (!teachingLayout.isSelected()) {
             updateTabPressed(false);
             switch (webLevel) {
-                case HOME_LEVEL:
-                    webView.loadUrl(TEACHING_URL);
-                    toolbarTitle.setText(R.string.teaching);
+                case Constants.HOME_LEVEL:
+                    webView.loadUrl(Constants.TEACHING_URL);
+                    toolbarTitle.setText(R.string.app_name);
                     break;
-                case LESSON_LEVEL:
-                    webView.loadUrl(LESSON_DONWLOADED_URL);
+                case Constants.LESSON_LEVEL:
+                    webView.loadUrl(Constants.LESSON_DONWLOADED_URL);
                     break;
             }
         }
@@ -447,13 +415,13 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
 
     private void updateTabs() {
         findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
-        if (webLevel == LESSON_LEVEL) {
+        if (webLevel == Constants.LESSON_LEVEL) {
             learningText.setText(R.string.all_content);
             teachingText.setText(R.string.downloaded_content);
-        } else if (webLevel == HOME_LEVEL) {
+        } else if (webLevel == Constants.HOME_LEVEL) {
             learningText.setText(R.string.my_learning);
             teachingText.setText(R.string.my_teaching);
-        } else if (webLevel == VIDEO_LEVEL)
+        } else if (webLevel == Constants.VIDEO_LEVEL)
             findViewById(R.id.tab_layout).setVisibility(View.GONE);
     }
 
@@ -470,32 +438,42 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         JSONArray courseArray = new JSONArray();
         JSONArray classArray = new JSONArray();
         ArrayList<CLMSCourse> courses = RealmTransactionUtils.getAllCourses(this);
+        int learningCount = 0;
+        int teachingCount = 0;
         for (CLMSCourse course : courses) {
             ArrayList<CLMSClass> classes = RealmTransactionUtils.getClassesByCourseId(this, course.getNid());
             classArray = new JSONArray();
             obj = new JSONObject();
-            String type = "BOTH";
+            String type = Constants.TYPE_BOTH;
             try {
                 obj.put("Count", classes.size());
                 obj.put("Name", course.getName());
                 obj.put("Id", course.getNid());
+                obj.put("Image", course.getProductLogo());
                 int teachCount = 0;
                 int studentCount = 0;
                 for (CLMSClass cCLass : classes) {
-                    if (cCLass.getClassRole().equalsIgnoreCase("teacher"))
+                    if (cCLass.getClassRole().equalsIgnoreCase(Constants.ROLE_TEACHER))
                         ++teachCount;
-                    else if (cCLass.getClassRole().equalsIgnoreCase("student"))
+                    else if (cCLass.getClassRole().equalsIgnoreCase(Constants.ROLE_STUDENT))
                         ++studentCount;
                     JSONObject classObj = new JSONObject();
                     classObj.put("ClassName", cCLass.getClassName());
                     classArray.put(classObj);
                 }
-                if (studentCount > 0 && teachCount > 0)
-                    type = "BOTH";
-                else if (studentCount > 0)
-                    type = "LEARNING";
-                else if (teachCount > 0)
-                    type = "TEACHING";
+                if (studentCount > 0 && teachCount > 0) {
+                    type = Constants.TYPE_BOTH;
+                    learningCount++;
+                    teachingCount++;
+                }
+                else if (studentCount > 0) {
+                    type = Constants.TYPE_LEARNING;
+                    learningCount++;
+                }
+                else if (teachCount > 0) {
+                    type = Constants.TYPE_TEACHING;
+                    teachingCount++;
+                }
                 obj.put("Type", type);
                 obj.put("Classes", classArray);
                 obj.put("ClassSize", classArray.length());
@@ -504,18 +482,31 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             }
             if (classes.size() > 0) {
                 if (isLearning) {
-                    if (type.equalsIgnoreCase("BOTH") || type.equalsIgnoreCase("LEARNING")) {
+                    if (type.equalsIgnoreCase(Constants.TYPE_BOTH) ||
+                            type.equalsIgnoreCase(Constants.TYPE_LEARNING))
                         courseArray.put(obj);
-                    }
                 } else {
-                    if (type.equalsIgnoreCase("BOTH") || type.equalsIgnoreCase("TEACHING"))
+                    if (type.equalsIgnoreCase(Constants.TYPE_BOTH) ||
+                            type.equalsIgnoreCase(Constants.TYPE_TEACHING))
                         courseArray.put(obj);
                 }
             }
         }
+        updateTabVisibility(learningCount, teachingCount);
         if (isLearning)
             webView.loadUrl("javascript:addLearningCourse('" + courseArray.length() + "', " + courseArray + ")");
         else
             webView.loadUrl("javascript:addTeachingCourse('" + courseArray.length() + "', " + courseArray + ")");
+    }
+
+    private void updateTabVisibility(int learningCount, int teachingCount) {
+        if(learningCount > 0)
+            learningLayout.setVisibility(View.VISIBLE);
+        else
+            learningLayout.setVisibility(View.GONE);
+        if(teachingCount > 0)
+            teachingLayout.setVisibility(View.VISIBLE);
+        else
+            teachingLayout.setVisibility(View.GONE);
     }
 }

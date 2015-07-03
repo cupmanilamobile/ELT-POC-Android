@@ -32,16 +32,30 @@ function addClass(count, classes) {
     return name;
 }
 
+function addImage(image) {
+    if(image == '')
+        return '<img src="images/cambridge-touchstone.jpg">';
+    else
+        return '<img src="'+ image +'">';
+}
+
+function truncateName(name) {
+    if(name.length > 30)
+        return name.substring(0, 27) + '...';
+    else
+        return name;
+}
+
 function addCourse(count, courses) {
     for(var i = 0; i < count; i++) {
             $('#course-list').append('<li>' +
                                 '<div class="collapsible-header class">' +
-                                    '<i class="material-icons">class</i>' + courses[i].Name +
+                                    '<i class="material-icons">class</i>' + truncateName(courses[i].Name) +
                                 '</div>' +
                                     '<div class="collapsible-body class">' +
                                         '<div class="row">' +
                                             '<div class="col s12 m4 l3">' +
-                                                '<img src="images/cambridge-touchstone.jpg">' +
+                                                 addImage(courses[i].Image)+
                                             '</div>' +
                                             '<div class="col s12 m8 l9">' +
                                                 '<h2>'+ courses[i].Name +'</h2>' +

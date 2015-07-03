@@ -1,6 +1,8 @@
 package org.cambridge.eltpoc;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -136,6 +138,8 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         loadingLayout.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         try {
+            System.out.println("USERNAME: "+username.getText().toString());
+            System.out.println("PASSWORD: "+password.getText().toString());
             new CLMSJavaScriptInterface(this, webModel).authenticateLogin(
                     username.getText().toString(), password.getText().toString());
         } catch (MalformedURLException e) {
@@ -170,6 +174,18 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         progressBar.setVisibility(View.GONE);
         if (!model.isHasError())
             startMainActivity();
+        else {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("ERROR");
+            alertDialog.setMessage(model.getErrorMessage());
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
     }
 
     @Override

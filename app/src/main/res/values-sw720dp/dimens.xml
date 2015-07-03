@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="login_layout_width">620dp</dimen>
+</resources>

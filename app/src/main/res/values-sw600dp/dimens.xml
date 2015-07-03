@@ -3,4 +3,5 @@
     <dimen name="video_size">520dp</dimen>
     <dimen name="video_margin_top">400dp</dimen>
     <dimen name="nav_text_size">24sp</dimen>
+    <dimen name="login_layout_width">500dp</dimen>
 </resources>

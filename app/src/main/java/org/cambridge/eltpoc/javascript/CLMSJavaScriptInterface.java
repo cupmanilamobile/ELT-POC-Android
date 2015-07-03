@@ -285,14 +285,23 @@ public class CLMSJavaScriptInterface {
             public void onPostCompleted(String response, boolean isFailed) {
                 JSONObject object = null;
                 try {
-                    System.out.println("RESPONSE: " + response);
                     object = (JSONObject) new JSONTokener(response).nextValue();
-                    if (object.getString("access_token") != null)
-                        saveAuthenticationLogin(response, user, password);
+                    if(!object.isNull("access_token")) {
+                        if (object.optString("access_token") != null) {
+                            SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
+                            saveAuthenticationLogin(response, user, password);
+                        }
+                    }
+                    if(!object.isNull("error_message")) {
+                        if (object.optString("error_message") != null) {
+                            isFailed = true;
+                            webModel.setErrorMessage(object.getString("error_message"));
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SharedPreferencesUtils.updateLoggedInUser(activity, user, password);
+
                 if (webModel != null) {
                     webModel.setHasError(isFailed);
                     webModel.notifyObservers();

@@ -14,6 +14,8 @@ public class CLMSModel implements ModelObservable {
 
     private boolean hasError = false;
 
+    private String errorMessage = "";
+
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
@@ -37,5 +39,13 @@ public class CLMSModel implements ModelObservable {
 
     public void setHasError(boolean hasError) {
         this.hasError = hasError;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
