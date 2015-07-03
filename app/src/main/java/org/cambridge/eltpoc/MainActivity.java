@@ -1,5 +1,7 @@
 package org.cambridge.eltpoc;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -391,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
 
     private void refreshWebView() {
         webView.reload();
+        showSynchronizedDialog();
     }
 
     private void initRotation() {
@@ -508,5 +511,25 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             teachingLayout.setVisibility(View.VISIBLE);
         else
             teachingLayout.setVisibility(View.GONE);
+    }
+
+    private void showSynchronizedDialog() {
+        String message = ""+ELTApplication.getInstance().getLinkModel().getClassName()+
+                " has been updated.";
+        if(webLevel == Constants.HOME_LEVEL)
+            message = "Courses have been updated.";
+        else if(webLevel == Constants.VIDEO_LEVEL)
+            message = "Message has been updated.";
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("UPDATE");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
 }
