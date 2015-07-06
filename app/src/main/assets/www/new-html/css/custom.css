@@ -24,15 +24,12 @@
   letter-spacing: normal;
   word-wrap: normal;
   vertical-align: bottom;
-
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;
   /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
-
   /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
-
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
@@ -44,16 +41,8 @@ html, body {
   background-color: #ECEFF1;
 }
 
-
 .collection a.collection-item {
     color: #212121;
-    /*background-color: #CFD8DC;
-    border: #B0BEC5;*/
-
-}
-
-span.badge.new {
-    background-color: #FF8F00;
 }
 
 .collection i.material-icons {
@@ -129,7 +118,6 @@ h6 {
   word-wrap: normal;
   vertical-align: bottom;
 }
-
 /* CLASS VIEW */
 
 
@@ -204,9 +192,20 @@ ul.collapsible li.active div.collapsible-body.content {
 
 /* Video */
 @media only screen and (max-width : 600px) {
-    .material-icons {
-        line-height: inherit;
-    }
+  .material-icons {
+      line-height: inherit;
+  }
+  nav {
+    line-height: 64px;
+    height: 64px;
+  }
+  nav .brand-logo {
+    left: 7rem;
+    padding: 0;
+  }
+  nav ul li {
+    height: 64px;
+  }
 }
 
 nav {
@@ -227,7 +226,7 @@ video.responsive-video {
 
 .no-enrolled i {
   color: #CFD8DC;
-  margin: .25em 0;
+  margin: 20px 0 .25em;
   font-size: 15em;
 }
 
@@ -236,3 +235,37 @@ video.responsive-video {
   font-weight: 100;
   color: #757575;
 }
+
+/* NAV */
+.tabs .indicator {
+  background-color: #c8b269;
+  bottom: 0;
+  height: .25em;
+}
+
+.tabs .tab a {
+  color: #b4a05c;
+  font-weight: 400;
+}
+
+.tabs .tab a:hover {
+  color: #c6bc9e;
+}
+
+nav.main {
+  background-color: #263238;
+}
+
+.main  h3.brand-logo {
+  margin: 1.65rem 0 1.168rem
+}
+
+@media only screen and (max-width : 400px) {
+  nav.main ul a {
+    padding: 0 7px;
+  }
+  nav .nav-wrapper i {
+    font-size: 24px;
+  }
+}
+/* NAV */
