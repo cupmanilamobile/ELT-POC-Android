@@ -253,6 +253,10 @@ video.responsive-video {
   color: #b4a05c;
 }
 
+.tabs {
+  margin-bottom: 1.5em;
+}
+
 nav.main {
   background-color: #263238;
 }
