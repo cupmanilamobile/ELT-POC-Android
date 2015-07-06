@@ -21,8 +21,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#1d1d1d"
-                android:minHeight="?attr/actionBarSize">
+                android:background="#263238"
+                android:minHeight="64dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
