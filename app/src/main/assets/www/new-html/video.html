@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Chang URLs to wherever Video.js files will be hosted -->
+  <link href="css/video-js.css" rel="stylesheet" type="text/css">
+  <!-- video.js must be in the <head> for older IEs to work. -->
+  <script src="js/video.js"></script>
+
+  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+  <script>
+    videojs.options.flash.swf = "images/video-js.swf";
+  </script>
+</head>
+
+<body>
+
+  <nav class="video">
+    <div class="nav-wrapper">
+      <ul class="right">
+        <li><a href="#"><i class="material-icons">cloud_download</i></a></li>
+        <li><a href="#"><i class="material-icons">close</i></a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+<div class="section"></div>
+
+  <div class="container video">
+   <div class="row">
+
+    <div class="col s12 m12 l12">
+    <h4>Unit 1 Lesson A: Hello and Goodbye</h4>
+    </div>
+
+    <div class="col s12 m12 l8">
+      <!-- <video class="responsive-video" controls>
+      <source src="images/rickroll.mp4#t=43" type="video/mp4">
+        Your browser does not support the video tag.
+      </video> -->
+
+      <video class="video-js vjs-default-skin" controls preload="none" width="480" height="360" data-setup="{}">
+        <source src="images/rickroll.mp4" type='video/mp4' />
+
+        <p class="vjs-no-js">To view this video please enable JavaScript,
+          and consider upgrading to a web browser that supports HTML5 video</a></p>
+      </video>
+
+
+    </div>
+
+    <div class="col s12 m12 l4">
+        <h5>
+            Listen to the greetings, choose the words you hear.
+        </h5>
+
+        <p>
+            Please be advised of the extended downtime which is required in order to carry out essential maintenance on Cambridge English Empower A2 Elementary and Cambridge English Empower B1 Pre-intermediate, the revised dates are as follows
+        </p>
+    </div>
+  </div>
+
+  </div>
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+
+</body>
+</html>
