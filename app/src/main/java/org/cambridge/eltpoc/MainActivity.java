@@ -1,7 +1,5 @@
 package org.cambridge.eltpoc;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,20 +24,16 @@ import android.widget.TextView;
 
 import org.cambridge.eltpoc.adapters.NavigationDrawerAdapter;
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
-import org.cambridge.eltpoc.model.CLMSClass;
-import org.cambridge.eltpoc.model.CLMSCourse;
 import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.model.CLMSWebModel;
 import org.cambridge.eltpoc.observers.CLMSClassListObserver;
 import org.cambridge.eltpoc.observers.Observer;
+import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.Misc;
-import org.cambridge.eltpoc.util.RealmTransactionUtils;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.cambridge.eltpoc.util.UIUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.cambridge.eltpoc.util.WebContentHelper;
 
 import java.util.ArrayList;
 
@@ -80,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         javaScriptInterface = new CLMSJavaScriptInterface(MainActivity.this, webModel);
         initViews();
         addWebViewListener();
-        updateTabVisibility(0, 0);
+        WebContentHelper.updateTabVisibility(0, 0, true, learningLayout, teachingLayout, webView);
     }
 
     private void initViews() {
@@ -126,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     updateArrowIcon(false);
                 else
                     updateArrowIcon(true);
-                updateWebLevel(url);
+                webLevel = WebContentHelper.updateWebLevel(url);
                 updateTabTitle();
                 updateTabs();
                 if (rotate.hasStarted())
@@ -135,10 +128,20 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     javaScriptInterface.showVideo();
                 else if (findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
                     javaScriptInterface.hideVideo();
-                if (url.equalsIgnoreCase(Constants.TEACHING_URL))
-                    updateContent(false);
-                else if (url.equalsIgnoreCase(Constants.LEARNING_URL))
-                    updateContent(true);
+                if(ELTApplication.getInstance().getWebModel().isCourseRetrieved()) {
+                    if(url.equalsIgnoreCase(Constants.TEACHING_URL) ||
+                            url.equalsIgnoreCase(Constants.LEARNING_URL)) {
+                        ArrayList<Integer> contentCount = new ArrayList<Integer>();
+                        if (url.equalsIgnoreCase(Constants.TEACHING_URL))
+                            contentCount = WebContentHelper.updateCourseContent(MainActivity.this,
+                                    webView, false);
+                        else if (url.equalsIgnoreCase(Constants.LEARNING_URL))
+                            contentCount = WebContentHelper.updateCourseContent(MainActivity.this,
+                                    webView, true);
+                        WebContentHelper.updateTabVisibility(contentCount.get(0),
+                                contentCount.get(1), false, learningLayout, teachingLayout, webView);
+                    }
+                }
                 if (url.equalsIgnoreCase(Constants.LEARNING_URL) ||
                         url.equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL))
                     updateTabPressed(true);
@@ -159,24 +162,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 rotateIcon();
             }
         });
-    }
-
-    private void updateWebLevel(String url) {
-        switch (url) {
-            case Constants.LEARNING_URL:
-            case Constants.TEACHING_URL:
-                webLevel = Constants.HOME_LEVEL;
-                break;
-            case Constants.LESSON_ALL_CONTENT_URL:
-            case Constants.LESSON_DONWLOADED_URL:
-                webLevel = Constants.LESSON_LEVEL;
-                break;
-            case Constants.VIDEO_URL:
-                webLevel = Constants.VIDEO_LEVEL;
-                break;
-            default:
-                webLevel = Constants.HOME_LEVEL;
-        }
     }
 
     private void initObservers() {
@@ -262,23 +247,16 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            switch (keyCode) {
-                case KeyEvent.KEYCODE_BACK:
-                    if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
-                        drawerLayout.closeDrawer(Gravity.RIGHT);
-                    else {
-                        if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(Constants.LEARNING_URL) &&
-                                !webView.getUrl().equalsIgnoreCase(Constants.TEACHING_URL)) {
-                            webView.goBack();
-                        } else
-                            finish();
-                    }
-                    return true;
-            }
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        else {
+            if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(Constants.LEARNING_URL) &&
+                    !webView.getUrl().equalsIgnoreCase(Constants.TEACHING_URL))
+                goBack(null);
+            else
+                super.onBackPressed();
         }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -301,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         ELTApplication.getInstance().getCourseListObserver().removeObserver(this);
         ELTApplication.getInstance().getClassListObserver().removeObserver(this);
         ELTApplication.getInstance().getLinkModel().removeObserver(this);
+        ELTApplication.getInstance().getWebModel().setIsCourseRetrieved(false);
     }
 
     @Override
@@ -309,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             CLMSWebModel webModel = (CLMSWebModel) model;
             updateInternetConnectionIcon(webModel.isHasInternetConnection());
         } else if (model instanceof CLMSClassListObserver)
-            updateContent(true);
+            WebContentHelper.updateCourseContent(this, webView, true);
     }
 
     @Override
@@ -318,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         refreshIcon = menu.findItem(R.id.action_sync).getActionView().findViewById(R.id.refresh_icon);
         wifiIcon = (ImageView) menu.findItem(R.id.action_wifi).getActionView()
                 .findViewById(R.id.wifi_icon);
-        updateInternetConnectionIcon(Misc.checkInternetConnection(this));
+        updateInternetConnectionIcon(Misc.hasInternetConnection(this));
         initRotation();
         refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -436,83 +415,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         webView.goBack();
     }
 
-    private void updateContent(boolean isLearning) {
-        JSONObject obj;
-        JSONArray courseArray = new JSONArray();
-        JSONArray classArray = new JSONArray();
-        ArrayList<CLMSCourse> courses = RealmTransactionUtils.getAllCourses(this);
-        int learningCount = 0;
-        int teachingCount = 0;
-        for (CLMSCourse course : courses) {
-            ArrayList<CLMSClass> classes = RealmTransactionUtils.getClassesByCourseId(this, course.getNid());
-            classArray = new JSONArray();
-            obj = new JSONObject();
-            String type = Constants.TYPE_BOTH;
-            try {
-                obj.put("Count", classes.size());
-                obj.put("Name", course.getName());
-                obj.put("Id", course.getNid());
-                obj.put("Image", course.getProductLogo());
-                int teachCount = 0;
-                int studentCount = 0;
-                for (CLMSClass cCLass : classes) {
-                    if (cCLass.getClassRole().equalsIgnoreCase(Constants.ROLE_TEACHER))
-                        ++teachCount;
-                    else if (cCLass.getClassRole().equalsIgnoreCase(Constants.ROLE_STUDENT))
-                        ++studentCount;
-                    JSONObject classObj = new JSONObject();
-                    classObj.put("ClassName", cCLass.getClassName());
-                    classArray.put(classObj);
-                }
-                if (studentCount > 0 && teachCount > 0) {
-                    type = Constants.TYPE_BOTH;
-                    learningCount++;
-                    teachingCount++;
-                }
-                else if (studentCount > 0) {
-                    type = Constants.TYPE_LEARNING;
-                    learningCount++;
-                }
-                else if (teachCount > 0) {
-                    type = Constants.TYPE_TEACHING;
-                    teachingCount++;
-                }
-                obj.put("Type", type);
-                obj.put("Classes", classArray);
-                obj.put("ClassSize", classArray.length());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            if (classes.size() > 0) {
-                if (isLearning) {
-                    if (type.equalsIgnoreCase(Constants.TYPE_BOTH) ||
-                            type.equalsIgnoreCase(Constants.TYPE_LEARNING))
-                        courseArray.put(obj);
-                } else {
-                    if (type.equalsIgnoreCase(Constants.TYPE_BOTH) ||
-                            type.equalsIgnoreCase(Constants.TYPE_TEACHING))
-                        courseArray.put(obj);
-                }
-            }
-        }
-        updateTabVisibility(learningCount, teachingCount);
-        if (isLearning)
-            webView.loadUrl("javascript:addLearningCourse('" + courseArray.length() + "', " + courseArray + ")");
-        else
-            webView.loadUrl("javascript:addTeachingCourse('" + courseArray.length() + "', " + courseArray + ")");
-    }
-
-    private void updateTabVisibility(int learningCount, int teachingCount) {
-        if(learningCount > 0)
-            learningLayout.setVisibility(View.VISIBLE);
-        else
-            learningLayout.setVisibility(View.GONE);
-        if(teachingCount > 0)
-            teachingLayout.setVisibility(View.VISIBLE);
-        else
-            teachingLayout.setVisibility(View.GONE);
-    }
-
     private void showSynchronizedDialog() {
         String message = ""+ELTApplication.getInstance().getLinkModel().getClassName()+
                 " has been updated.";
@@ -520,16 +422,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             message = "Courses have been updated.";
         else if(webLevel == Constants.VIDEO_LEVEL)
             message = "Message has been updated.";
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("UPDATE");
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-
+        DialogUtils.createDialog(this, "UPDATE", message);
     }
 }

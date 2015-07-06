@@ -140,6 +140,7 @@ public class CLMSJavaScriptInterface {
                 RealmTransactionUtils.saveCourseList(activity, clmsCourseList);
                 ELTApplication.getInstance().getCourseListObserver().setCourseList(clmsCourseList);
                 ELTApplication.getInstance().getCourseListObserver().notifyObservers();
+                ELTApplication.getInstance().getWebModel().setIsCourseRetrieved(true);
             }
 
             @Override

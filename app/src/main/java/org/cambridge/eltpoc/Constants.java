@@ -9,6 +9,7 @@ public class Constants {
     public static final String LESSON_DONWLOADED_URL = "file:///android_asset/www/new_html/content_downloaded.html";
     public static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/new_html/content.html";
     public static final String VIDEO_URL = "file:///android_asset/www/new_html/video.html";
+    public static final String NO_ENROLLED_URL = "file:///android_asset/www/new_html/no_enrolled.html";
 
     public static final int HOME_LEVEL = 0;
     public static final int LESSON_LEVEL = 1;
@@ -24,4 +25,13 @@ public class Constants {
 
     public static final String ROLE_STUDENT = "student";
     public static final String ROLE_TEACHER = "teacher";
+
+    public static final String CLASS_COUNT = "Count";
+    public static final String COURSE_NAME = "Name";
+    public static final String COURSE_ID = "Id";
+    public static final String COURSE_IMAGE = "Image";
+    public static final String CLASS_NAME = "ClassName";
+    public static final String TYPE = "Type";
+    public static final String CLASSES = "Classes";
+    public static final String CLASS_SIZE = "ClassSize";
 }

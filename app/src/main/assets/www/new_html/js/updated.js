@@ -34,7 +34,7 @@ function addClass(count, classes) {
 
 function addImage(image) {
     if(image == '')
-        return '<img src="images/cambridge-touchstone.jpg">';
+        return '<img src="images/no-image.jpg">';
     else
         return '<img src="'+ image +'">';
 }

@@ -17,7 +17,7 @@ public class Misc {
         return folder;
     }
 
-    public static boolean checkInternetConnection(Context context) {
+    public static boolean hasInternetConnection(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE));
         if(connectivityManager == null)

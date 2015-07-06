@@ -1,10 +1,10 @@
 package org.cambridge.eltpoc.connections;
 
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
+
+import org.cambridge.eltpoc.util.DialogUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -101,18 +101,8 @@ public class HTTPConnectionPost extends AsyncTask {
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        if (isFailed) {
-            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setTitle(errorTitle);
-            alertDialog.setMessage(errorMessage);
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
+        if (isFailed)
+            DialogUtils.createDialog(context, errorTitle, errorMessage);
         if (onPostCompletedListener != null)
             onPostCompletedListener.onPostCompleted(response, isFailed);
     }

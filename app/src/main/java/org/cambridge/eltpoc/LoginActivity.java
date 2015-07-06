@@ -1,8 +1,6 @@
 package org.cambridge.eltpoc;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -24,6 +22,7 @@ import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.observers.Observer;
+import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.Misc;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.cambridge.eltpoc.util.UIUtils;
@@ -65,7 +64,7 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         usernameClear = (ImageView) findViewById(R.id.username_clear);
         passwordClear = (ImageView) findViewById(R.id.password_clear);
 
-        if(isPortrait())
+        if (isPortrait())
             updateBackground(1.5f, 1);
         else
             updateBackground(1, 1.5f);
@@ -138,8 +137,6 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         loadingLayout.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         try {
-            System.out.println("USERNAME: "+username.getText().toString());
-            System.out.println("PASSWORD: "+password.getText().toString());
             new CLMSJavaScriptInterface(this, webModel).authenticateLogin(
                     username.getText().toString(), password.getText().toString());
         } catch (MalformedURLException e) {
@@ -150,7 +147,7 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
     private void checkLogin() {
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
         if (!user.getPassword().equalsIgnoreCase("") && !user.getUsername().equalsIgnoreCase("") &&
-                Misc.checkInternetConnection(this)) {
+                Misc.hasInternetConnection(this)) {
             startMainActivity();
             try {
                 new CLMSJavaScriptInterface(this, null).authenticateLogin(
@@ -175,16 +172,9 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         if (!model.isHasError())
             startMainActivity();
         else {
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("ERROR");
-            alertDialog.setMessage(model.getErrorMessage());
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
+            if (model.getErrorMessage() != null && model.getErrorMessage().length() > 0 &&
+                    Misc.hasInternetConnection(this))
+                DialogUtils.createDialog(this, "ERROR", model.getErrorMessage());
         }
     }
 

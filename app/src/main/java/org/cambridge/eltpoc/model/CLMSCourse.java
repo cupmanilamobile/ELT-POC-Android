@@ -23,6 +23,7 @@ public class CLMSCourse extends RealmObject {
     @Expose
     @SerializedName("product-logo")
     private String productLogo = "";
+    private String username = "";
     private RealmList<CLMSClass> classes;
 
     public int getNid() {
@@ -79,5 +80,13 @@ public class CLMSCourse extends RealmObject {
 
     public void setClasses(RealmList<CLMSClass> classes) {
         this.classes = classes;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

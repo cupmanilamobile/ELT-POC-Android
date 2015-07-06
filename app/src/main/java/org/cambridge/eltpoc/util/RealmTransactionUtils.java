@@ -2,6 +2,7 @@ package org.cambridge.eltpoc.util;
 
 import android.content.Context;
 
+import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.model.CLMSClass;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSCourse;
@@ -30,7 +31,9 @@ public class RealmTransactionUtils {
 
     public static ArrayList<CLMSCourse> getAllCourses(Context context) {
         Realm realm = Realm.getInstance(context);
-        RealmResults<CLMSCourse> result = realm.where(CLMSCourse.class).findAll();
+        RealmResults<CLMSCourse> result = realm.where(CLMSCourse.class)
+                .equalTo("username",
+                        ELTApplication.getInstance().getCurrentUser().getUsername()).findAll();
         ArrayList<CLMSCourse> courses = new ArrayList<>();
         for (CLMSCourse course : result)
             courses.add(course);
@@ -89,6 +92,7 @@ public class RealmTransactionUtils {
             realmCourse.setNid(course.getNid());
             realmCourse.setProductLogo(course.getProductLogo());
             realmCourse.setProductName(course.getProductName());
+            realmCourse.setUsername(ELTApplication.getInstance().getCurrentUser().getUsername());
             if (course.getClasses() != null)
                 for (CLMSClass cClass : course.getClasses())
                     saveClass(context, cClass, false);
