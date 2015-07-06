@@ -227,7 +227,7 @@ video.responsive-video {
 
 .no-enrolled i {
   color: #CFD8DC;
-  margin-bottom: .25em;
+  margin: .25em 0;
   font-size: 15em;
 }
 
