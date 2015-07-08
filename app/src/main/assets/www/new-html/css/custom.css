@@ -100,8 +100,8 @@ h6 {
     }
 }
 
-.collection a[href="content.html"]:after {
-  content: "chevron_right";
+.class.label + p + .collection.z-depth-1 .collection-item:after {
+  content: "\e5cc";
   position: absolute;
   right: .5em;
   color: #666666;
@@ -239,9 +239,12 @@ video.responsive-video {
 
 /* NAV */
 .tabs .indicator {
+  /*background-color: rgba(0, 0, 0, .1);*/
   background-color: #c8b269;
   bottom: 0;
-  height: .25em;
+  height: .35em;
+  /*height: 100%;*/
+  /*border-bottom: .35em solid #c8b269;*/
 }
 
 .tabs .tab a {
@@ -278,4 +281,19 @@ nav.main {
 .container {
     width: 95% !important;
 }
+
 /* NAV */
+
+span.class.label {
+  background-color: #009688;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 300;
+  padding: .35em .5em .25em;
+  margin-bottom: 1em;
+  display: inline-block;
+}
+
+span.class.label:after {
+  content: "CLASSES"
+}
