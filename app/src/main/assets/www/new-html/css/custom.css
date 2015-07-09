@@ -378,4 +378,10 @@ span.class.label:after {
     margin: 0;
     box-shadow: 0;
 }
+
+.card-reveal .card-title .material-icons {
+  position: absolute;
+  right: 0.5rem;
+  color: #455a64;
+}
 /* CARD */
