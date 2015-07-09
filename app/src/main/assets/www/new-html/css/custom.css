@@ -308,14 +308,74 @@ span.class.label:after {
   background-color: #F44336;
   border-radius: 2px;
   color: #fff;
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   font-style: normal;
   font-weight: 300;
   padding: 0.35em 0.5em 0.25em;
   position: relative;
   top: -0.125em;
-  margin-right: 5px;
+  margin-left: 15px;
   float: none !important;
   display: inline !important;
 }
 /* LABEL */
+
+/* CARD */
+.card .card-content {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.card .card-content:hover {
+    background-color: #ddd;
+}
+
+.card .card-title {
+    font-size: inherit;
+    font-weight: 300;
+}
+
+.card .card-reveal .card-title {
+    display: inline;
+}
+
+.card .card-reveal {
+  overflow-y: hidden;
+  background-color: #CFD8DC;
+  text-align: center;
+  padding: 10px;
+}
+
+.card .card-reveal a {
+  color: #455A64;
+  margin: 0 .5em;
+  border-right: 1px solid #78909C;
+  padding: 0 20px 0 0;
+}
+
+.card .card-reveal a:last-child {
+  border-right: 0;
+}
+
+.card .card-reveal a:first-child i.material-iconsd {
+  margin-left: 0;
+}
+
+.card .card-reveal a i.material-icons {
+  position: relative;
+  top:-0.25em;
+  margin-right: 0;
+}
+
+@media only screen and (min-width : 601px) {
+  .card .card-reveal a i.material-icons {
+    top:0;
+  }
+}
+
+.card {
+    border-radius: 0;
+    margin: 0;
+    box-shadow: 0;
+}
+/* CARD */
