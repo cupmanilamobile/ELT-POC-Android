@@ -104,6 +104,9 @@ i.chev.classProgress + i.material-icons {
   margin-right: 0;
 }
 
+.collection .collection-item {
+    padding: 17px 20px;
+}
 
 /*.class.label + * + .collection.z-depth-1 .collection-item:after {
   content: "\e5cc";
@@ -128,6 +131,12 @@ i.chev.classProgress + i.material-icons {
 
 
 /* CONTENT VIEW */
+.collection-item,
+.collapsible-header {
+    padding: 0.5rem 1rem;
+    height: 4rem;
+}
+
 /* Unit */
 .collapsible-header.content {
   background-color: #37474F;
@@ -140,7 +149,7 @@ i.chev.classProgress + i.material-icons {
   border-color: #37474F transparent transparent;
   border-style: solid;
   border-width: 10px;
-  bottom: -50%;
+  bottom: -35%;
   content: "";
   display: block;
   height: 0;
@@ -163,7 +172,7 @@ i.chev.classProgress + i.material-icons {
   border-color: #607D8B transparent transparent;
   border-style: solid;
   border-width: 10px;
-  bottom: -50%;
+  bottom: -35%;
   content: "";
   display: block;
   height: 0;
@@ -244,12 +253,14 @@ video.responsive-video {
 /* VIDEO */
 
 
-
 /* NAV */
 .tabs .indicator {
-  background-color: #c8b269;
+  background-color: rgba(96, 125, 139, 0.1);
   bottom: 0;
-  height: .35em;
+  /*height: .35em;*/
+  height: 100%;
+  border-bottom: .35em solid #c8b269;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .tabs .tab a {
@@ -305,7 +316,7 @@ span.class.label:after {
 }
 
 .classProgress {
-  background-color: #F44336;
+  background-color: #2196F3;
   border-radius: 2px;
   color: #fff;
   font-size: 0.8rem !important;
@@ -322,7 +333,7 @@ span.class.label:after {
 
 /* CARD */
 .card .card-content {
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
 }
 
@@ -343,7 +354,8 @@ span.class.label:after {
   overflow-y: hidden;
   background-color: #CFD8DC;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
+  box-sizing: border-box;
 }
 
 .card .card-reveal a {
@@ -383,5 +395,10 @@ span.class.label:after {
   position: absolute;
   right: 0.5rem;
   color: #455a64;
+  top: 1.2rem;
 }
 /* CARD */
+
+.collection-item i.material-icons {
+  margin-left: 0.125rem
+}
