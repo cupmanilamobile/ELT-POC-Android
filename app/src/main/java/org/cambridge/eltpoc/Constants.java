@@ -32,10 +32,32 @@ public class Constants {
     //JSON IDENTIFIERS
     public static final String CLASS_COUNT = "Count";
     public static final String COURSE_NAME = "Name";
-    public static final String COURSE_ID = "Id";
+    public static final String COURSE_ID = "CourseId";
     public static final String COURSE_IMAGE = "Image";
-    public static final String CLASS_NAME = "ClassName";
+
     public static final String TYPE = "Type";
     public static final String CLASSES = "Classes";
     public static final String CLASS_SIZE = "ClassSize";
+
+    public static final String CLASS_NAME = "ClassName";
+    public static final String CLASS_ID = "ClassId";
+
+    public static final String LESSON_NAME = "LessonName";
+    public static final String LESSON_ID = "LessonId";
+    public static final String LESSON_UNIQUE_ID = "LessonUniqueId";
+    public static final String LESSONS = "Lessons";
+    public static final String LESSON_SIZE = "LessonSize";
+    public static final String LESSON_PROGRESS = "LessonProgress";
+
+    public static final String CONTENT_NAME = "ContentName";
+    public static final String CONTENT_ID = "ContentId";
+    public static final String CONTENTS = "Contents";
+    public static final String CONTENT_SIZE = "ContentSize";
+    public static final String CONTENT_PROGRESS = "ContentProgress";
+    public static final String CONTENT_DOWNLOADED = "ContentDownloaded";
+
+    public static final String UNIT_COUNT = "Count";
+    public static final String UNIT_NAME = "Name";
+    public static final String UNIT_ID = "UnitId";
+    public static final String UNIT_PROGRESS = "Progress";
 }

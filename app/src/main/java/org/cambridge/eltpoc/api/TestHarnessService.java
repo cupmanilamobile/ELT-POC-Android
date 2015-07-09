@@ -2,17 +2,21 @@ package org.cambridge.eltpoc.api;
 
 import org.cambridge.eltpoc.model.CLMSClassList;
 import org.cambridge.eltpoc.model.CLMSContentScore;
+import org.cambridge.eltpoc.model.CLMSContentScoreList;
+import org.cambridge.eltpoc.model.CLMSContentURL;
 import org.cambridge.eltpoc.model.CLMSCourseList;
-import org.cambridge.eltpoc.model.CLMSUnitLessonScore;
+import org.cambridge.eltpoc.model.CLMSLessonScoreList;
+import org.cambridge.eltpoc.model.CLMSUnitScore;
+import org.cambridge.eltpoc.model.CLMSUnitScoreList;
 import org.cambridge.eltpoc.model.CLMSUser;
 
-import retrofit.client.Response;
+import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
-import retrofit.Callback;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
@@ -49,44 +53,64 @@ public interface TestHarnessService {
                         Callback<CLMSClassList> clmsClassListCallback);
 
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores")
-    CLMSUnitLessonScore getUnitScore(@Header("Authorization") String tokenAccess,
+    CLMSUnitScore getUnitScore(@Header("Authorization") String tokenAccess,
                                @Path("classId") int classId,
                                @Path("userId") int userId);
 
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores")
-    void getUnitScore(@Header("Authorization") String tokenAccess,
+    void getUnitScoreList(@Header("Authorization") String tokenAccess,
                                @Path("classId") int classId,
-                               @Path("userId") int userId,
-                      Callback<CLMSUnitLessonScore> clmsUnitScoreCallback);
+                               @Path("userId") long userId,
+                      Callback<CLMSUnitScoreList> clmsUnitScoreCallback);
 
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores ")
-    CLMSUnitLessonScore getLessonScore(@Header("Authorization") String tokenAcess,
+    CLMSUnitScore getLessonScore(@Header("Authorization") String tokenAcess,
                             @Path("classId") int classId,
-                            @Path("userId") int userId,
+                            @Path("userId") long userId,
                             @Path("unitId") int unitId);
 
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores ")
-    void getLessonScore(@Header("Authorization") String tokenAcess,
+    void getLessonScoreList(@Header("Authorization") String tokenAcess,
                         @Path("classId") int classId,
-                        @Path("userId") int userId,
+                        @Path("userId") long userId,
                         @Path("unitId") int unitId,
-                        Callback<CLMSUnitLessonScore> clmsUnitLessonScoreCallback);
+                        Callback<CLMSLessonScoreList> clmsUnitLessonScoreCallback);
 
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores/{lessonId}/content-scores")
     CLMSContentScore getContentScore(@Header("Authorization") String tokenAccess,
                              @Path("classId") int classId,
-                             @Path("userId") int userId,
+                             @Path("userId") long userId,
                              @Path("unitId") int unitId,
                              @Path("lessonId") int lessonId);
 
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores/{lessonId}/content-scores")
-    void getContentScore(@Header("Authorization") String tokenAccess,
+    void getContentScoreList(@Header("Authorization") String tokenAccess,
                                      @Path("classId") int classId,
-                                     @Path("userId") int userId,
+                                     @Path("userId") long userId,
                                      @Path("unitId") int unitId,
                                      @Path("lessonId") int lessonId,
-                         Callback<CLMSContentScore> clmsContentScoreCallback);
+                         Callback<CLMSContentScoreList> clmsContentScoreCallback);
+
+    @GET("/v1.0/courses/{courseId}/units/{unitId}/lessons/{lessonId}/content/{contentId}?download=true")
+    void getContentUrl(@Header("Authorization") String tokenAccess,
+                             @Path("courseId") int courseId,
+                             @Path("unitId") int unitId,
+                             @Path("lessonId") int lessonId,
+                             @Path("contentId") int contentId,
+                             Callback<CLMSContentURL> clmsContentUrlCallback);
 
     @GET("/v1.0/about")
-    CLMSUser getAboutInfo(@Header("Authorization") String accessToken, CLMSUser user);
+    void getAboutInfo(@Header("Authorization") String accessToken, Callback<CLMSUser> user);
+
+    @FormUrlEncoded
+    @PUT("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores/{lessonId}/content-scores/{contentId}")
+    void updateContentScore(@Path("classId") int courseId,
+                            @Path("userId") long userId,
+                            @Path("unitId") int unitId,
+                            @Path("lessonId") int lessonId,
+                            @Path("contentId") int contentId,
+                            @Field("score") int score,
+                            @Field("progress") int progress,
+                            @Field("lastaccess") long lastaccess,
+                            Callback<CLMSContentScoreList> clmsContentScoreListCallback);
 }

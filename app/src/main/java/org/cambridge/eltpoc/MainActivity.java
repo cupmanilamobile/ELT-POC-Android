@@ -25,10 +25,12 @@ import android.widget.TextView;
 
 import org.cambridge.eltpoc.adapters.NavigationDrawerAdapter;
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
+import org.cambridge.eltpoc.model.CLMSLinkModel;
 import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.model.CLMSWebModel;
 import org.cambridge.eltpoc.observers.CLMSClassListObserver;
+import org.cambridge.eltpoc.observers.CLMSUnitScoreListObserver;
 import org.cambridge.eltpoc.observers.Observer;
 import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.Misc;
@@ -76,7 +78,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         javaScriptInterface = new CLMSJavaScriptInterface(MainActivity.this, webModel);
         initViews();
         addWebViewListener();
-        WebContentHelper.updateTabVisibility(0, 0, true, learningLayout, teachingLayout, webView);
+        WebContentHelper.updateTabVisibility(0, 0, true, learningLayout, teachingLayout, webView,
+                navigationDrawerAdapter);
     }
 
     private void initViews() {
@@ -103,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         instance.getCourseListObserver().registerObserver(this);
         instance.getClassListObserver().registerObserver(this);
         instance.getLinkModel().registerObserver(this);
+        instance.getUnitScoreListObserver().registerObserver(this);
+        instance.getContentScoreListObserver().registerObserver(this);
+        instance.getLessonScoreListObserver().registerObserver(this);
     }
 
     private void initWebView() {
@@ -119,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 UIUtils.getNavigationDrawables());
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationList = (ListView) findViewById(R.id.right_drawer);
-        View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
+        final View header = getLayoutInflater().inflate(R.layout.navigation_header, null);
         navigationList.addHeaderView(header);
         navigationList.setAdapter(navigationDrawerAdapter);
         navigationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -158,6 +164,10 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
 
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                if (user == null)
+                    user = SharedPreferencesUtils.getLoggedInUser(MainActivity.this);
+//                ((TextView) header.findViewById(R.id.profile_name)).setText(user.getDisplayName());
                 invalidateOptionsMenu();
             }
         };
@@ -166,9 +176,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         toolbarTitle.setText(R.string.app_name);
-
-        CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
-        ((TextView) header.findViewById(R.id.profile_name)).setText(user.getUsername());
     }
 
     private void initTabs() {
@@ -187,6 +194,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         instance.getCourseListObserver().removeObserver(this);
         instance.getClassListObserver().removeObserver(this);
         instance.getLinkModel().removeObserver(this);
+        instance.getUnitScoreListObserver().removeObserver(this);
+        instance.getContentScoreListObserver().removeObserver(this);
+        instance.getLessonScoreListObserver().removeObserver(this);
     }
 
     public void learningPressed(View view) {
@@ -275,7 +285,17 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     public void goBack(View View) {
-        webView.goBack();
+        if(webLevel == Constants.VIDEO_LEVEL)
+            addWebViewListener();
+        webLevel--;
+        switch (webLevel) {
+            case Constants.HOME_LEVEL:
+                webView.loadUrl(Constants.LEARNING_URL);
+                break;
+            case Constants.LESSON_LEVEL:
+                webView.loadUrl(Constants.LESSON_ALL_CONTENT_URL);
+                break;
+        }
     }
 
     private void showSynchronizedDialog() {
@@ -305,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     private void addWebViewListener() {
+        findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 if (url.equalsIgnoreCase(Constants.LEARNING_URL) ||
@@ -315,31 +336,35 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 webLevel = WebContentHelper.updateWebLevel(url);
                 updateTabTitle();
                 updateTabs();
-                if (rotate.hasStarted())
-                    rotate.cancel();
-                if (webLevel == Constants.VIDEO_LEVEL)
-                    javaScriptInterface.showVideo();
-                else if (findViewById(R.id.video_player).getVisibility() == View.VISIBLE)
-                    javaScriptInterface.hideVideo();
-                if (instance.getWebModel().isCourseRetrieved()) {
-                    if (url.equalsIgnoreCase(Constants.TEACHING_URL) ||
-                            url.equalsIgnoreCase(Constants.LEARNING_URL)) {
-                        ArrayList<Integer> contentCount = new ArrayList<Integer>();
-                        if (url.equalsIgnoreCase(Constants.TEACHING_URL))
-                            contentCount = WebContentHelper.updateCourseContent(MainActivity.this,
-                                    webView, false);
-                        else if (url.equalsIgnoreCase(Constants.LEARNING_URL))
-                            contentCount = WebContentHelper.updateCourseContent(MainActivity.this,
-                                    webView, true);
-                        WebContentHelper.updateTabVisibility(contentCount.get(0),
-                                contentCount.get(1), false, learningLayout, teachingLayout, webView);
-                    }
+//                if (instance.getWebModel().isCourseRetrieved()) {
+                if (url.equalsIgnoreCase(Constants.TEACHING_URL) ||
+                        url.equalsIgnoreCase(Constants.LEARNING_URL)) {
+                    ArrayList<Integer> contentCount = new ArrayList<Integer>();
+                    if (url.equalsIgnoreCase(Constants.TEACHING_URL))
+                        contentCount = WebContentHelper.updateCourseContent(MainActivity.this,
+                                webView, false);
+                    else if (url.equalsIgnoreCase(Constants.LEARNING_URL))
+                        contentCount = WebContentHelper.updateCourseContent(MainActivity.this,
+                                webView, true);
+                    WebContentHelper.updateTabVisibility(contentCount.get(0),
+                            contentCount.get(1), false, learningLayout, teachingLayout, webView,
+                            navigationDrawerAdapter);
                 }
+//                }
                 if (url.equalsIgnoreCase(Constants.LEARNING_URL) ||
                         url.equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL))
                     updateTabSelection(true);
                 else
                     updateTabSelection(false);
+                if (url.equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL) ||
+                        url.equalsIgnoreCase(Constants.LESSON_DONWLOADED_URL)) {
+                    WebContentHelper.updateTabVisibility(Misc.hasInternetConnection(MainActivity.this),
+                            learningLayout, teachingLayout);
+                    WebContentHelper.updateUnitContent(MainActivity.this,
+                            ELTApplication.getInstance().getUnitScoreListObserver().getScoreList(),
+                            webView, ELTApplication.getInstance().getUnitScoreListObserver()
+                                    .getCourseId(), url.equalsIgnoreCase(Constants.LESSON_DONWLOADED_URL));
+                }
                 loadingLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
             }
@@ -352,9 +377,17 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 webView.setLayoutParams(params);
-                rotateIcon();
             }
         });
+    }
+
+    private void removeWebViewListener() {
+        webView.setWebViewClient(new WebViewClient());
+    }
+
+    private void showLoadingScreen(boolean isLoading) {
+        loadingLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -362,7 +395,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         if (drawerLayout.isDrawerOpen(Gravity.RIGHT))
             drawerLayout.closeDrawer(Gravity.RIGHT);
         else {
-            if (webView.canGoBack() && !webView.getUrl().equalsIgnoreCase(Constants.LEARNING_URL) &&
+            if (!webView.getUrl().equalsIgnoreCase(Constants.LEARNING_URL) &&
                     !webView.getUrl().equalsIgnoreCase(Constants.TEACHING_URL))
                 goBack(null);
             else
@@ -394,8 +427,49 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         if (model instanceof CLMSWebModel) {
             CLMSWebModel webModel = (CLMSWebModel) model;
             updateInternetConnectionIcon(webModel.isHasInternetConnection());
-        } else if (model instanceof CLMSClassListObserver)
-            WebContentHelper.updateCourseContent(this, webView, true);
+            invalidateOptionsMenu();
+            if(webLevel == Constants.LESSON_LEVEL)
+                WebContentHelper.updateTabVisibility(webModel.isHasInternetConnection(),
+                    learningLayout, teachingLayout);
+            if(webModel.isSynced()) {
+                if (rotate != null)
+                    rotate.cancel();
+//                showSynchronizedDialog();
+                this.internetModel.setIsSynced(false);
+            }
+        }
+        else if (model instanceof CLMSClassListObserver) {
+            ArrayList<Integer> contentCount = new ArrayList<Integer>();
+            contentCount = WebContentHelper.updateCourseContent(this, webView, true);
+            WebContentHelper.updateTabVisibility(contentCount.get(0),
+                    contentCount.get(1), false, learningLayout, teachingLayout, webView,
+                    navigationDrawerAdapter);
+        }
+        else if (model instanceof CLMSUnitScoreListObserver) {
+            CLMSUnitScoreListObserver unitScoreListObserver = (CLMSUnitScoreListObserver) model;
+            WebContentHelper.updateUnitContent(MainActivity.this,
+                    unitScoreListObserver.getScoreList(), webView,
+                    unitScoreListObserver.getCourseId(),
+                    webView.getUrl().equalsIgnoreCase(Constants.LESSON_DONWLOADED_URL));
+            showLoadingScreen(false);
+        }
+        else if(model instanceof CLMSLinkModel) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    removeWebViewListener();
+                    findViewById(R.id.tab_layout).setVisibility(View.GONE);
+                    CLMSLinkModel linkModel = (CLMSLinkModel) model;
+                    toolbarTitle.setText(linkModel.getClassName());
+                    webLevel = Constants.VIDEO_LEVEL;
+                    webView.loadUrl(linkModel.getWebLink());
+                }
+            });
+        }
+        else {
+            showLoadingScreen(model.isLoading());
+            model.setIsLoading(false);
+        }
     }
 
     @Override
@@ -406,10 +480,12 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                 .findViewById(R.id.wifi_icon);
         updateInternetConnectionIcon(Misc.hasInternetConnection(this));
         initRotation();
+        menu.findItem(R.id.action_sync).setVisible(Misc.hasInternetConnection(this));
         refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshWebView();
+                rotateIcon();
+                javaScriptInterface.updateContentScores();
             }
         });
         return super.onCreateOptionsMenu(menu);

@@ -18,15 +18,19 @@ function clearList() {
     $('#course-list').empty();
 }
 
-function updateClassName(className) {
-    window.JSInterface.updateClassName(className);
+function updateClassName(className, courseId, classId) {
+    if(window.JSInterface.hasInternetConnection())
+        window.location.replace("content.html");
+    else
+        window.location.replace("content_downloaded.html")
+    window.JSInterface.updateClassName(className, courseId, classId);
 }
 
-function addClass(count, classes) {
+function addClass(count, classes, courseId) {
     var name = '';
     for(var i = 0; i < count; i++) {
-         name += '<a href="content.html" class="collection-item" onclick="updateClassName('+
-         "'"+classes[i].ClassName + "'"+')">' +
+         name += '<a class="collection-item" onclick="updateClassName('+
+         "'"+classes[i].ClassName + "' ,"+ courseId +' ,'+classes[i].ClassId +')">' +
          classes[i].ClassName + '</a>';
     }
     return name;
@@ -34,13 +38,13 @@ function addClass(count, classes) {
 
 function addImage(image) {
     if(image == '')
-        return '<img src="images/no-image.jpg">';
+        return '<img src="images/no-image.png">';
     else
         return '<img src="'+ image +'">';
 }
 
 function truncateName(name) {
-    if(name.length > 30)
+    if(window.JSInterface.isPhone() && name.length > 30)
         return name.substring(0, 27) + '...';
     else
         return name;
@@ -59,10 +63,10 @@ function addCourse(count, courses) {
                                             '</div>' +
                                             '<div class="col s12 m8 l9">' +
                                                 '<h2>'+ courses[i].Name +'</h2>' +
-                                                '<div class="author">Dr. Julius Wilson</div>' +
+                                                '<span class="class label"></span>' +
                                                 '<p>Uniquely incubate one-to-one manufactured products through 24/365 niches. Monotonectally unleash. </p>' +
-                                                '<div class="collection">' +
-                                                addClass(courses[i].ClassSize, courses[i].Classes) +
+                                                '<div class="collection z-depth-1">' +
+                                                addClass(courses[i].ClassSize, courses[i].Classes, courses[i].CourseId) +
                                                 '</div>' +
                                             '</div>' +
                                         '</div>' +
@@ -71,6 +75,177 @@ function addCourse(count, courses) {
     //                            '<a href="content.html" class="collection-item">Class 2<span class="new badge">4</span></a>'
         }
 }
+
+function addUnit(count, units, courseId, classId) {
+    for(var i = 0; i < count; i++) {
+        $('#unit-list').append('<li>' +
+                '<div class="collapsible-header content">' +
+                    '<i class="material-icons">folder</i>' + units[i].Name +' (Unit)' +
+                '</div>' +
+                addLesson(units[i].LessonSize, units[i].Lessons) +
+            '</li>'
+        ).collapsible();
+        addLessonCollapsible(units[i].LessonSize, units[i].Lessons, courseId, classId, units[i].UnitId);
+    }
+}
+
+function addLesson(count, lessons) {
+    var name = '';
+        for(var i = 0; i < count; i++) {
+             name += '<div class="collapsible-body content">' +
+                        '<ul class="collapsible" data-collapsible="accordion" id="'+lessons[i].LessonUniqueId+ '">' +
+                        '</ul>' +
+                      '</div>';
+        }
+        return name;
+}
+
+function addLessonCollapsible(count, lessons, courseId, classId, unitId) {
+    for(var i = 0; i < count; i++) {
+        $('#'+lessons[i].LessonUniqueId).append('<li>' +
+            '<div class="collapsible-header"><i class="material-icons">assignment</i>' +
+                lessons[i].LessonName +
+            '</div>' +
+            addContent(lessons[i].ContentSize, lessons[i].Contents, courseId, classId, unitId, lessons[i].LessonId) +
+            '</li>'
+        ).collapsible();
+    }
+
+}
+
+function addContent(count, contents, courseId, classId, unitId, lessonId) {
+    var name = '';
+    name += '<div class="collapsible-body">' +
+                '<div class="collection">';
+    for(var i = 0; i < count; i++) {
+        name += '<a class="collection-item" onclick="downloadContent('+courseId+' ,'+classId+' ,'+
+                    unitId+' ,'+lessonId+' ,'+contents[i].ContentId +')">' +
+                    '<i class="material-icons">description</i>' +
+                        contents[i].ContentName +
+                        '<span class="badge">' +
+                            addContentIcons(contents[i].ContentDownloaded) +
+                        '</span>' +
+                '</a>';
+    }
+    name += '</div>' + '</div>';
+    return name;
+}
+
+function addContentIcons(downloaded) {
+    var name = '';
+    if(downloaded) {
+        name += '<i class="material-icons">delete</i>' +
+             '<i class="material-icons">&#xE5D4</i>';
+    }
+    else {
+        name += '<i class="material-icons">&#xE2C4</i>' +
+        '<i class="material-icons">&#xE5D4</i>';
+    }
+    return name;
+}
+
+function downloadContent(courseId, classId, unitId, lessonId, contentId) {
+    window.JSInterface.downloadContent(courseId, classId, unitId, lessonId, contentId);
+}
+
+//    <div class="collapsible-body content">
+//
+//
+//                            <ul class="collapsible" data-collapsible="accordion">
+//                                <li>
+//                                    <div class="collapsible-header"><i class="material-icons">assignment</i>First
+//                                        Lesson
+//                                    </div>
+//                                    <div class="collapsible-body">
+//                                        <div class="collection">
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 1
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 2
+//                <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 3
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 4
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                        </div>
+//                                    </div>
+//                                </li>
+//                                <li>
+//                                    <div class="collapsible-header"><i class="material-icons">assignment</i>Second
+//                                        Lesson
+//                                    </div>
+//                                    <div class="collapsible-body">
+//                                        <div class="collection">
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 1
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 2
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                        </div>
+//                                    </div>
+//                                </li>
+//                                <li>
+//                                    <div class="collapsible-header"><i class="material-icons">assignment</i>Third
+//                                        Lesson
+//                                    </div>
+//                                    <div class="collapsible-body">
+//                                        <div class="collection">
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 1
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                            <a href="video.html" class="collection-item"><i
+//                                                    class="material-icons">description</i> Content 2
+//                  <span class="badge">
+//                    <i class="material-icons">file_download</i>
+//                    <i class="material-icons">delete</i>
+//                    <i class="material-icons">more_vert</i>
+//                  </span>
+//                                            </a>
+//                                        </div>
+//                                    </div>
+//                                </li>
+//                            </ul>
+//                        </div>
+//                    </li>
 
 function addLearningCourse(count, courses) {
     clearList();

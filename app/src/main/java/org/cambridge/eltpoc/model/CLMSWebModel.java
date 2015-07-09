@@ -6,6 +6,7 @@ package org.cambridge.eltpoc.model;
 public class CLMSWebModel extends CLMSModel {
     private boolean hasInternetConnection = false;
     private boolean isCourseRetrieved = false;
+    private boolean isSynced = false;
 
     public boolean isHasInternetConnection() {
         return hasInternetConnection;
@@ -21,5 +22,13 @@ public class CLMSWebModel extends CLMSModel {
 
     public void setIsCourseRetrieved(boolean isCourseRetrieved) {
         this.isCourseRetrieved = isCourseRetrieved;
+    }
+
+    public boolean isSynced() {
+        return isSynced;
+    }
+
+    public void setIsSynced(boolean isSynced) {
+        this.isSynced = isSynced;
     }
 }

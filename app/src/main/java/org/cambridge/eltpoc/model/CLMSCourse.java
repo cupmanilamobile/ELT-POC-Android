@@ -10,7 +10,6 @@ import io.realm.annotations.PrimaryKey;
 public class CLMSCourse extends RealmObject {
     @Expose
     private String TYPE = "clms#course";
-    @PrimaryKey
     @Expose
     private int nid;
     @Expose
@@ -23,8 +22,9 @@ public class CLMSCourse extends RealmObject {
     @Expose
     @SerializedName("product-logo")
     private String productLogo = "";
-    private String username = "";
     private RealmList<CLMSClass> classes;
+    @PrimaryKey
+    private String uniqueId;
 
     public int getNid() {
         return nid;
@@ -82,11 +82,11 @@ public class CLMSCourse extends RealmObject {
         this.classes = classes;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUniqueId() {
+        return uniqueId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

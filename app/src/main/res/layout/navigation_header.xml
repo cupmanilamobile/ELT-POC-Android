@@ -3,29 +3,29 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <org.cambridge.eltpoc.customviews.RoundedImageView
-        android:id="@+id/profile_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/profile_photo" />
+    <!--<org.cambridge.eltpoc.customviews.RoundedImageView-->
+        <!--android:id="@+id/profile_photo"-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:src="@drawable/profile_photo" />-->
 
-    <TextView
-        android:id="@+id/profile_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="@string/elt_account"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/profile_name"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="16sp" />-->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
         android:text="@string/menu"
         android:textAllCaps="true"
         android:textColor="@android:color/white"

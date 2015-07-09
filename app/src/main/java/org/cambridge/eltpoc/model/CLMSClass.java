@@ -12,7 +12,6 @@ import io.realm.annotations.PrimaryKey;
 public class CLMSClass extends RealmObject {
     @Expose
     private String TYPE = "clms#class";
-    @PrimaryKey
     @Expose
     private int id;
     @Expose
@@ -24,8 +23,10 @@ public class CLMSClass extends RealmObject {
     @Expose
     @SerializedName("course-id")
     private int courseId;
-    private CLMSUnitLessonScore unitScore;
-    private CLMSUnitLessonScore lessonScore;
+    private CLMSUnitScore unitScore;
+    private CLMSLessonScore lessonScore;
+    @PrimaryKey
+    private String uniqueId;
 
     public int getId() {
         return id;
@@ -67,19 +68,27 @@ public class CLMSClass extends RealmObject {
         // Do nothing
     }
 
-    public CLMSUnitLessonScore getUnitScore() {
+    public CLMSUnitScore getUnitScore() {
         return unitScore;
     }
 
-    public void setUnitScore(CLMSUnitLessonScore unitScore) {
+    public void setUnitScore(CLMSUnitScore unitScore) {
         this.unitScore = unitScore;
     }
 
-    public CLMSUnitLessonScore getLessonScore() {
+    public CLMSLessonScore getLessonScore() {
         return lessonScore;
     }
 
-    public void setLessonScore(CLMSUnitLessonScore lessonScore) {
+    public void setLessonScore(CLMSLessonScore lessonScore) {
         this.lessonScore = lessonScore;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 }

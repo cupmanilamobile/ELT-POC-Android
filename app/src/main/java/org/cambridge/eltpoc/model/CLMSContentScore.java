@@ -11,8 +11,8 @@ import io.realm.annotations.PrimaryKey;
  */
 public class CLMSContentScore extends RealmObject {
     @Expose
+    @SerializedName("kind")
     private String kind = "";
-    @PrimaryKey
     @Expose
     private int id;
     @Expose
@@ -24,6 +24,14 @@ public class CLMSContentScore extends RealmObject {
     @Expose
     @SerializedName("time-accessed")
     private int timeAccessed;
+
+    @PrimaryKey
+    private String uniqueId;
+
+    private int classId;
+    private int unitId;
+    private int lessonId;
+    private String downloadedFile = "";
 
     public String getKind() {
         return kind;
@@ -63,5 +71,45 @@ public class CLMSContentScore extends RealmObject {
 
     public void setTimeAccessed(int timeAccessed) {
         this.timeAccessed = timeAccessed;
+    }
+
+    public String getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
+    public int getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
+
+    public int getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(int lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public String getDownloadedFile() {
+        return downloadedFile;
+    }
+
+    public void setDownloadedFile(String downloadedFile) {
+        this.downloadedFile = downloadedFile;
     }
 }

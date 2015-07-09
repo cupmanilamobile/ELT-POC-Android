@@ -16,6 +16,16 @@ public class CLMSModel implements ModelObservable {
 
     private String errorMessage = "";
 
+    private boolean isLoading = false;
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setIsLoading(boolean isLoading) {
+        this.isLoading = isLoading;
+    }
+
     @Override
     public void registerObserver(Observer observer) {
         observers.add(observer);
