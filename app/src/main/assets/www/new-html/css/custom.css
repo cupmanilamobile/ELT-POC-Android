@@ -100,7 +100,12 @@ h6 {
     }
 }
 
-.class.label + p + .collection.z-depth-1 .collection-item:after {
+i.chev.classProgress + i.material-icons {
+  margin-right: 0;
+}
+
+
+/*.class.label + * + .collection.z-depth-1 .collection-item:after {
   content: "\e5cc";
   position: absolute;
   right: .5em;
@@ -109,7 +114,7 @@ h6 {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
+  font-size: 24px;
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -118,7 +123,7 @@ h6 {
   letter-spacing: normal;
   word-wrap: normal;
   vertical-align: bottom;
-}
+}*/
 /* CLASS VIEW */
 
 
@@ -168,7 +173,7 @@ h6 {
   z-index: 10;
 }
 
-.collapsible-body.content span.badge {
+span.badge {
     margin-right: -15px;
 }
 
@@ -191,7 +196,7 @@ ul.collapsible li.active div.collapsible-body.content {
 /* Margins */
 
 
-/* Video */
+/* VIDEO */
 @media only screen and (max-width : 600px) {
   .material-icons {
       line-height: inherit;
@@ -236,15 +241,15 @@ video.responsive-video {
   font-weight: 100;
   color: #757575;
 }
+/* VIDEO */
+
+
 
 /* NAV */
 .tabs .indicator {
-  /*background-color: rgba(0, 0, 0, .1);*/
   background-color: #c8b269;
   bottom: 0;
   height: .35em;
-  /*height: 100%;*/
-  /*border-bottom: .35em solid #c8b269;*/
 }
 
 .tabs .tab a {
@@ -281,9 +286,9 @@ nav.main {
 .container {
     width: 95% !important;
 }
-
 /* NAV */
 
+/* LABEL */
 span.class.label {
   background-color: #009688;
   color: #fff;
@@ -292,8 +297,25 @@ span.class.label {
   padding: .35em .5em .25em;
   margin-bottom: 1em;
   display: inline-block;
+  border-radius: 3px;
 }
 
 span.class.label:after {
   content: "CLASSES"
 }
+
+.classProgress {
+  background-color: #F44336;
+  border-radius: 2px;
+  color: #fff;
+  font-size: 0.85rem !important;
+  font-style: normal;
+  font-weight: 300;
+  padding: 0.35em 0.5em 0.25em;
+  position: relative;
+  top: -0.125em;
+  margin-right: 5px;
+  float: none !important;
+  display: inline !important;
+}
+/* LABEL */
