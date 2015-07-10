@@ -104,7 +104,8 @@ public interface TestHarnessService {
 
     @FormUrlEncoded
     @PUT("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores/{lessonId}/content-scores/{contentId}")
-    void updateContentScore(@Path("classId") int courseId,
+    void updateContentScore(@Header("Authorization") String accessToken,
+                            @Path("classId") int courseId,
                             @Path("userId") long userId,
                             @Path("unitId") int unitId,
                             @Path("lessonId") int lessonId,

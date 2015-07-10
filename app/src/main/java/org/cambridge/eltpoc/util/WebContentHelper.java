@@ -5,7 +5,6 @@ import android.view.View;
 import android.webkit.WebView;
 
 import org.cambridge.eltpoc.Constants;
-import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.adapters.NavigationDrawerAdapter;
 import org.cambridge.eltpoc.model.CLMSClass;
 import org.cambridge.eltpoc.model.CLMSContentScore;
@@ -22,7 +21,8 @@ import java.util.ArrayList;
  * Created by etorres on 7/6/15.
  */
 public class WebContentHelper {
-    public static ArrayList<Integer> updateCourseContent(Context context, WebView webView, boolean isLearning) {
+    public static ArrayList<Integer> updateCourseContent(Context context, WebView webView,
+                                                         boolean isLearning, boolean hasConnection) {
         JSONObject obj;
         JSONArray courseArray = new JSONArray();
         JSONArray classArray;
@@ -51,7 +51,8 @@ public class WebContentHelper {
                     JSONObject classObj = new JSONObject();
                     classObj.put(Constants.CLASS_NAME, cCLass.getClassName());
                     classObj.put(Constants.CLASS_ID, cCLass.getId());
-                    classArray.put(classObj);
+                    if(hasConnection || (!hasConnection && checkClassHasContent(context, cCLass.getId())))
+                        classArray.put(classObj);
                 }
                 if (studentCount > 0 && teachCount > 0) {
                     type = Constants.TYPE_BOTH;
@@ -72,7 +73,7 @@ public class WebContentHelper {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (classes.size() > 0) {
+            if (classArray.length() > 0) {
                 if (isLearning) {
                     if (type.equalsIgnoreCase(Constants.TYPE_BOTH) ||
                             type.equalsIgnoreCase(Constants.TYPE_LEARNING))
@@ -93,16 +94,17 @@ public class WebContentHelper {
         return contentCount;
     }
 
-    public static void updateUnitContent(Context context, ArrayList<CLMSUnitScore> unitScores,
-                                         WebView webView, int courseId, boolean isDownloaded) {
+    public static void updateUnitContent(Context context, WebView webView, int courseId,
+                                         int classId, boolean isDownloaded) {
         JSONObject obj;
         JSONArray unitScoreArray = new JSONArray();
         JSONArray lessonScoreArray;
         JSONArray contentScoreArray;
-        int classId = 0;
         ArrayList<CLMSContentScore> contentList = new ArrayList<>();
+        ArrayList<CLMSUnitScore> unitScores = RealmTransactionUtils.getUnitScores(context, classId);
         if(unitScores != null) {
             for (CLMSUnitScore unitScore : unitScores) {
+                float unitProgress = 0;
                 obj = new JSONObject();
                 classId = unitScore.getClassId();
                 lessonScoreArray = new JSONArray();
@@ -117,10 +119,10 @@ public class WebContentHelper {
                         lessonObj.put(Constants.LESSON_NAME, lessonScore.getLessonName());
                         lessonObj.put(Constants.LESSON_ID, lessonScore.getId());
                         lessonObj.put(Constants.LESSON_UNIQUE_ID, lessonScore.getUniqueId());
-                        lessonObj.put(Constants.LESSON_PROGRESS, lessonScore.getCalcProgress());
                         ArrayList<CLMSContentScore> contentScores = RealmTransactionUtils.getContentScores(context,
                                 unitScore.getClassId(), unitScore.getId(), lessonScore.getId());
                         contentScoreArray = new JSONArray();
+                        float progress = 0;
                         for(CLMSContentScore contentScore : contentScores) {
                             JSONObject contentObj = new JSONObject();
                             contentObj.put(Constants.CONTENT_NAME, contentScore.getContentName());
@@ -131,6 +133,7 @@ public class WebContentHelper {
                             if((isDownloaded && !contentScore.getDownloadedFile().isEmpty()) || !isDownloaded) {
                                 contentScoreArray.put(contentObj);
                                 contentList.add(contentScore);
+                                progress += contentScore.getCalcProgress();
                             }
                         }
                         if((isDownloaded && contentScoreArray.length() > 0) || !isDownloaded) {
@@ -138,12 +141,16 @@ public class WebContentHelper {
                             lessonObj.put(Constants.CONTENTS, contentScoreArray);
                             lessonScoreArray.put(lessonObj);
                         }
+                        lessonObj.put(Constants.LESSON_PROGRESS, formatProgress(progress,
+                                contentScoreArray.length()));
+                        unitProgress += progress/contentScoreArray.length();
                     }
                     if((isDownloaded && lessonScoreArray.length() > 0) || !isDownloaded) {
                         obj.put(Constants.LESSON_SIZE, lessonScoreArray.length());
                         obj.put(Constants.LESSONS, lessonScoreArray);
                     }
-
+                    obj.put(Constants.UNIT_PROGRESS, formatProgress(unitProgress,
+                            lessonScoreArray.length()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -152,8 +159,39 @@ public class WebContentHelper {
             }
             webView.loadUrl("javascript:addUnit('" + unitScoreArray.length() + "', "
                     + unitScoreArray + ", "+ courseId + ", " + classId + ")");
-            ELTApplication.getInstance().getContentScoreListObserver().setScoreList(contentList);
         }
+    }
+
+    private static String formatProgress(float progress, int length) {
+        if(length == 0)
+            return "0.00%";
+        return String.format("%.2f", progress/length)+"%";
+    }
+
+    private static boolean checkClassHasContent(Context context, int classId) {
+        ArrayList<CLMSUnitScore> unitScores = RealmTransactionUtils.getUnitScores(context, classId);
+        boolean hasContent = false;
+        for(CLMSUnitScore unitScore : unitScores) {
+            ArrayList<CLMSLessonScore> lessonScores = RealmTransactionUtils.getLessonScores(context,
+                    classId, unitScore.getId());
+            for(CLMSLessonScore lessonScore : lessonScores) {
+                ArrayList<CLMSContentScore> contentScores = RealmTransactionUtils.getContentScores(
+                        context, classId, unitScore.getId(), lessonScore.getId());
+                for(CLMSContentScore contentScore : contentScores) {
+                    if(!contentScore.getDownloadedFile().isEmpty()) {
+                        hasContent = true;
+                        break;
+                    }
+                    if(hasContent)
+                        break;
+                }
+                if(hasContent)
+                    break;
+            }
+            if(hasContent)
+                break;
+        }
+        return hasContent;
     }
 
     public static void updateTabVisibility(int learningCount, int teachingCount, boolean isInitial,
@@ -166,8 +204,8 @@ public class WebContentHelper {
             teachingLayout.setVisibility(View.VISIBLE);
         else
             teachingLayout.setVisibility(View.GONE);
-        if(!isInitial)
-            drawerAdapter.removeTeachingTab(teachingCount == 0);
+        drawerAdapter.removeTeachingTab(teachingCount == 0);
+        drawerAdapter.notifyDataSetChanged();
     }
 
     public static void updateTabVisibility(boolean isDownloadedEnabled,
@@ -187,7 +225,7 @@ public class WebContentHelper {
                 webLevel = Constants.HOME_LEVEL;
                 break;
             case Constants.LESSON_ALL_CONTENT_URL:
-            case Constants.LESSON_DONWLOADED_URL:
+            case Constants.LESSON_DOWNLOADED_URL:
                 webLevel = Constants.LESSON_LEVEL;
                 break;
             case Constants.VIDEO_URL:

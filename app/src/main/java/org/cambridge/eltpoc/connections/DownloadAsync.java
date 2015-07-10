@@ -5,8 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.model.CLMSContentScore;
+import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
 
 import java.io.BufferedInputStream;
@@ -33,14 +33,16 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     private ProgressDialog mProgressDialog;
     private int progress = 0;
     private String outputFile;
+    private CLMSModel webModel;
 
     public DownloadAsync(Context context, CLMSContentScore contentScore, String url,
-                         String outputDirectory, String outputFile) {
+                         String outputDirectory, String outputFile, CLMSModel webModel) {
         this.context = context;
         this.contentScore = contentScore;
         urlToDownload = url;
         this.outputDirectory = outputDirectory;
         this.outputFile = outputFile;
+        this.webModel = webModel;
     }
 
     @Override
@@ -105,10 +107,10 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
             e.printStackTrace();
         }
         mProgressDialog.dismiss();
-        ELTApplication.getInstance().getLinkModel().setWebLink("file:///" +
-                outputDirectory + "/" + unzipped + "/index.html");
-        ELTApplication.getInstance().getLinkModel().setClassName(contentScore.getContentName());
-        ELTApplication.getInstance().getLinkModel().notifyObservers();
+        File file = new File(outputDirectory + "/" + outputFile);
+        file.delete();
+        webModel.setIsRefreshed(true);
+        webModel.notifyObservers();
     }
 
     private void unzip(String zipFilePath, String destinationPath) throws Exception {
@@ -160,38 +162,4 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
             throw new RuntimeException("Can not create dir " + dir);
         }
     }
-
-//    private void unzip(String zipFile, String location) {
-//        try  {
-//            FileInputStream fin = new FileInputStream(zipFile);
-//            ZipInputStream zin = new ZipInputStream(fin);
-//            ZipEntry ze = null;
-//            while ((ze = zin.getNextEntry()) != null) {
-//                Log.v("Decompress", "Unzipping " + ze.getName());
-//                if(ze.isDirectory())
-//                    checkDirectory(ze.getName(), location);
-//                else {
-//                    mProgressDialog.setMessage("Unzipping...");
-//                    mProgressDialog.setIndeterminate(true);
-//                    FileOutputStream fout = new FileOutputStream(location + ze.getName());
-//                    for (int c = zin.read(); c != -1; c = zin.read()) {
-//                        fout.write(c);
-//                    }
-//                    zin.closeEntry();
-//                    fout.close();
-//                }
-//            }
-//            zin.close();
-//        } catch(Exception e) {
-//            Log.e("Decompress", "unzip", e);
-//        }
-//
-//    }
-//
-//    private void checkDirectory(String dir, String location) {
-//        File f = new File(location + dir);
-//        if(!f.isDirectory()) {
-//            f.mkdirs();
-//        }
-//    }
 }

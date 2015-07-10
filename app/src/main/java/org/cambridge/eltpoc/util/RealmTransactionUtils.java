@@ -115,6 +115,14 @@ public class RealmTransactionUtils {
         realm.commitTransaction();
     }
 
+    public static void updateContentScoreProgress(Context context, CLMSContentScore contentScore, int progress) {
+        Realm realm = Realm.getInstance(context);
+        realm.beginTransaction();
+        contentScore.setCalcProgress(progress);
+        realm.copyToRealmOrUpdate(contentScore);
+        realm.commitTransaction();
+    }
+
     public static void updateLessonScore(Context context, CLMSLessonScore lessonScore) {
         Realm realm = Realm.getInstance(context);
         realm.beginTransaction();

@@ -51,6 +51,7 @@ function truncateName(name) {
 }
 
 function addCourse(count, courses) {
+    window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
             $('#course-list').append('<li>' +
                                 '<div class="collapsible-header class">' +
@@ -64,7 +65,6 @@ function addCourse(count, courses) {
                                             '<div class="col s12 m8 l9">' +
                                                 '<h2>'+ courses[i].Name +'</h2>' +
                                                 '<span class="class label"></span>' +
-                                                '<p>Uniquely incubate one-to-one manufactured products through 24/365 niches. Monotonectally unleash. </p>' +
                                                 '<div class="collection z-depth-1">' +
                                                 addClass(courses[i].ClassSize, courses[i].Classes, courses[i].CourseId) +
                                                 '</div>' +
@@ -74,73 +74,113 @@ function addCourse(count, courses) {
                                 '</li>').collapsible();
     //                            '<a href="content.html" class="collection-item">Class 2<span class="new badge">4</span></a>'
         }
+    window.JSInterface.showLoadingScreen(false);
 }
 
 function addUnit(count, units, courseId, classId) {
+    window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
         $('#unit-list').append('<li>' +
                 '<div class="collapsible-header content">' +
                     '<i class="material-icons">folder</i>' + units[i].Name +' (Unit)' +
+                    '<span class="badge">'+
+                        '<i class="classProgress">'+ units[i].UnitProgress+'</i>' +
+                    '</span>' +
                 '</div>' +
-                addLesson(units[i].LessonSize, units[i].Lessons) +
+                addLesson(units[i].LessonSize, units[i].Lessons, courseId, classId, units[i].UnitId) +
             '</li>'
         ).collapsible();
         addLessonCollapsible(units[i].LessonSize, units[i].Lessons, courseId, classId, units[i].UnitId);
     }
+    window.JSInterface.showLoadingScreen(false);
 }
 
-function addLesson(count, lessons) {
+function addLesson(count, lessons, courseId, classId, unitId) {
     var name = '';
-        for(var i = 0; i < count; i++) {
-             name += '<div class="collapsible-body content">' +
-                        '<ul class="collapsible" data-collapsible="accordion" id="'+lessons[i].LessonUniqueId+ '">' +
-                        '</ul>' +
-                      '</div>';
-        }
-        return name;
+    for(var i = 0; i < count; i++) {
+        name += '<div class="collapsible-body content">' +
+            '<ul class="collapsible" data-collapsible="accordion" id="'+lessons[i].LessonUniqueId+ '">' +
+            '</ul>' +
+        '</div>';
+    }
+    return name;
 }
 
 function addLessonCollapsible(count, lessons, courseId, classId, unitId) {
     for(var i = 0; i < count; i++) {
-        $('#'+lessons[i].LessonUniqueId).append('<li>' +
-            '<div class="collapsible-header"><i class="material-icons">assignment</i>' +
-                lessons[i].LessonName +
-            '</div>' +
-            addContent(lessons[i].ContentSize, lessons[i].Contents, courseId, classId, unitId, lessons[i].LessonId) +
+        if(lessons[i].LessonId != 0) {
+            $('#'+lessons[i].LessonUniqueId).append('<li>' +
+                '<div class="collapsible-header"><i class="material-icons">assignment</i>' +
+                    lessons[i].LessonName +
+                    '<span class="badge">'+
+                        '<i class="classProgress">'+ lessons[i].LessonProgress+'</i>' +
+                    '</span>' +
+                '</div>' +
+                addContent(lessons[i].ContentSize, lessons[i].Contents, courseId, classId,
+                    unitId, lessons[i].LessonId, false) +
             '</li>'
-        ).collapsible();
+            ).collapsible();
+        }
+
+        else {
+            $('#'+lessons[i].LessonUniqueId).append('<li>' +
+                addContent(lessons[i].ContentSize, lessons[i].Contents, courseId, classId,
+                    unitId, lessons[i].LessonId, true) +
+            '</li>').collapsible();
+        }
     }
 
 }
 
-function addContent(count, contents, courseId, classId, unitId, lessonId) {
+function addContent(count, contents, courseId, classId, unitId, lessonId, isRemoved) {
     var name = '';
-    name += '<div class="collapsible-body">' +
-                '<div class="collection">';
+    if(isRemoved)
+        name += '<div class="collection">';
+    else
+        name += '<div class="collapsible-body">' +
+                    '<div class="collection">';
     for(var i = 0; i < count; i++) {
-        name += '<a class="collection-item" onclick="downloadContent('+courseId+' ,'+classId+' ,'+
-                    unitId+' ,'+lessonId+' ,'+contents[i].ContentId +')">' +
-                    '<i class="material-icons">description</i>' +
-                        contents[i].ContentName +
+        name += '<div class="card">' +
+                    '<div class="card-content collection-item activator">' +
+                        '<i class="material-icons">description</i>' + contents[i].ContentName +
+                        '<i class="classProgress">' + contents[i].ContentProgress+ '</i>' +
                         '<span class="badge">' +
-                            addContentIcons(contents[i].ContentDownloaded) +
+                            '<i class="material-icons">&#xE5CC;</i>' +
                         '</span>' +
-                '</a>';
+                    '</div>' +
+                    addContentIcons(contents[i].ContentDownloaded, courseId, classId
+                                                    ,unitId, lessonId, contents[i].ContentId);
     }
-    name += '</div>' + '</div>';
+    if(isRemoved)
+        name+='</div>';
+    else
+        name += '</div>' + '</div>';
     return name;
 }
 
-function addContentIcons(downloaded) {
+function addContentIcons(downloaded, courseId, classId, unitId, lessonId, contentId) {
     var name = '';
+    name += '<div class="card-reveal">' +
+                '<span class="card-title grey-text text-darken-4">' +
+                    '<i class="material-icons">&#xE5CD;</i>' +
+                '</span>';
     if(downloaded) {
-        name += '<i class="material-icons">delete</i>' +
-             '<i class="material-icons">&#xE5D4</i>';
+        name += '<a onclick="deleteContent('+courseId+' ,'+classId+' ,'+
+                                                     unitId+' ,'+lessonId+' ,'+contentId +')">' +
+                    '<i class="material-icons">delete</i>' +
+                    'Delete Content</a>' +
+                    '<a onclick="downloadContent('+courseId+' ,'+classId+' ,'+
+                        unitId+' ,'+lessonId+' ,'+contentId +')">' +
+                    '<i class="material-icons">&#xE417</i>' +
+                    'View Content</a>';
     }
     else {
-        name += '<i class="material-icons">&#xE2C4</i>' +
-        '<i class="material-icons">&#xE5D4</i>';
+        name += '<a onclick="downloadContent('+courseId+' ,'+classId+' ,'+
+                    unitId+' ,'+lessonId+' ,'+contentId +')">' +
+                    '<i class="material-icons">&#xE2C4</i>' +
+                                'Download Content</a>';
     }
+    name += '</div> </div>';
     return name;
 }
 
@@ -148,104 +188,9 @@ function downloadContent(courseId, classId, unitId, lessonId, contentId) {
     window.JSInterface.downloadContent(courseId, classId, unitId, lessonId, contentId);
 }
 
-//    <div class="collapsible-body content">
-//
-//
-//                            <ul class="collapsible" data-collapsible="accordion">
-//                                <li>
-//                                    <div class="collapsible-header"><i class="material-icons">assignment</i>First
-//                                        Lesson
-//                                    </div>
-//                                    <div class="collapsible-body">
-//                                        <div class="collection">
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 1
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 2
-//                <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 3
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 4
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                        </div>
-//                                    </div>
-//                                </li>
-//                                <li>
-//                                    <div class="collapsible-header"><i class="material-icons">assignment</i>Second
-//                                        Lesson
-//                                    </div>
-//                                    <div class="collapsible-body">
-//                                        <div class="collection">
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 1
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 2
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                        </div>
-//                                    </div>
-//                                </li>
-//                                <li>
-//                                    <div class="collapsible-header"><i class="material-icons">assignment</i>Third
-//                                        Lesson
-//                                    </div>
-//                                    <div class="collapsible-body">
-//                                        <div class="collection">
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 1
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                            <a href="video.html" class="collection-item"><i
-//                                                    class="material-icons">description</i> Content 2
-//                  <span class="badge">
-//                    <i class="material-icons">file_download</i>
-//                    <i class="material-icons">delete</i>
-//                    <i class="material-icons">more_vert</i>
-//                  </span>
-//                                            </a>
-//                                        </div>
-//                                    </div>
-//                                </li>
-//                            </ul>
-//                        </div>
-//                    </li>
+function deleteContent(courseId, classId, unitId, lessonId, contentId) {
+    window.JSInterface.deleteContent(courseId, classId, unitId, lessonId, contentId);
+}
 
 function addLearningCourse(count, courses) {
     clearList();
