@@ -143,7 +143,8 @@ public class WebContentHelper {
                         }
                         lessonObj.put(Constants.LESSON_PROGRESS, formatProgress(progress,
                                 contentScoreArray.length()));
-                        unitProgress += progress/contentScoreArray.length();
+                        if(contentScoreArray.length() > 0)
+                            unitProgress += progress/contentScoreArray.length();
                     }
                     if((isDownloaded && lessonScoreArray.length() > 0) || !isDownloaded) {
                         obj.put(Constants.LESSON_SIZE, lessonScoreArray.length());

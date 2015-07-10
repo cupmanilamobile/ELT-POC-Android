@@ -51,7 +51,8 @@ function truncateName(name) {
 }
 
 function addCourse(count, courses) {
-    window.JSInterface.showLoadingScreen(true);
+    if(count > 0)
+        window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
             $('#course-list').append('<li>' +
                                 '<div class="collapsible-header class">' +
@@ -73,12 +74,14 @@ function addCourse(count, courses) {
                                     '</div>' +
                                 '</li>').collapsible();
     //                            '<a href="content.html" class="collection-item">Class 2<span class="new badge">4</span></a>'
-        }
-    window.JSInterface.showLoadingScreen(false);
+    }
+    if(count > 0)
+        window.JSInterface.showLoadingScreen(false);
 }
 
 function addUnit(count, units, courseId, classId) {
-    window.JSInterface.showLoadingScreen(true);
+    if(count > 0)
+        window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
         $('#unit-list').append('<li>' +
                 '<div class="collapsible-header content">' +
@@ -92,7 +95,8 @@ function addUnit(count, units, courseId, classId) {
         ).collapsible();
         addLessonCollapsible(units[i].LessonSize, units[i].Lessons, courseId, classId, units[i].UnitId);
     }
-    window.JSInterface.showLoadingScreen(false);
+    if(count > 0)
+        window.JSInterface.showLoadingScreen(false);
 }
 
 function addLesson(count, lessons, courseId, classId, unitId) {

@@ -317,8 +317,11 @@ public class CLMSJavaScriptInterface {
                 contentScoreListObserver.setContentsRetrieved(true);
                 break;
         }
-        if (contentScoreListObserver.allDetailsRetrieved())
+        if (contentScoreListObserver.allDetailsRetrieved()) {
+            contentScoreListObserver.setClassId(classId);
             contentScoreListObserver.notifyObservers();
+            showLoadingScreen(false);
+        }
     }
 
     @JavascriptInterface
@@ -428,16 +431,17 @@ public class CLMSJavaScriptInterface {
     @JavascriptInterface
     public void updateClassName(final String className, final int courseId, final int classId) {
         ELTApplication.getInstance().getLinkModel().setClassName(className);
-        webModel.setIsLoading(true);
-        webModel.notifyObservers();
         ELTApplication.getInstance().getContentScoreListObserver().setCourseId(courseId);
         ELTApplication.getInstance().getContentScoreListObserver().setClassId(classId);
         ArrayList<CLMSUnitScore> unitScores = RealmTransactionUtils.getUnitScores(activity, classId);
         if (unitScores.size() == 0 && Misc.hasInternetConnection(activity)) {
+            showLoadingScreen(true);
             CLMSUser user = ELTApplication.getInstance().getCurrentUser();
             saveUnitScoreList(user.getAccessToken(), classId, user.getId());
-        } else
+        } else {
+            showLoadingScreen(true);
             ELTApplication.getInstance().getContentScoreListObserver().notifyObservers();
+        }
     }
 
     @JavascriptInterface
@@ -530,7 +534,6 @@ public class CLMSJavaScriptInterface {
     @JavascriptInterface
     public void showLoadingScreen(boolean isLoading) {
         webModel.setIsLoading(isLoading);
-        System.out.println("SHOW LOADING SCREEN>>>");
         webModel.notifyObservers();
     }
 

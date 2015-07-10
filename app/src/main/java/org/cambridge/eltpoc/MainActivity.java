@@ -11,12 +11,14 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     private TextView learningText, teachingText;
-    private RelativeLayout learningLayout, teachingLayout;
+    private FrameLayout learningLayout, teachingLayout;
 
     private View refreshIcon;
     private ImageView wifiIcon;
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ELTApplication.getInstance().getContentScoreListObserver().clearRetrieval();
         javaScriptInterface = new CLMSJavaScriptInterface(MainActivity.this, webModel);
         initViews();
         addWebViewListener();
@@ -177,9 +180,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     private void initTabs() {
-        learningLayout = (RelativeLayout) findViewById(R.id.learning_tab);
+        learningLayout = (FrameLayout) findViewById(R.id.learning_tab);
         learningText = (TextView) findViewById(R.id.learning_text);
-        teachingLayout = (RelativeLayout) findViewById(R.id.teaching_tab);
+        teachingLayout = (FrameLayout) findViewById(R.id.teaching_tab);
         teachingText = (TextView) findViewById(R.id.teaching_text);
 
         learningLayout.setSelected(true);
@@ -230,11 +233,31 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             learningText.setSelected(true);
             teachingLayout.setSelected(false);
             teachingText.setSelected(false);
+
+            ViewGroup.LayoutParams layoutParams =
+                    findViewById(R.id.learning_inner).getLayoutParams();
+            layoutParams.height = getResources().getDimensionPixelSize(R.dimen.tab_pressed_height);
+            findViewById(R.id.learning_inner).setLayoutParams(layoutParams);
+
+            ViewGroup.LayoutParams layoutParams2 =
+                    findViewById(R.id.teaching_inner).getLayoutParams();
+            layoutParams2.height = getResources().getDimensionPixelSize(R.dimen.tab_height);
+            findViewById(R.id.teaching_inner).setLayoutParams(layoutParams2);
         } else {
             teachingLayout.setSelected(true);
             teachingText.setSelected(true);
             learningLayout.setSelected(false);
             learningText.setSelected(false);
+
+            ViewGroup.LayoutParams layoutParams =
+                    findViewById(R.id.teaching_inner).getLayoutParams();
+            layoutParams.height = getResources().getDimensionPixelSize(R.dimen.tab_pressed_height);
+            findViewById(R.id.teaching_inner).setLayoutParams(layoutParams);
+
+            ViewGroup.LayoutParams layoutParams2 =
+                    findViewById(R.id.learning_inner).getLayoutParams();
+            layoutParams2.height = getResources().getDimensionPixelSize(R.dimen.tab_height);
+            findViewById(R.id.learning_inner).setLayoutParams(layoutParams2);
         }
     }
 
@@ -280,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     public void goBack(View View) {
-        if(webLevel == Constants.VIDEO_LEVEL)
+        if (webLevel == Constants.VIDEO_LEVEL)
             addWebViewListener();
         webLevel--;
         switch (webLevel) {
@@ -424,23 +447,21 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             CLMSWebModel webModel = (CLMSWebModel) model;
             updateInternetConnectionIcon(webModel.isHasInternetConnection());
             invalidateOptionsMenu();
-            if(webLevel == Constants.LESSON_LEVEL) {
+            if (webLevel == Constants.LESSON_LEVEL) {
                 WebContentHelper.updateTabVisibility(webModel.isHasInternetConnection(),
                         learningLayout, teachingLayout);
                 webView.reload();
-            }
-            else if(webLevel == Constants.HOME_LEVEL)
+            } else if (webLevel == Constants.HOME_LEVEL)
                 webView.reload();
-            if(webModel.isSynced()) {
+            if (webModel.isSynced()) {
                 if (rotate != null)
                     rotate.cancel();
                 DialogUtils.createDialog(this, "SYNC", webModel.getSyncMessage());
                 this.internetModel.setIsSynced(false);
             }
-        }
-        else if (model instanceof CLMSClassListObserver) {
+        } else if (model instanceof CLMSClassListObserver) {
             CLMSClassListObserver classListObserver = (CLMSClassListObserver) model;
-            if(classListObserver.isClassesRetrieved() && classListObserver.isCoursesRetrieved()) {
+            if (classListObserver.isClassesRetrieved() && classListObserver.isCoursesRetrieved()) {
                 ArrayList<Integer> contentCount = new ArrayList<Integer>();
                 contentCount = WebContentHelper.updateCourseContent(this, webView, true,
                         Misc.hasInternetConnection(this));
@@ -448,12 +469,15 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                         contentCount.get(1), false, learningLayout, teachingLayout, webView,
                         navigationDrawerAdapter);
             }
-        }
-        else if (model instanceof CLMSContentScoreListObserver) {
+        } else if (model instanceof CLMSContentScoreListObserver) {
             ELTApplication.getInstance().getContentScoreListObserver().clearRetrieval();
-            loadLessonURL(webView.getUrl());
-        }
-        else if(model instanceof CLMSLinkModel) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loadLessonURL(webView.getUrl());
+                }
+            });
+        } else if (model instanceof CLMSLinkModel) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -465,8 +489,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     webView.loadUrl(linkModel.getWebLink());
                 }
             });
-        }
-        else {
+        } else {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -474,8 +497,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                         webView.reload();
                         model.setIsRefreshed(false);
                         webModel.setIsRefreshed(false);
-                    }
-                    else {
+                    } else {
                         if (!model.isLoading())
                             findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
                         showLoadingScreen(model.isLoading());

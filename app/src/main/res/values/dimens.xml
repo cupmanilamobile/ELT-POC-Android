@@ -6,4 +6,6 @@
     <dimen name="navigation_list_width">240dp</dimen>
     <dimen name="video_margin_top">400dp</dimen>
     <dimen name="nav_text_size">18sp</dimen>
+    <dimen name="tab_pressed_height">60dp</dimen>
+    <dimen name="tab_height">55dp</dimen>
 </resources>

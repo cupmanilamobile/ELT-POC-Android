@@ -45,7 +45,7 @@ public class CLMSContentScoreListObserver extends CLMSModel {
     }
 
     public boolean allDetailsRetrieved() {
-        return isUnitsRetrieved() && isLessonsRetrieved() && isUnitsRetrieved();
+        return isUnitsRetrieved() & isLessonsRetrieved() & isContentsRetrieved();
     }
 
     public int getClassId() {

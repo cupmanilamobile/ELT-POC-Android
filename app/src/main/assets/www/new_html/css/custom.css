@@ -77,12 +77,6 @@ h6 {
    max-width: 100%;
 }
 
-.author {
-  font-style: italic;
-  color: #666;
-  margin-bottom: .25em;
-}
-
 .collapsible-header.class {
   background-color: #ac8f2d;
   border: 1px solid #9e7d0e;
@@ -100,34 +94,18 @@ h6 {
     }
 }
 
-i.chev.classProgress + i.material-icons {
-  margin-right: 0;
+
+.collection .collection-item {
+    padding: 17px 20px;
 }
 
-
-/*.class.label + * + .collection.z-depth-1 .collection-item:after {
-  content: "\e5cc";
-  position: absolute;
-  right: .5em;
-  color: #666666;
-
-  font-family: 'Material Icons';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  vertical-align: bottom;
-}*/
-/* CLASS VIEW */
-
-
 /* CONTENT VIEW */
+.collection-item,
+.collapsible-header {
+    padding: 0.5rem 1rem;
+    height: 4rem;
+}
+
 /* Unit */
 .collapsible-header.content {
   background-color: #37474F;
@@ -140,7 +118,7 @@ i.chev.classProgress + i.material-icons {
   border-color: #37474F transparent transparent;
   border-style: solid;
   border-width: 10px;
-  bottom: -50%;
+  bottom: -35%;
   content: "";
   display: block;
   height: 0;
@@ -163,7 +141,7 @@ i.chev.classProgress + i.material-icons {
   border-color: #607D8B transparent transparent;
   border-style: solid;
   border-width: 10px;
-  bottom: -50%;
+  bottom: -35%;
   content: "";
   display: block;
   height: 0;
@@ -243,26 +221,36 @@ video.responsive-video {
 }
 /* VIDEO */
 
-
-
 /* NAV */
 .tabs .indicator {
   background-color: #c8b269;
-  bottom: 0;
-  height: .35em;
+  /*height: .35em;*/
+  height: 0;
+  /*border-bottom: .35em solid #c8b269;*/
+}
+
+.tabs .tab a.active {
+  background-color: #eceff1;
+  color: #c8b269;
+  margin-top: -.3em;
+}
+
+.tabs .tab {
+  background-color: #eceff1;
 }
 
 .tabs .tab a {
-  color: #b4a05c;
+  color: rgba(255, 255, 255, .5);
   font-weight: 400;
+  background-color: #607d8b;
 }
 
 .tabs .tab a:hover {
   color: #b4a05c;
 }
 
-.tabs {
-  margin-bottom: 1.5em;
+#learning, #teaching {
+  padding-top: 2em;
 }
 
 nav.main {
@@ -305,7 +293,7 @@ span.class.label:after {
 }
 
 .classProgress {
-  background-color: #F44336;
+  background-color: #2196F3;
   border-radius: 2px;
   color: #fff;
   font-size: 0.8rem !important;
@@ -314,7 +302,7 @@ span.class.label:after {
   padding: 0.35em 0.5em 0.25em;
   position: relative;
   top: -0.125em;
-  margin-left: 15px;
+  margin-left: 10px;
   float: none !important;
   display: inline !important;
 }
@@ -322,7 +310,7 @@ span.class.label:after {
 
 /* CARD */
 .card .card-content {
-    padding: 10px;
+    padding: 15px;
     cursor: pointer;
 }
 
@@ -343,7 +331,9 @@ span.class.label:after {
   overflow-y: hidden;
   background-color: #CFD8DC;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
+  box-sizing: border-box;
+    border: 1px solid #B0BEC5;
 }
 
 .card .card-reveal a {
@@ -383,5 +373,6 @@ span.class.label:after {
   position: absolute;
   right: 0.5rem;
   color: #455a64;
+  top: 1.2rem;
 }
 /* CARD */
