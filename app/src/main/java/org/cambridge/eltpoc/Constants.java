@@ -7,7 +7,7 @@ public class Constants {
     //HTML URL's
     public static final String LEARNING_URL = "file:///android_asset/www/new_html/index.html";
     public static final String TEACHING_URL = "file:///android_asset/www/new_html/index_teaching.html";
-    public static final String LESSON_DONWLOADED_URL = "file:///android_asset/www/new_html/content_downloaded.html";
+    public static final String LESSON_DOWNLOADED_URL = "file:///android_asset/www/new_html/content_downloaded.html";
     public static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/new_html/content.html";
     public static final String VIDEO_URL = "file:///android_asset/www/new_html/video.html";
     public static final String NO_ENROLLED_URL = "file:///android_asset/www/new_html/no_enrolled.html";
@@ -59,5 +59,9 @@ public class Constants {
     public static final String UNIT_COUNT = "Count";
     public static final String UNIT_NAME = "Name";
     public static final String UNIT_ID = "UnitId";
-    public static final String UNIT_PROGRESS = "Progress";
+    public static final String UNIT_PROGRESS = "UnitProgress";
+
+    public static final int UNIT_TYPE = 0;
+    public static final int LESSON_TYPE = 1;
+    public static final int CONTENT_TYPE = 2;
 }

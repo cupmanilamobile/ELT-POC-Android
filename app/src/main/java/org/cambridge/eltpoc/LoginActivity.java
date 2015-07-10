@@ -146,14 +146,15 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
 
     private void checkLogin() {
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(this);
-        if (!user.getPassword().equalsIgnoreCase("") && !user.getUsername().equalsIgnoreCase("") &&
-                Misc.hasInternetConnection(this)) {
+        if (!user.getPassword().equalsIgnoreCase("") && !user.getUsername().equalsIgnoreCase("")) {
             startMainActivity();
-            try {
-                new CLMSJavaScriptInterface(this, null).authenticateLogin(
-                        user.getUsername(), user.getPassword());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            if(Misc.hasInternetConnection(this)) {
+                try {
+                    new CLMSJavaScriptInterface(this, null).authenticateLogin(
+                            user.getUsername(), user.getPassword());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
         } else
             initViews();

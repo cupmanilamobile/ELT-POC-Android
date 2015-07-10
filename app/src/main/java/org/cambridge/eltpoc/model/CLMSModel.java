@@ -18,12 +18,22 @@ public class CLMSModel implements ModelObservable {
 
     private boolean isLoading = false;
 
+    private boolean isRefreshed = false;
+
     public boolean isLoading() {
         return isLoading;
     }
 
     public void setIsLoading(boolean isLoading) {
         this.isLoading = isLoading;
+    }
+
+    public boolean isRefreshed() {
+        return isRefreshed;
+    }
+
+    public void setIsRefreshed(boolean isRefreshed) {
+        this.isRefreshed = isRefreshed;
     }
 
     @Override
