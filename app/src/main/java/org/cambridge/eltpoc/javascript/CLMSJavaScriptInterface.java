@@ -533,7 +533,8 @@ public class CLMSJavaScriptInterface {
 
     @JavascriptInterface
     public void showLoadingScreen(boolean isLoading) {
-        webModel.setIsLoading(isLoading);
+        webModel.setWebOperation(isLoading ? CLMSModel.WEB_OPERATION.LOADING :
+                CLMSModel.WEB_OPERATION.NONE);
         webModel.notifyObservers();
     }
 
@@ -556,7 +557,8 @@ public class CLMSJavaScriptInterface {
                         realm.commitTransaction();
                         DialogUtils.createDialog(activity, "Deleted", contentScore.getContentName() +
                                 " has been deleted.");
-                        webModel.setIsRefreshed(true);
+                        webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
+                        webModel.setWebOperation(CLMSModel.WEB_OPERATION.DELETED);
                         webModel.notifyObservers();
                     }
                 });

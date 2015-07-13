@@ -130,6 +130,7 @@ public class WebContentHelper {
                             contentObj.put(Constants.CONTENT_PROGRESS, contentScore.getCalcProgress());
                             contentObj.put(Constants.CONTENT_DOWNLOADED,
                                     !contentScore.getDownloadedFile().isEmpty());
+                            contentObj.put(Constants.CONTENT_UNIQUE_ID, contentScore.getUniqueId());
                             if((isDownloaded && !contentScore.getDownloadedFile().isEmpty()) || !isDownloaded) {
                                 contentScoreArray.put(contentObj);
                                 contentList.add(contentScore);
@@ -236,5 +237,14 @@ public class WebContentHelper {
                 webLevel = Constants.HOME_LEVEL;
         }
         return webLevel;
+    }
+
+    public static void refreshContents(WebView webView, CLMSContentScore contentScore) {
+        String refreshUrl = "javascript:refreshContents(" +
+                !contentScore.getDownloadedFile().isEmpty() + ", "
+                + '0' + ", "+ contentScore.getClassId() + ", " + contentScore.getUnitId()+ ", " +
+                contentScore.getLessonId() + ", " + contentScore.getId() + ", " + "'" +
+                contentScore.getUniqueId() + "')";
+        webView.loadUrl(refreshUrl);
     }
 }

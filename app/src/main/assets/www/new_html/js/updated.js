@@ -14,8 +14,8 @@ function updateLink(message) {
     window.location.assign(message);
 }
 
-function clearList() {
-    $('#course-list').empty();
+function clearList(divName) {
+    $(divName).empty();
 }
 
 function updateClassName(className, courseId, classId) {
@@ -38,7 +38,8 @@ function addClass(count, classes, courseId) {
 
 function addImage(image) {
     if(image == '')
-        return '<img src="images/no-image.png">';
+        return '<img src="http://content-poc.cambridgelms.org/main/p/sites/all/themes/' +
+                    'clmstouch2/img/lms-class.jpg">';
     else
         return '<img src="'+ image +'">';
 }
@@ -153,7 +154,8 @@ function addContent(count, contents, courseId, classId, unitId, lessonId, isRemo
                         '</span>' +
                     '</div>' +
                     addContentIcons(contents[i].ContentDownloaded, courseId, classId
-                                                    ,unitId, lessonId, contents[i].ContentId);
+                                                    ,unitId, lessonId, contents[i].ContentId,
+                                                    contents[i].ContentUniqueId);
     }
     if(isRemoved)
         name+='</div>';
@@ -162,30 +164,45 @@ function addContent(count, contents, courseId, classId, unitId, lessonId, isRemo
     return name;
 }
 
-function addContentIcons(downloaded, courseId, classId, unitId, lessonId, contentId) {
+function addContentIcons(downloaded, courseId, classId, unitId, lessonId, contentId, contentUniqueId) {
     var name = '';
-    name += '<div class="card-reveal">' +
+    name += '<div class="card-reveal" id="'+contentUniqueId+ '">' +
                 '<span class="card-title grey-text text-darken-4">' +
                     '<i class="material-icons">&#xE5CD;</i>' +
                 '</span>';
-    if(downloaded) {
-        name += '<a onclick="deleteContent('+courseId+' ,'+classId+' ,'+
-                                                     unitId+' ,'+lessonId+' ,'+contentId +')">' +
-                    '<i class="material-icons">delete</i>' +
-                    'Delete Content</a>' +
-                    '<a onclick="downloadContent('+courseId+' ,'+classId+' ,'+
-                        unitId+' ,'+lessonId+' ,'+contentId +')">' +
-                    '<i class="material-icons">&#xE417</i>' +
-                    'View Content</a>';
-    }
-    else {
-        name += '<a onclick="downloadContent('+courseId+' ,'+classId+' ,'+
-                    unitId+' ,'+lessonId+' ,'+contentId +')">' +
-                    '<i class="material-icons">&#xE2C4</i>' +
-                                'Download Content</a>';
-    }
+    name += updateContentIcon(downloaded, courseId, classId, unitId, lessonId, contentId);
     name += '</div> </div>';
     return name;
+}
+
+function updateContentIcon(downloaded, courseId, classId, unitId, lessonId, contentId) {
+    var name = '';
+    if(downloaded) {
+            name += '<a onclick="deleteContent('+courseId+' ,'+classId+' ,'+
+                                                         unitId+' ,'+lessonId+' ,'+contentId +')">' +
+                        '<i class="material-icons">delete</i>' +
+                        'Delete Content</a>' +
+                        '<a onclick="downloadContent('+courseId+' ,'+classId+' ,'+
+                            unitId+' ,'+lessonId+' ,'+contentId +')">' +
+                        '<i class="material-icons">&#xE417</i>' +
+                        'View Content</a>';
+        }
+        else {
+            name += '<a onclick="downloadContent('+courseId+' ,'+classId+' ,'+
+                        unitId+' ,'+lessonId+' ,'+contentId +')">' +
+                        '<i class="material-icons">&#xE2C4</i>' +
+                                    'Download Content</a>';
+        }
+    return name;
+}
+
+function refreshContents(downloaded, courseId, classId, unitId, lessonId, contentId, contentUniqueId) {
+    clearList('#'+contentUniqueId);
+    $('#'+contentUniqueId).append(
+        '<span class="card-title grey-text text-darken-4">' +
+            '<i class="material-icons">&#xE5CD;</i>' +
+        '</span>' +
+        updateContentIcon(downloaded, courseId, classId, unitId, lessonId, contentId));
 }
 
 function downloadContent(courseId, classId, unitId, lessonId, contentId) {
@@ -197,12 +214,12 @@ function deleteContent(courseId, classId, unitId, lessonId, contentId) {
 }
 
 function addLearningCourse(count, courses) {
-    clearList();
+    clearList('#course-list');
     addCourse(count, courses);
 }
 
 function addTeachingCourse(count, courses) {
-    clearList();
+    clearList('#course-list');
     addCourse(count, courses);
 }
 

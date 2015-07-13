@@ -374,7 +374,20 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     private void removeWebViewListener() {
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                showLoadingScreen(false);
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                webView.setLayoutParams(params);
+                showLoadingScreen(true);
+            }
+        });
     }
 
     private void loadTeachingLearningURL(String url) {
@@ -493,15 +506,23 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (model.isRefreshed()) {
-                        webView.reload();
-                        model.setIsRefreshed(false);
-                        webModel.setIsRefreshed(false);
-                    } else {
-                        if (!model.isLoading())
+                    switch (model.getWebOperation()) {
+                        case DOWNLOADED:
+                        case DELETED:
+                            WebContentHelper.refreshContents(webView, model.getContentScore());
+                            break;
+                        case REFRESHED:
+                            webView.reload();
+                            break;
+                        case LOADING:
+                            showLoadingScreen(true);
+                            break;
+                        case NONE:
                             findViewById(R.id.tab_layout).setVisibility(View.VISIBLE);
-                        showLoadingScreen(model.isLoading());
+                            showLoadingScreen(false);
+                            break;
                     }
+                    webModel.setWebOperation(CLMSModel.WEB_OPERATION.NONE);
                 }
             });
         }

@@ -16,25 +16,13 @@ public class CLMSModel implements ModelObservable {
 
     private String errorMessage = "";
 
-    private boolean isLoading = false;
+    public enum WEB_OPERATION {
+        NONE, LOADING, REFRESHED, DELETED, DOWNLOADED
+    };
 
-    private boolean isRefreshed = false;
+    private WEB_OPERATION webOperation;
 
-    public boolean isLoading() {
-        return isLoading;
-    }
-
-    public void setIsLoading(boolean isLoading) {
-        this.isLoading = isLoading;
-    }
-
-    public boolean isRefreshed() {
-        return isRefreshed;
-    }
-
-    public void setIsRefreshed(boolean isRefreshed) {
-        this.isRefreshed = isRefreshed;
-    }
+    private CLMSContentScore contentScore;
 
     @Override
     public void registerObserver(Observer observer) {
@@ -67,5 +55,21 @@ public class CLMSModel implements ModelObservable {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public WEB_OPERATION getWebOperation() {
+        return webOperation;
+    }
+
+    public void setWebOperation(WEB_OPERATION webOperation) {
+        this.webOperation = webOperation;
+    }
+
+    public CLMSContentScore getContentScore() {
+        return contentScore;
+    }
+
+    public void setContentScore(CLMSContentScore contentScore) {
+        this.contentScore = contentScore;
     }
 }

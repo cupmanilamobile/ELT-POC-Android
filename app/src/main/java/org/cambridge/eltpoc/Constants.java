@@ -55,6 +55,7 @@ public class Constants {
     public static final String CONTENT_SIZE = "ContentSize";
     public static final String CONTENT_PROGRESS = "ContentProgress";
     public static final String CONTENT_DOWNLOADED = "ContentDownloaded";
+    public static final String CONTENT_UNIQUE_ID = "ContentUniqueId";
 
     public static final String UNIT_COUNT = "Count";
     public static final String UNIT_NAME = "Name";

@@ -281,4 +281,18 @@ public class RealmTransactionUtils {
                 realm.commitTransaction();
         }
     }
+
+    public static CLMSContentScore cloneContentScore(CLMSContentScore contentScore) {
+        CLMSContentScore clonedContentScore = new CLMSContentScore();
+        clonedContentScore.setCalcProgress(contentScore.getCalcProgress());
+        clonedContentScore.setId(contentScore.getId());
+        clonedContentScore.setDownloadedFile(contentScore.getDownloadedFile());
+        clonedContentScore.setClassId(contentScore.getClassId());
+        clonedContentScore.setContentName(contentScore.getContentName());
+        clonedContentScore.setLessonId(contentScore.getLessonId());
+        clonedContentScore.setTimeAccessed(contentScore.getTimeAccessed());
+        clonedContentScore.setUniqueId(contentScore.getUniqueId());
+        clonedContentScore.setUnitId(contentScore.getUnitId());
+        return clonedContentScore;
+    }
 }

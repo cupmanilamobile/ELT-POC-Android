@@ -109,7 +109,8 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         mProgressDialog.dismiss();
         File file = new File(outputDirectory + "/" + outputFile);
         file.delete();
-        webModel.setIsRefreshed(true);
+        webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
+        webModel.setWebOperation(CLMSModel.WEB_OPERATION.DOWNLOADED);
         webModel.notifyObservers();
     }
 
