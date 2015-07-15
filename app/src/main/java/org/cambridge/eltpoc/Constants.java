@@ -11,6 +11,7 @@ public class Constants {
     public static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/new_html/content.html";
     public static final String VIDEO_URL = "file:///android_asset/www/new_html/video.html";
     public static final String NO_ENROLLED_URL = "file:///android_asset/www/new_html/no_enrolled.html";
+    public static final String END_POINT = "http://content-poc-api.cambridgelms.org";
 
     //WEB LEVEL
     public static final int HOME_LEVEL = 0;

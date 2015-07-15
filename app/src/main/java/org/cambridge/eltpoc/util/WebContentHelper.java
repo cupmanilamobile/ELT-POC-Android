@@ -1,6 +1,7 @@
 package org.cambridge.eltpoc.util;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.View;
 import android.webkit.WebView;
 
@@ -96,72 +97,7 @@ public class WebContentHelper {
 
     public static void updateUnitContent(Context context, WebView webView, int courseId,
                                          int classId, boolean isDownloaded) {
-        JSONObject obj;
-        JSONArray unitScoreArray = new JSONArray();
-        JSONArray lessonScoreArray;
-        JSONArray contentScoreArray;
-        ArrayList<CLMSContentScore> contentList = new ArrayList<>();
-        ArrayList<CLMSUnitScore> unitScores = RealmTransactionUtils.getUnitScores(context, classId);
-        if(unitScores != null) {
-            for (CLMSUnitScore unitScore : unitScores) {
-                float unitProgress = 0;
-                obj = new JSONObject();
-                classId = unitScore.getClassId();
-                lessonScoreArray = new JSONArray();
-                ArrayList<CLMSLessonScore> lessonScores = RealmTransactionUtils.getLessonScores(context,
-                        unitScore.getClassId(), unitScore.getId());
-                try {
-                    obj.put(Constants.UNIT_NAME, unitScore.getUnitName());
-                    obj.put(Constants.UNIT_ID, unitScore.getId());
-                    obj.put(Constants.UNIT_PROGRESS, unitScore.getCalcProgress());
-                    for(CLMSLessonScore lessonScore : lessonScores) {
-                        JSONObject lessonObj = new JSONObject();
-                        lessonObj.put(Constants.LESSON_NAME, lessonScore.getLessonName());
-                        lessonObj.put(Constants.LESSON_ID, lessonScore.getId());
-                        lessonObj.put(Constants.LESSON_UNIQUE_ID, lessonScore.getUniqueId());
-                        ArrayList<CLMSContentScore> contentScores = RealmTransactionUtils.getContentScores(context,
-                                unitScore.getClassId(), unitScore.getId(), lessonScore.getId());
-                        contentScoreArray = new JSONArray();
-                        float progress = 0;
-                        for(CLMSContentScore contentScore : contentScores) {
-                            JSONObject contentObj = new JSONObject();
-                            contentObj.put(Constants.CONTENT_NAME, contentScore.getContentName());
-                            contentObj.put(Constants.CONTENT_ID, contentScore.getId());
-                            contentObj.put(Constants.CONTENT_PROGRESS, contentScore.getCalcProgress());
-                            contentObj.put(Constants.CONTENT_DOWNLOADED,
-                                    !contentScore.getDownloadedFile().isEmpty());
-                            contentObj.put(Constants.CONTENT_UNIQUE_ID, contentScore.getUniqueId());
-                            if((isDownloaded && !contentScore.getDownloadedFile().isEmpty()) || !isDownloaded) {
-                                contentScoreArray.put(contentObj);
-                                contentList.add(contentScore);
-                                progress += contentScore.getCalcProgress();
-                            }
-                        }
-                        if((isDownloaded && contentScoreArray.length() > 0) || !isDownloaded) {
-                            lessonObj.put(Constants.CONTENT_SIZE, contentScoreArray.length());
-                            lessonObj.put(Constants.CONTENTS, contentScoreArray);
-                            lessonScoreArray.put(lessonObj);
-                        }
-                        lessonObj.put(Constants.LESSON_PROGRESS, formatProgress(progress,
-                                contentScoreArray.length()));
-                        if(contentScoreArray.length() > 0)
-                            unitProgress += progress/contentScoreArray.length();
-                    }
-                    if((isDownloaded && lessonScoreArray.length() > 0) || !isDownloaded) {
-                        obj.put(Constants.LESSON_SIZE, lessonScoreArray.length());
-                        obj.put(Constants.LESSONS, lessonScoreArray);
-                    }
-                    obj.put(Constants.UNIT_PROGRESS, formatProgress(unitProgress,
-                            lessonScoreArray.length()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if((isDownloaded && lessonScoreArray.length() > 0) || !isDownloaded)
-                    unitScoreArray.put(obj);
-            }
-            webView.loadUrl("javascript:addUnit('" + unitScoreArray.length() + "', "
-                    + unitScoreArray + ", "+ courseId + ", " + classId + ")");
-        }
+        new UpdateContentAsync(context, webView, courseId, classId, isDownloaded).execute();
     }
 
     private static String formatProgress(float progress, int length) {
@@ -246,5 +182,103 @@ public class WebContentHelper {
                 contentScore.getLessonId() + ", " + contentScore.getId() + ", " + "'" +
                 contentScore.getUniqueId() + "')";
         webView.loadUrl(refreshUrl);
+    }
+
+    private static class UpdateContentAsync extends AsyncTask<Object, Object, Object> {
+        private Context context;
+        private WebView webView;
+        private int courseId;
+        private int classId;
+        private boolean isDownloaded;
+        private JSONArray unitScoreArray = new JSONArray();
+
+        public UpdateContentAsync(Context context, WebView webView, int courseId,
+                                  int classId, boolean isDownloaded) {
+            this.context = context;
+            this.webView = webView;
+            this.courseId = courseId;
+            this.classId = classId;
+            this.isDownloaded = isDownloaded;
+        }
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            JSONObject obj;
+            JSONArray lessonScoreArray;
+            JSONArray contentScoreArray;
+            ArrayList<CLMSContentScore> contentList = new ArrayList<>();
+            ArrayList<CLMSUnitScore> unitScores = RealmTransactionUtils.getUnitScores(context, classId);
+            if(unitScores != null) {
+                for (CLMSUnitScore unitScore : unitScores) {
+                    float unitProgress = 0;
+                    obj = new JSONObject();
+                    classId = unitScore.getClassId();
+                    lessonScoreArray = new JSONArray();
+                    ArrayList<CLMSLessonScore> lessonScores = RealmTransactionUtils.getLessonScores(context,
+                            unitScore.getClassId(), unitScore.getId());
+                    try {
+                        obj.put(Constants.UNIT_NAME, unitScore.getUnitName());
+                        obj.put(Constants.UNIT_ID, unitScore.getId());
+                        obj.put(Constants.UNIT_PROGRESS, unitScore.getCalcProgress());
+                        for(CLMSLessonScore lessonScore : lessonScores) {
+                            JSONObject lessonObj = new JSONObject();
+                            lessonObj.put(Constants.LESSON_NAME, lessonScore.getLessonName());
+                            lessonObj.put(Constants.LESSON_ID, lessonScore.getId());
+                            lessonObj.put(Constants.LESSON_UNIQUE_ID, lessonScore.getUniqueId());
+                            ArrayList<CLMSContentScore> contentScores = RealmTransactionUtils.getContentScores(context,
+                                    unitScore.getClassId(), unitScore.getId(), lessonScore.getId());
+                            contentScoreArray = new JSONArray();
+                            float progress = 0;
+                            for(CLMSContentScore contentScore : contentScores) {
+                                JSONObject contentObj = new JSONObject();
+                                contentObj.put(Constants.CONTENT_NAME, contentScore.getContentName());
+                                contentObj.put(Constants.CONTENT_ID, contentScore.getId());
+                                contentObj.put(Constants.CONTENT_PROGRESS, contentScore.getCalcProgress());
+                                contentObj.put(Constants.CONTENT_DOWNLOADED,
+                                        !contentScore.getDownloadedFile().isEmpty());
+                                contentObj.put(Constants.CONTENT_UNIQUE_ID, contentScore.getUniqueId());
+                                if((isDownloaded && !contentScore.getDownloadedFile().isEmpty()) || !isDownloaded) {
+                                    contentScoreArray.put(contentObj);
+                                    contentList.add(contentScore);
+                                    progress += contentScore.getCalcProgress();
+                                }
+                            }
+                            if((isDownloaded && contentScoreArray.length() > 0) || !isDownloaded) {
+                                lessonObj.put(Constants.CONTENT_SIZE, contentScoreArray.length());
+                                lessonObj.put(Constants.CONTENTS, contentScoreArray);
+                                lessonScoreArray.put(lessonObj);
+                            }
+                            lessonObj.put(Constants.LESSON_PROGRESS, formatProgress(progress,
+                                    contentScoreArray.length()));
+                            if(contentScoreArray.length() > 0)
+                                unitProgress += progress/contentScoreArray.length();
+                        }
+                        if((isDownloaded && lessonScoreArray.length() > 0) || !isDownloaded) {
+                            obj.put(Constants.LESSON_SIZE, lessonScoreArray.length());
+                            obj.put(Constants.LESSONS, lessonScoreArray);
+                        }
+                        obj.put(Constants.UNIT_PROGRESS, formatProgress(unitProgress,
+                                lessonScoreArray.length()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if((isDownloaded && lessonScoreArray.length() > 0) || !isDownloaded)
+                        unitScoreArray.put(obj);
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            webView.post(new Runnable() {
+                @Override
+                public void run() {
+                    webView.loadUrl("javascript:addUnit('" + unitScoreArray.length() + "', "
+                            + unitScoreArray + ", " + courseId + ", " + classId + ")");
+                }
+            });
+        }
     }
 }

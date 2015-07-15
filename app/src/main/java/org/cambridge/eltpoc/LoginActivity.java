@@ -6,9 +6,11 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
@@ -77,6 +79,9 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
                 return false;
             }
         });
+
+        password.setTypeface(Typeface.DEFAULT);
+        password.setTransformationMethod(new PasswordTransformationMethod());
 
         username.addTextChangedListener(new TextWatcher() {
             @Override

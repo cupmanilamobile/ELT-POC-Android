@@ -69,6 +69,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
             viewHolder.text.setText(navigationArray[2]);
             viewHolder.icon.setImageResource(navigationDrawables[2]);
         }
+        convertView.setId(position);
         return convertView;
     }
 

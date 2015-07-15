@@ -59,7 +59,12 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     @Override
     protected void onProgressUpdate(Object... values) {
         super.onProgressUpdate(values);
-        mProgressDialog.setProgress(progress);
+        if(progress < 100)
+            mProgressDialog.setProgress(progress);
+        else {
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Unzipping files...");
+        }
     }
 
     @Override
@@ -90,23 +95,26 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        progress = 100;
+        publishProgress();
+        String unzipped = outputFile.replace(".zip", "");
+        try {
+            unzip(outputDirectory + "/" + outputFile, outputDirectory + "/" + unzipped);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
+        mProgressDialog.dismiss();
+
         String unzipped = outputFile.replace(".zip", "");
         RealmTransactionUtils.updateContentScoreUrl(context, contentScore, outputDirectory +
                 "/" + unzipped);
-        try {
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Unzipping files...");
-            unzip(outputDirectory + "/" + outputFile, outputDirectory + "/" + unzipped);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        mProgressDialog.dismiss();
+
         File file = new File(outputDirectory + "/" + outputFile);
         file.delete();
         webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));

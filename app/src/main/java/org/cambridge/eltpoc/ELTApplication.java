@@ -7,6 +7,7 @@ import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.model.CLMSWebModel;
 import org.cambridge.eltpoc.observers.CLMSClassListObserver;
 import org.cambridge.eltpoc.observers.CLMSContentScoreListObserver;
+import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 
 /**
  * Created by etorres on 6/24/15.
@@ -37,11 +38,9 @@ public class ELTApplication extends Application {
         return webModel;
     }
 
-    public void setWebModel(CLMSWebModel webModel) {
-        this.webModel = webModel;
-    }
-
     public CLMSUser getCurrentUser() {
+        if(currentUser == null)
+            return SharedPreferencesUtils.getLoggedInUser(getApplicationContext());
         return currentUser;
     }
 
@@ -53,23 +52,11 @@ public class ELTApplication extends Application {
         return classListObserver;
     }
 
-    public void setClassListObserver(CLMSClassListObserver classListObserver) {
-        this.classListObserver = classListObserver;
-    }
-
     public CLMSLinkModel getLinkModel() {
         return linkModel;
     }
 
-    public void setLinkModel(CLMSLinkModel linkModel) {
-        this.linkModel = linkModel;
-    }
-
     public CLMSContentScoreListObserver getContentScoreListObserver() {
         return contentScoreListObserver;
-    }
-
-    public void setContentScoreListObserver(CLMSContentScoreListObserver contentScoreListObserver) {
-        this.contentScoreListObserver = contentScoreListObserver;
     }
 }

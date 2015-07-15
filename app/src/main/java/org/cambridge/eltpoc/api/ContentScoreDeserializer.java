@@ -16,10 +16,12 @@ public class ContentScoreDeserializer implements JsonDeserializer<CLMSContentSco
     @Override
     public CLMSContentScore deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         CLMSContentScore contentScore = new CLMSContentScore();
-        contentScore.setCalcProgress(json.getAsJsonObject().get("calc-progress").getAsInt());
-        contentScore.setId(json.getAsJsonObject().get("id").getAsInt());
-        contentScore.setKind(json.getAsJsonObject().get("kind").getAsString());
-        contentScore.setContentName(json.getAsJsonObject().get("content-name").getAsString());
+        if(json.isJsonObject()) {
+            contentScore.setCalcProgress(json.getAsJsonObject().get("calc-progress").getAsInt());
+            contentScore.setId(json.getAsJsonObject().get("id").getAsInt());
+            contentScore.setKind(json.getAsJsonObject().get("kind").getAsString());
+            contentScore.setContentName(json.getAsJsonObject().get("content-name").getAsString());
+        }
         return contentScore;
     }
 }

@@ -76,6 +76,13 @@ public interface TestHarnessService {
                         @Path("unitId") int unitId,
                         Callback<CLMSLessonScoreList> clmsUnitLessonScoreCallback);
 
+//    @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores ")
+//    void getLessonScoreList(@Header("Authorization") String tokenAcess,
+//                            @Path("classId") int classId,
+//                            @Path("userId") long userId,
+//                            @Path("unitId") int unitId,
+//                            Callback<Object> object);
+
     @GET("/v1.0/classes/{classId}/users/{userId}/gradebook/unit-scores/{unitId}/lesson-scores/{lessonId}/content-scores")
     CLMSContentScore getContentScore(@Header("Authorization") String tokenAccess,
                              @Path("classId") int classId,

@@ -31,7 +31,8 @@ function addClass(count, classes, courseId) {
     for(var i = 0; i < count; i++) {
          name += '<a class="collection-item" onclick="updateClassName('+
          "'"+classes[i].ClassName + "' ,"+ courseId +' ,'+classes[i].ClassId +')">' +
-         classes[i].ClassName + '</a>';
+         classes[i].ClassName +
+         '</a>';
     }
     return name;
 }
@@ -150,7 +151,7 @@ function addContent(count, contents, courseId, classId, unitId, lessonId, isRemo
                         '<i class="material-icons">description</i>' + contents[i].ContentName +
                         '<i class="classProgress">' + contents[i].ContentProgress+ '</i>' +
                         '<span class="badge">' +
-                            '<i class="material-icons">&#xE5CC;</i>' +
+                            '<i class="material-icons">&#xE5D3;</i>' +
                         '</span>' +
                     '</div>' +
                     addContentIcons(contents[i].ContentDownloaded, courseId, classId
@@ -198,6 +199,7 @@ function updateContentIcon(downloaded, courseId, classId, unitId, lessonId, cont
 
 function refreshContents(downloaded, courseId, classId, unitId, lessonId, contentId, contentUniqueId) {
     clearList('#'+contentUniqueId);
+//    window.JSInterface.print($('#'+contentUniqueId).html());
     $('#'+contentUniqueId).append(
         '<span class="card-title grey-text text-darken-4">' +
             '<i class="material-icons">&#xE5CD;</i>' +

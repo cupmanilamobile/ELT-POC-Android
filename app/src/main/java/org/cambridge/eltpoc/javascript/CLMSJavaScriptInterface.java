@@ -41,6 +41,7 @@ import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.observers.CLMSContentScoreListObserver;
 import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.Misc;
+import org.cambridge.eltpoc.util.RealmServiceHelper;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.json.JSONException;
@@ -60,7 +61,6 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
 
 /**
  * Created by mbaltazar on 6/10/15.
@@ -68,38 +68,11 @@ import retrofit.converter.GsonConverter;
 public class CLMSJavaScriptInterface {
     private Activity activity;
     private TestHarnessService testHarnessService;
-    private final String END_POINT = "http://content-poc-api.cambridgelms.org";
-
     private CLMSModel webModel;
 
     public CLMSJavaScriptInterface(Activity activity, CLMSModel webModel) {
         this.activity = activity;
         this.webModel = webModel;
-    }
-
-    private RestAdapter createAdapter(Type type, Object object) {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(END_POINT)
-                .setConverter(new GsonConverter(createGson(type, object)))
-                .build();
-        return restAdapter;
-    }
-
-    private Gson createGson(Type type, Object object) {
-        return new GsonBuilder()
-                .setExclusionStrategies(new ExclusionStrategy() {
-                    @Override
-                    public boolean shouldSkipField(FieldAttributes f) {
-                        return f.getDeclaringClass().equals(RealmObject.class);
-                    }
-
-                    @Override
-                    public boolean shouldSkipClass(Class<?> clazz) {
-                        return false;
-                    }
-                })
-                .registerTypeAdapter(type, object)
-                .create();
     }
 
     @JavascriptInterface
@@ -338,12 +311,14 @@ public class CLMSJavaScriptInterface {
             ELTApplication.getInstance().getLinkModel().notifyObservers();
             SharedPreferencesUtils.addContentSync(activity, contentScore.getUniqueId());
         } else {
+            showLoadingScreen(true);
             RestAdapter restAdapter = createAdapter(CLMSContentURL.class, new ContentURLDeserializer());
             testHarnessService = restAdapter.create(TestHarnessService.class);
             testHarnessService.getContentUrl("Bearer " + authentication, courseId, unitId, lessonId,
                     contentId, new Callback<CLMSContentURL>() {
                         @Override
                         public void success(CLMSContentURL clmsContentURL, Response response) {
+                            showLoadingScreen(false);
                             downloadContent(clmsContentURL.getUrl(), courseId, classId,
                                     unitId, lessonId, contentId);
                         }
@@ -351,6 +326,7 @@ public class CLMSJavaScriptInterface {
                         @Override
                         public void failure(RetrofitError error) {
                             if (error.getMessage() != null) {
+                                showLoadingScreen(false);
                                 Log.e("getContentUrl()", error.getMessage());
                                 DialogUtils.createDialog(activity, "ERROR", "The content " +
                                         "does not exist!");
@@ -374,7 +350,6 @@ public class CLMSJavaScriptInterface {
     }
 
     public void authenticateLogin(final String user, final String password) throws MalformedURLException {
-        //HTTP Connection Approach
         ContentValues values = new ContentValues();
         values.put("grant_type", "password");
         values.put("client_id", "app");
@@ -562,5 +537,9 @@ public class CLMSJavaScriptInterface {
                         webModel.notifyObservers();
                     }
                 });
+    }
+
+    private RestAdapter createAdapter(Type type, Object object) {
+        return RealmServiceHelper.createAdapter(type, object, Constants.END_POINT);
     }
 }
