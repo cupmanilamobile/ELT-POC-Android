@@ -18,20 +18,23 @@ function clearList(divName) {
     $(divName).empty();
 }
 
-function updateClassName(className, courseId, classId) {
+function updateContents(className, courseId, classId) {
     if(window.JSInterface.hasInternetConnection())
         window.location.replace("content.html");
     else
         window.location.replace("content_downloaded.html")
-    window.JSInterface.updateClassName(className, courseId, classId);
+    window.JSInterface.updateContents(className, courseId, classId);
 }
 
 function addClass(count, classes, courseId) {
     var name = '';
     for(var i = 0; i < count; i++) {
-         name += '<a class="collection-item" onclick="updateClassName('+
+         name += '<a class="collection-item" onclick="updateContents('+
          "'"+classes[i].ClassName + "' ,"+ courseId +' ,'+classes[i].ClassId +')">' +
          classes[i].ClassName +
+            '<span class="badge">' +
+                '<i class="material-icons">&#xE5CC;</i>' +
+            '</span>' +
          '</a>';
     }
     return name;
@@ -53,8 +56,7 @@ function truncateName(name) {
 }
 
 function addCourse(count, courses) {
-    if(count > 0)
-        window.JSInterface.showLoadingScreen(true);
+    window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
             $('#course-list').append('<li>' +
                                 '<div class="collapsible-header class">' +
@@ -77,17 +79,15 @@ function addCourse(count, courses) {
                                 '</li>').collapsible();
     //                            '<a href="content.html" class="collection-item">Class 2<span class="new badge">4</span></a>'
     }
-    if(count > 0)
-        window.JSInterface.showLoadingScreen(false);
+    window.JSInterface.showLoadingScreen(false);
 }
 
 function addUnit(count, units, courseId, classId) {
-    if(count > 0)
-        window.JSInterface.showLoadingScreen(true);
+    window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
         $('#unit-list').append('<li>' +
                 '<div class="collapsible-header content">' +
-                    '<i class="material-icons">folder</i>' + units[i].Name +' (Unit)' +
+                    '<i class="material-icons">folder</i>' + units[i].Name +
                     '<span class="badge">'+
                         '<i class="classProgress">'+ units[i].UnitProgress+'</i>' +
                     '</span>' +
@@ -97,8 +97,7 @@ function addUnit(count, units, courseId, classId) {
         ).collapsible();
         addLessonCollapsible(units[i].LessonSize, units[i].Lessons, courseId, classId, units[i].UnitId);
     }
-    if(count > 0)
-        window.JSInterface.showLoadingScreen(false);
+    window.JSInterface.showLoadingScreen(false);
 }
 
 function addLesson(count, lessons, courseId, classId, unitId) {
@@ -146,7 +145,7 @@ function addContent(count, contents, courseId, classId, unitId, lessonId, isRemo
         name += '<div class="collapsible-body">' +
                     '<div class="collection">';
     for(var i = 0; i < count; i++) {
-        name += '<div class="card">' +
+        name += '<div class="card" id="card-'+ contents[i].ContentUniqueId + '">' +
                     '<div class="card-content collection-item activator">' +
                         '<i class="material-icons">description</i>' + contents[i].ContentName +
                         '<i class="classProgress">' + contents[i].ContentProgress+ '</i>' +
@@ -205,6 +204,12 @@ function refreshContents(downloaded, courseId, classId, unitId, lessonId, conten
             '<i class="material-icons">&#xE5CD;</i>' +
         '</span>' +
         updateContentIcon(downloaded, courseId, classId, unitId, lessonId, contentId));
+}
+
+function removeContent(contentUniqueId) {
+    var element = document.getElementById('card-'+contentUniqueId);
+    element.outerHTML = "";
+    delete element;
 }
 
 function downloadContent(courseId, classId, unitId, lessonId, contentId) {

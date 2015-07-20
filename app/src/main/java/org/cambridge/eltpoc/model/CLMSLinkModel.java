@@ -6,6 +6,7 @@ package org.cambridge.eltpoc.model;
 public class CLMSLinkModel extends CLMSModel {
     private String webLink;
     private String className;
+    private String contentName;
 
     public String getWebLink() {
         return webLink;
@@ -23,4 +24,11 @@ public class CLMSLinkModel extends CLMSModel {
         this.className = className;
     }
 
+    public String getContentName() {
+        return contentName;
+    }
+
+    public void setContentName(String contentName) {
+        this.contentName = contentName;
+    }
 }

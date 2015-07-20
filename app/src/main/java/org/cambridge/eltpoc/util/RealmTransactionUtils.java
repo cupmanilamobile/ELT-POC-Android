@@ -1,6 +1,7 @@
 package org.cambridge.eltpoc.util;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.model.CLMSClass;
@@ -20,6 +21,10 @@ import io.realm.RealmResults;
  * Created by etorres on 6/22/15.
  */
 public class RealmTransactionUtils {
+
+    public interface OnSaveListener {
+        void onSaved();
+    }
 
     public static ArrayList<CLMSUser> getAllUsers(Context context) {
         Realm realm = Realm.getInstance(context);
@@ -57,6 +62,8 @@ public class RealmTransactionUtils {
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(context);
         RealmResults<CLMSUnitScore> result = realm.where(CLMSUnitScore.class).equalTo("classId", classId).contains("uniqueId",
                 user.getUsername()).findAll();
+//        System.out.println("UNIT USER: "+user.getUsername());
+//        System.out.println("UNIT SCORES: "+result.size());
         ArrayList<CLMSUnitScore> unitScores = new ArrayList<>();
         for (CLMSUnitScore unitScore : result)
            unitScores.add(unitScore);
@@ -68,7 +75,7 @@ public class RealmTransactionUtils {
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(context);
         RealmResults<CLMSLessonScore> result = realm.where(CLMSLessonScore.class)
                 .equalTo("classId", classId).equalTo("unitId", unitId).contains("uniqueId",
-                user.getUsername()).findAll();
+                        user.getUsername()).findAll();
         ArrayList<CLMSLessonScore> lessonScores = new ArrayList<>();
         for (CLMSLessonScore lessonScore : result)
             lessonScores.add(lessonScore);
@@ -83,8 +90,9 @@ public class RealmTransactionUtils {
                 .contains("uniqueId",
                         user.getUsername()).findAll();
         ArrayList<CLMSContentScore> contentScores = new ArrayList<>();
-        for (CLMSContentScore contentScore : result)
+        for (CLMSContentScore contentScore : result) {
             contentScores.add(contentScore);
+        }
         return contentScores;
     }
 
@@ -109,17 +117,19 @@ public class RealmTransactionUtils {
 
     public static void updateContentScoreUrl(Context context, CLMSContentScore contentScore, String url) {
         Realm realm = Realm.getInstance(context);
+        CLMSContentScore toEdit = realm.where(CLMSContentScore.class)
+                .equalTo("uniqueId", contentScore.getUniqueId()).findFirst();
         realm.beginTransaction();
-        contentScore.setDownloadedFile(url);
-        realm.copyToRealmOrUpdate(contentScore);
+        toEdit.setDownloadedFile(url);
         realm.commitTransaction();
     }
 
     public static void updateContentScoreProgress(Context context, CLMSContentScore contentScore, int progress) {
         Realm realm = Realm.getInstance(context);
+        CLMSContentScore toEdit = realm.where(CLMSContentScore.class)
+                .equalTo("uniqueId", contentScore.getUniqueId()).findFirst();
         realm.beginTransaction();
-        contentScore.setCalcProgress(progress);
-        realm.copyToRealmOrUpdate(contentScore);
+        toEdit.setCalcProgress(contentScore.getCalcProgress());
         realm.commitTransaction();
     }
 
@@ -294,5 +304,77 @@ public class RealmTransactionUtils {
         clonedContentScore.setUniqueId(contentScore.getUniqueId());
         clonedContentScore.setUnitId(contentScore.getUnitId());
         return clonedContentScore;
+    }
+
+    public static class RealmSaveAsync extends AsyncTask<Object, Object, Object> {
+        private ArrayList<CLMSUnitScore> unitScores = new ArrayList<>();
+        private ArrayList<CLMSLessonScore> lessonScores = new ArrayList<>();
+        private ArrayList<CLMSContentScore> contentScores = new ArrayList<>();
+        private Context context;
+        private OnSaveListener onSaveListener;
+
+        public RealmSaveAsync(Context context, OnSaveListener onSaveListener) {
+            this.context = context;
+            this.onSaveListener = onSaveListener;
+        }
+
+        public void addUnitScore(CLMSUnitScore unitScore) {
+            unitScores.add(unitScore);
+        }
+
+        public void addLessonScore(CLMSLessonScore lessonScore) {
+            lessonScores.add(lessonScore);
+        }
+
+        public void addContentScore(CLMSContentScore contentScore) {
+            contentScores.add(contentScore);
+        }
+
+        public ArrayList<CLMSUnitScore> getUnitScores() {
+            return unitScores;
+        }
+
+        public void setUnitScores(ArrayList<CLMSUnitScore> unitScores) {
+            this.unitScores = unitScores;
+        }
+
+        public ArrayList<CLMSLessonScore> getLessonScores() {
+            return lessonScores;
+        }
+
+        public void setLessonScores(ArrayList<CLMSLessonScore> lessonScores) {
+            this.lessonScores = lessonScores;
+        }
+
+        public ArrayList<CLMSContentScore> getContentScores() {
+            return contentScores;
+        }
+
+        public void setContentScores(ArrayList<CLMSContentScore> contentScores) {
+            this.contentScores = contentScores;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            for(CLMSUnitScore unitScore : unitScores)
+                saveUnitScore(context, unitScore, true);
+            for(CLMSLessonScore lessonScore : lessonScores)
+                saveLessonScore(context, lessonScore, true);
+            for(CLMSContentScore contentScore : contentScores)
+                saveContentScore(context, contentScore, true);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            if(onSaveListener != null)
+                onSaveListener.onSaved();
+        }
     }
 }

@@ -141,11 +141,18 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
     public void login(View view) {
         loadingLayout.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
-        try {
-            new CLMSJavaScriptInterface(this, webModel).authenticateLogin(
-                    username.getText().toString(), password.getText().toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        if(Misc.hasInternetConnection(this)) {
+            try {
+                new CLMSJavaScriptInterface(this, webModel).authenticateLogin(
+                        username.getText().toString(), password.getText().toString(), null);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            loadingLayout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            DialogUtils.createDialog(this, "ERROR", "Please connect to the Internet to login.");
         }
     }
 
@@ -156,7 +163,7 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
             if(Misc.hasInternetConnection(this)) {
                 try {
                     new CLMSJavaScriptInterface(this, null).authenticateLogin(
-                            user.getUsername(), user.getPassword());
+                            user.getUsername(), user.getPassword(), null);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }

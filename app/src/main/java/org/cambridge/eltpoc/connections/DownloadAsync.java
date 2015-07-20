@@ -22,6 +22,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import io.realm.Realm;
+
 /**
  * Created by etorres on 7/8/15.
  */
@@ -34,15 +36,18 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     private int progress = 0;
     private String outputFile;
     private CLMSModel webModel;
+    private int courseId;
 
     public DownloadAsync(Context context, CLMSContentScore contentScore, String url,
-                         String outputDirectory, String outputFile, CLMSModel webModel) {
+                         String outputDirectory, String outputFile, CLMSModel webModel,
+                         int courseId) {
         this.context = context;
         this.contentScore = contentScore;
         urlToDownload = url;
         this.outputDirectory = outputDirectory;
         this.outputFile = outputFile;
         this.webModel = webModel;
+        this.courseId = courseId;
     }
 
     @Override
@@ -59,9 +64,8 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     @Override
     protected void onProgressUpdate(Object... values) {
         super.onProgressUpdate(values);
-        if(progress < 100)
-            mProgressDialog.setProgress(progress);
-        else {
+        mProgressDialog.setProgress(progress);
+        if(progress == 100) {
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Unzipping files...");
         }
@@ -112,11 +116,21 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         mProgressDialog.dismiss();
 
         String unzipped = outputFile.replace(".zip", "");
-        RealmTransactionUtils.updateContentScoreUrl(context, contentScore, outputDirectory +
+
+        final CLMSContentScore contentScoreEdit = RealmTransactionUtils.getContentScore(context,
+                contentScore.getClassId(), contentScore.getUnitId(), contentScore.getLessonId(),
+                contentScore.getId());
+        Realm realm = Realm.getInstance(context);
+        realm.beginTransaction();
+        contentScoreEdit.setDownloadedFile(outputDirectory +
                 "/" + unzipped);
+        realm.copyToRealmOrUpdate(contentScoreEdit);
+        realm.commitTransaction();
+
 
         File file = new File(outputDirectory + "/" + outputFile);
         file.delete();
+        webModel.setCourseId(courseId);
         webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
         webModel.setWebOperation(CLMSModel.WEB_OPERATION.DOWNLOADED);
         webModel.notifyObservers();

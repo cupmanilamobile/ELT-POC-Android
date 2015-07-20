@@ -3,6 +3,8 @@ package org.cambridge.eltpoc.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.view.View;
+import android.view.ViewGroup;
 
 import org.cambridge.eltpoc.R;
 
@@ -36,5 +38,11 @@ public class UIUtils {
         navigationDrawables[1] = R.drawable.ic_account_balance_white_36dp;
         navigationDrawables[2] = R.drawable.ic_input_white_36dp;
         return navigationDrawables;
+    }
+
+    public static void updateViewHeight(View view, int height) {
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = height;
+        view.setLayoutParams(layoutParams);
     }
 }

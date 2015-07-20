@@ -11,6 +11,7 @@ public class CLMSContentScoreListObserver extends CLMSModel {
     private boolean contentsRetrieved = false;
     private int courseId = 0;
     private int classId = 0;
+    private String url;
 
     public boolean isUnitsRetrieved() {
         return unitsRetrieved;
@@ -60,5 +61,13 @@ public class CLMSContentScoreListObserver extends CLMSModel {
         setUnitsRetrieved(false);
         setContentsRetrieved(false);
         setLessonsRetrieved(false);
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

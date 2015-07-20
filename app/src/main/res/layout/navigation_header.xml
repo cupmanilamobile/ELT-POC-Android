@@ -3,7 +3,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!--<org.cambridge.eltpoc.customviews.RoundedImageView-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#212121">
+
+        <!--<org.cambridge.eltpoc.customviews.RoundedImageView-->
         <!--android:id="@+id/profile_photo"-->
         <!--android:layout_width="100dp"-->
         <!--android:layout_height="100dp"-->
@@ -11,7 +16,7 @@
         <!--android:layout_marginTop="15dp"-->
         <!--android:src="@drawable/profile_photo" />-->
 
-    <!--<TextView-->
+        <!--<TextView-->
         <!--android:id="@+id/profile_name"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
@@ -20,21 +25,12 @@
         <!--android:textColor="@android:color/white"-->
         <!--android:textSize="16sp" />-->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
-        android:text="@string/menu"
-        android:textAllCaps="true"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_menu_white"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="bottom"
-        android:background="@android:color/black" />
-
+    </RelativeLayout>
 </LinearLayout>

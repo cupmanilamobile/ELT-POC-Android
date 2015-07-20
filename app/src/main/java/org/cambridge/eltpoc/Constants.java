@@ -9,14 +9,13 @@ public class Constants {
     public static final String TEACHING_URL = "file:///android_asset/www/new_html/index_teaching.html";
     public static final String LESSON_DOWNLOADED_URL = "file:///android_asset/www/new_html/content_downloaded.html";
     public static final String LESSON_ALL_CONTENT_URL = "file:///android_asset/www/new_html/content.html";
-    public static final String VIDEO_URL = "file:///android_asset/www/new_html/video.html";
     public static final String NO_ENROLLED_URL = "file:///android_asset/www/new_html/no_enrolled.html";
     public static final String END_POINT = "http://content-poc-api.cambridgelms.org";
 
     //WEB LEVEL
     public static final int HOME_LEVEL = 0;
-    public static final int LESSON_LEVEL = 1;
-    public static final int VIDEO_LEVEL = 2;
+    public static final int UNIT_LEVEL = 1;
+    public static final int CONTENT_LEVEL = 2;
 
     //NAVIGATION DRAWER ITEMS
     public static final int LEARNING = 1;
@@ -66,4 +65,6 @@ public class Constants {
     public static final int UNIT_TYPE = 0;
     public static final int LESSON_TYPE = 1;
     public static final int CONTENT_TYPE = 2;
+
+    public static final String JS_INTERFACE = "JSInterface";
 }

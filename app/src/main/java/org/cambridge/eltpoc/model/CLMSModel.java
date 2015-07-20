@@ -16,6 +16,8 @@ public class CLMSModel implements ModelObservable {
 
     private String errorMessage = "";
 
+    private int courseId = 0;
+
     public enum WEB_OPERATION {
         NONE, LOADING, REFRESHED, DELETED, DOWNLOADED
     };
@@ -71,5 +73,13 @@ public class CLMSModel implements ModelObservable {
 
     public void setContentScore(CLMSContentScore contentScore) {
         this.contentScore = contentScore;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }

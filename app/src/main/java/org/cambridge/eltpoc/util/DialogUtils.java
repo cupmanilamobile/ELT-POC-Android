@@ -25,6 +25,22 @@ public class DialogUtils {
         alertDialog.show();
     }
 
+    public static void createDialog(Context context, String title, String message,
+                                    final OnOptionSelectedListener onOptionSelectedListener) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        if(onOptionSelectedListener != null)
+                            onOptionSelectedListener.onOptionSelected();
+                    }
+                });
+        alertDialog.show();
+    }
+
     public static void createOptionDialog(Context context, String title, String message,
                                           String okTitle, String cancelTitle,
                                           final OnOptionSelectedListener onOptionSelectedListener) {

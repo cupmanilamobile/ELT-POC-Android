@@ -70,13 +70,23 @@ public class CLMSJavaScriptInterface {
     private TestHarnessService testHarnessService;
     private CLMSModel webModel;
 
+    private RealmTransactionUtils.RealmSaveAsync realmSaveAsync;
+    private ArrayList<CLMSUnitScore> unitScores = new ArrayList<>();
+    private ArrayList<CLMSLessonScore> lessonScores = new ArrayList<>();
+    private ArrayList<CLMSContentScore> contentScores = new ArrayList<>();
+
+    private interface OnLoggedInListener {
+        void onLoggedIn();
+    }
+
     public CLMSJavaScriptInterface(Activity activity, CLMSModel webModel) {
         this.activity = activity;
         this.webModel = webModel;
     }
 
     @JavascriptInterface
-    public void saveAuthenticationLogin(String jsonAuth, String username, String password) {
+    public void saveAuthenticationLogin(String jsonAuth, String username, String password,
+                                        OnLoggedInListener onLoggedInListener) {
         Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
@@ -94,11 +104,14 @@ public class CLMSJavaScriptInterface {
         ELTApplication.getInstance().setCurrentUser(user);
         updateUser(user.getAccessToken(), user);
 
-        ArrayList<CLMSCourse> courses = RealmTransactionUtils.getAllCourses(activity);
-        if (courses.size() == 0) {
-            saveCourseList(user.getAccessToken());
-            saveClassList(user.getAccessToken());
-        }
+        if (onLoggedInListener == null) {
+            ArrayList<CLMSCourse> courses = RealmTransactionUtils.getAllCourses(activity);
+            if (courses.size() == 0) {
+                saveCourseList(user.getAccessToken());
+                saveClassList(user.getAccessToken());
+            }
+        } else
+            onLoggedInListener.onLoggedIn();
     }
 
     @JavascriptInterface
@@ -125,7 +138,7 @@ public class CLMSJavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void saveCourseList(String authentication) {
+    public void saveCourseList(final String authentication) {
         RestAdapter restAdapter = createAdapter(CLMSCourse.class, new CourseDeserializer());
         testHarnessService = restAdapter.create(TestHarnessService.class);
         testHarnessService.getCoursesList("Bearer " + authentication, new Callback<CLMSCourseList>() {
@@ -138,14 +151,23 @@ public class CLMSJavaScriptInterface {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getMessage() != null)
+                if (error.getMessage() != null) {
                     Log.e("getCourseList()", error.getMessage());
+                    OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                        @Override
+                        public void onLoggedIn() {
+                            CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                            saveCourseList(user.getAccessToken());
+                        }
+                    };
+                    requireLog(error.getMessage(), onLoggedInListener);
+                }
             }
         });
     }
 
     @JavascriptInterface
-    public void saveClassList(String authentication) {
+    public void saveClassList(final String authentication) {
         RestAdapter restAdapter = createAdapter(CLMSClass.class, new ClassDeserializer());
         testHarnessService = restAdapter.create(TestHarnessService.class);
         testHarnessService.getClassesList("Bearer " + authentication, new Callback<CLMSClassList>() {
@@ -162,14 +184,26 @@ public class CLMSJavaScriptInterface {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getMessage() != null)
+                if (error.getMessage() != null) {
                     Log.e("getClassList()", error.getMessage());
+                    OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                        @Override
+                        public void onLoggedIn() {
+                            CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                            saveClassList(user.getAccessToken());
+                        }
+                    };
+                    requireLog(error.getMessage(), onLoggedInListener);
+                }
             }
         });
     }
 
     @JavascriptInterface
     public void saveUnitScoreList(final String tokenAccess, final int classId, final long userId) {
+        unitScores.clear();
+        lessonScores.clear();
+        contentScores.clear();
         RestAdapter restAdapter = createAdapter(CLMSUnitScore.class, new UnitScoreDeserializer());
         testHarnessService = restAdapter.create(TestHarnessService.class);
         testHarnessService.getUnitScoreList("Bearer " + tokenAccess, classId, userId, new Callback<CLMSUnitScoreList>() {
@@ -178,9 +212,10 @@ public class CLMSJavaScriptInterface {
                 if (clmsUnitScoreList != null && clmsUnitScoreList.getUnitScoreList() != null) {
                     int count = 0;
                     for (CLMSUnitScore score : clmsUnitScoreList.getUnitScoreList()) {
-                        score.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername() + score.getId());
+                        score.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername()
+                                + "-" + classId + "-" + score.getId());
                         score.setClassId(classId);
-                        RealmTransactionUtils.saveUnitScore(activity, score, true);
+                        unitScores.add(score);
                         saveLessonScoreList(tokenAccess, classId, userId, score.getId(),
                                 count == clmsUnitScoreList.getUnitScoreList().size() - 1);
                         if (clmsUnitScoreList.getUnitScoreList().size() - 1 == count)
@@ -192,8 +227,17 @@ public class CLMSJavaScriptInterface {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getMessage() != null)
+                if (error.getMessage() != null) {
                     Log.e("getUnitScore()", error.getMessage());
+                    OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                        @Override
+                        public void onLoggedIn() {
+                            CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                            saveUnitScoreList(user.getAccessToken(), classId, userId);
+                        }
+                    };
+                    requireLog(error.getMessage(), onLoggedInListener);
+                }
             }
         });
     }
@@ -211,8 +255,9 @@ public class CLMSJavaScriptInterface {
                             for (CLMSLessonScore score : clmsLessonScoreList.getLessonScoreList()) {
                                 score.setUnitId(unitId);
                                 score.setClassId(classId);
-                                score.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername() + score.getId());
-                                RealmTransactionUtils.saveLessonScore(activity, score, true);
+                                score.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername()
+                                        + "-" + unitId + "-" + classId + "-" + score.getId());
+                                lessonScores.add(score);
                                 saveContentScoreList(tokenAccess, classId, userId, unitId, score.getId(), isLastContent);
                             }
                         }
@@ -223,8 +268,18 @@ public class CLMSJavaScriptInterface {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if (error.getMessage() != null)
+                        if (error.getMessage() != null) {
                             Log.e("getLessonScore()", error.getMessage());
+                            OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                                @Override
+                                public void onLoggedIn() {
+                                    CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                                    saveLessonScoreList(user.getAccessToken(), classId, userId, unitId,
+                                            isLastContent);
+                                }
+                            };
+                            requireLog(error.getMessage(), onLoggedInListener);
+                        }
                         if (isLastContent)
                             notifyContentScores(classId, Constants.LESSON_TYPE);
                     }
@@ -232,7 +287,7 @@ public class CLMSJavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void saveContentScoreList(String tokenAccess, final int classId, long userId,
+    public void saveContentScoreList(final String tokenAccess, final int classId, final long userId,
                                      final int unitId, final int lessonId, final boolean isLastContent) {
         RestAdapter restAdapter = createAdapter(CLMSContentScore.class, new ContentScoreDeserializer());
         testHarnessService = restAdapter.create(TestHarnessService.class);
@@ -247,7 +302,7 @@ public class CLMSJavaScriptInterface {
                                 score.setLessonId(lessonId);
                                 score.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername()
                                         + "-" + classId + "-" + unitId + "-" + lessonId + "-" + score.getId());
-                                RealmTransactionUtils.saveContentScore(activity, score, true);
+                                contentScores.add(score);
                             }
                         }
                         if (lessonId == 0 && clmsContentScoreList.getContentScoreList() != null &&
@@ -260,7 +315,7 @@ public class CLMSJavaScriptInterface {
                             score.setLessonName("CONTENTS");
                             score.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername()
                                     + "-" + classId + "-" + unitId + "-" + lessonId + "-" + score.getId());
-                            RealmTransactionUtils.saveLessonScore(activity, score, true);
+                            lessonScores.add(score);
                         }
                         if (isLastContent)
                             notifyContentScores(classId, Constants.CONTENT_TYPE);
@@ -268,16 +323,26 @@ public class CLMSJavaScriptInterface {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if (error.getMessage() != null)
+                        if (error.getMessage() != null) {
                             Log.e("getContentScore()", error.getMessage());
+                            OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                                @Override
+                                public void onLoggedIn() {
+                                    CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                                    saveContentScoreList(user.getAccessToken(), classId, userId,
+                                            unitId, lessonId, isLastContent);
+                                }
+                            };
+                            requireLog(error.getMessage(), onLoggedInListener);
+                        }
                         if (isLastContent)
                             notifyContentScores(classId, Constants.CONTENT_TYPE);
                     }
                 });
     }
 
-    private void notifyContentScores(int classId, int type) {
-        CLMSContentScoreListObserver contentScoreListObserver =
+    private void notifyContentScores(final int classId, int type) {
+        final CLMSContentScoreListObserver contentScoreListObserver =
                 ELTApplication.getInstance().getContentScoreListObserver();
         switch (type) {
             case Constants.UNIT_TYPE:
@@ -291,9 +356,18 @@ public class CLMSJavaScriptInterface {
                 break;
         }
         if (contentScoreListObserver.allDetailsRetrieved()) {
-            contentScoreListObserver.setClassId(classId);
-            contentScoreListObserver.notifyObservers();
-            showLoadingScreen(false);
+            RealmTransactionUtils.OnSaveListener onSaveListener = new RealmTransactionUtils.OnSaveListener() {
+                @Override
+                public void onSaved() {
+                    contentScoreListObserver.setClassId(classId);
+                    contentScoreListObserver.notifyObservers();
+                }
+            };
+            realmSaveAsync = new RealmTransactionUtils.RealmSaveAsync(activity, onSaveListener);
+            realmSaveAsync.setUnitScores(unitScores);
+            realmSaveAsync.setLessonScores(lessonScores);
+            realmSaveAsync.setContentScores(contentScores);
+            realmSaveAsync.execute();
         }
     }
 
@@ -304,10 +378,10 @@ public class CLMSJavaScriptInterface {
         final CLMSContentScore contentScore = RealmTransactionUtils.getContentScore(activity, classId,
                 unitId, lessonId, contentId);
         if (contentScore != null && contentScore.getDownloadedFile() != null &&
-                !contentScore.getDownloadedFile().isEmpty()) {
+                !contentScore.getDownloadedFile().equalsIgnoreCase("")) {
             ELTApplication.getInstance().getLinkModel().setWebLink("file:///" +
                     contentScore.getDownloadedFile() + "/index.html");
-            ELTApplication.getInstance().getLinkModel().setClassName(contentScore.getContentName());
+            ELTApplication.getInstance().getLinkModel().setContentName(contentScore.getContentName());
             ELTApplication.getInstance().getLinkModel().notifyObservers();
             SharedPreferencesUtils.addContentSync(activity, contentScore.getUniqueId());
         } else {
@@ -325,11 +399,21 @@ public class CLMSJavaScriptInterface {
 
                         @Override
                         public void failure(RetrofitError error) {
+                            showLoadingScreen(false);
                             if (error.getMessage() != null) {
-                                showLoadingScreen(false);
                                 Log.e("getContentUrl()", error.getMessage());
-                                DialogUtils.createDialog(activity, "ERROR", "The content " +
-                                        "does not exist!");
+                                OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                                    @Override
+                                    public void onLoggedIn() {
+                                        CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                                        downloadContent(user.getAccessToken(), courseId, classId, unitId,
+                                                lessonId, contentId);
+                                    }
+                                };
+                                requireLog(error.getMessage(), onLoggedInListener);
+                                if (!error.getMessage().contains("Unauthorized"))
+                                    DialogUtils.createDialog(activity, "ERROR", "The content " +
+                                            "does not exist!");
                             }
                         }
                     });
@@ -345,11 +429,12 @@ public class CLMSJavaScriptInterface {
                 unitId, lessonId, contentId);
         String[] str = url.split("/");
         DownloadAsync downloadAsync = new DownloadAsync(activity, contentScore, url,
-                activity.getFilesDir().getAbsolutePath(), str[str.length - 1], webModel);
+                activity.getFilesDir().getAbsolutePath(), str[str.length - 1], webModel, courseId);
         downloadAsync.execute();
     }
 
-    public void authenticateLogin(final String user, final String password) throws MalformedURLException {
+    public void authenticateLogin(final String user, final String password,
+                                  final OnLoggedInListener onLoggedInListener) throws MalformedURLException {
         ContentValues values = new ContentValues();
         values.put("grant_type", "password");
         values.put("client_id", "app");
@@ -369,7 +454,7 @@ public class CLMSJavaScriptInterface {
                     if (!object.isNull("access_token")) {
                         if (object.optString("access_token") != null) {
                             SharedPreferencesUtils.updateLoggedInUser(activity, user, password, "", 0);
-                            saveAuthenticationLogin(response, user, password);
+                            saveAuthenticationLogin(response, user, password, onLoggedInListener);
                         }
                     }
                     if (!object.isNull("error_message")) {
@@ -382,7 +467,7 @@ public class CLMSJavaScriptInterface {
                     e.printStackTrace();
                 }
 
-                if (webModel != null) {
+                if (webModel != null && onLoggedInListener == null) {
                     webModel.setHasError(isFailed);
                     webModel.notifyObservers();
                 }
@@ -404,10 +489,13 @@ public class CLMSJavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void updateClassName(final String className, final int courseId, final int classId) {
+    public void updateContents(final String className, final int courseId, final int classId) {
         ELTApplication.getInstance().getLinkModel().setClassName(className);
         ELTApplication.getInstance().getContentScoreListObserver().setCourseId(courseId);
         ELTApplication.getInstance().getContentScoreListObserver().setClassId(classId);
+        ELTApplication.getInstance().getContentScoreListObserver().setUrl(
+                Misc.hasInternetConnection(activity) ? Constants.LESSON_ALL_CONTENT_URL :
+                        Constants.LESSON_DOWNLOADED_URL);
         ArrayList<CLMSUnitScore> unitScores = RealmTransactionUtils.getUnitScores(activity, classId);
         if (unitScores.size() == 0 && Misc.hasInternetConnection(activity)) {
             showLoadingScreen(true);
@@ -439,7 +527,8 @@ public class CLMSJavaScriptInterface {
 
         CLMSUser user = ELTApplication.getInstance().getCurrentUser();
         int count = 0;
-        ELTApplication.getInstance().getWebModel().setSyncMessage("");
+        ELTApplication.getInstance().getWebModel().setSyncMessage("The following content " +
+                "data were synchronised: ");
         if (contentScores.size() == 0) {
             ELTApplication.getInstance().getWebModel().setSyncMessage("Nothing to sync.");
             syncContents(false);
@@ -453,8 +542,9 @@ public class CLMSJavaScriptInterface {
     }
 
     @JavascriptInterface
-    public void updateContentScore(String tokenAccess, long userId, final CLMSContentScore contentScore,
-                                   int score, int progress, long lastaccess, final boolean isLastContent) {
+    public void updateContentScore(final String tokenAccess, final long userId, final CLMSContentScore contentScore,
+                                   final int score, final int progress, final long lastaccess,
+                                   final boolean isLastContent) {
         RestAdapter restAdapter = createAdapter(CLMSContentScore.class, new ContentScoreDeserializer());
         testHarnessService = restAdapter.create(TestHarnessService.class);
 //        System.out.println("CONTENT: "+"Bearer "+tokenAccess+" "+" "+contentScore.getClassId() + " "+userId +" "+
@@ -469,7 +559,7 @@ public class CLMSJavaScriptInterface {
                             RealmTransactionUtils.updateContentScoreProgress(activity, contentScore, 100);
                             ELTApplication.getInstance().getWebModel().setSyncMessage(
                                     ELTApplication.getInstance().getWebModel().getSyncMessage()
-                                            .concat("\nContent: " + contentScore.getContentName()));
+                                            .concat("\n" + contentScore.getContentName()));
                             if (isLastContent)
                                 syncContents(true);
                         } else {
@@ -486,7 +576,16 @@ public class CLMSJavaScriptInterface {
                         RealmTransactionUtils.updateContentScoreProgress(activity, contentScore, 100);
                         ELTApplication.getInstance().getWebModel().setSyncMessage(
                                 ELTApplication.getInstance().getWebModel().getSyncMessage()
-                                        .concat("\nContent: " + contentScore.getContentName()));
+                                        .concat("\n" + contentScore.getContentName()));
+                        OnLoggedInListener onLoggedInListener = new OnLoggedInListener() {
+                            @Override
+                            public void onLoggedIn() {
+                                CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+                                updateContentScore(user.getAccessToken(), userId, contentScore,
+                                        score, progress, lastaccess, isLastContent);
+                            }
+                        };
+                        requireLog(error.getMessage(), onLoggedInListener);
                         if (isLastContent)
                             syncContents(true);
                     }
@@ -525,13 +624,14 @@ public class CLMSJavaScriptInterface {
                     public void onOptionSelected() {
                         File file = new File(contentScore.getDownloadedFile());
                         file.delete();
-                        Realm realm = Realm.getInstance(activity);
+                        Realm realm = io.realm.Realm.getInstance(activity);
                         realm.beginTransaction();
                         contentScore.setDownloadedFile("");
                         realm.copyToRealmOrUpdate(contentScore);
                         realm.commitTransaction();
                         DialogUtils.createDialog(activity, "Deleted", contentScore.getContentName() +
                                 " has been deleted.");
+                        webModel.setCourseId(courseId);
                         webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
                         webModel.setWebOperation(CLMSModel.WEB_OPERATION.DELETED);
                         webModel.notifyObservers();
@@ -541,5 +641,24 @@ public class CLMSJavaScriptInterface {
 
     private RestAdapter createAdapter(Type type, Object object) {
         return RealmServiceHelper.createAdapter(type, object, Constants.END_POINT);
+    }
+
+    private void requireLog(String errorMessage, final OnLoggedInListener onLoggedInListener) {
+        if (errorMessage.contains("Unauthorized")) {
+            DialogUtils.OnOptionSelectedListener onOptionSelectedListener =
+                    new DialogUtils.OnOptionSelectedListener() {
+                        @Override
+                        public void onOptionSelected() {
+                            CLMSUser user = SharedPreferencesUtils.getLoggedInUser(activity);
+                            try {
+                                authenticateLogin(user.getUsername(), user.getPassword(), onLoggedInListener);
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+            DialogUtils.createDialog(activity, "Unauthorized", "Your access token has expired.\n" +
+                    "Please login again.", onOptionSelectedListener);
+        }
     }
 }
