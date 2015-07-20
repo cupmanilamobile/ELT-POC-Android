@@ -191,9 +191,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     public void learningPressed(View view) {
-        if (!learningLayout.isSelected() ||
-                webView.getUrl().equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL) ||
-                webView.getUrl().equalsIgnoreCase(Constants.LESSON_DOWNLOADED_URL)) {
+        if (!learningLayout.isSelected() || (webLevel == Constants.HOME_LEVEL &&
+                (webView.getUrl().equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL) ||
+                        webView.getUrl().equalsIgnoreCase(Constants.LESSON_DOWNLOADED_URL)))) {
             updateTabSelection(true);
             switch (webLevel) {
                 case Constants.HOME_LEVEL:
@@ -270,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     private void updateBackArrowIcon(boolean show) {
+        findViewById(R.id.toolbar_back).setEnabled(show);
         backArrow.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
