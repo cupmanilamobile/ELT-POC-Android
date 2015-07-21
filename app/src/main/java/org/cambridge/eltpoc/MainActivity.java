@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         webView.loadUrl(Constants.LEARNING_URL);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }

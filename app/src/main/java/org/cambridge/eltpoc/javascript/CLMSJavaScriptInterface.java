@@ -65,12 +65,9 @@ public class CLMSJavaScriptInterface {
     private Activity activity;
     private TestHarnessService testHarnessService;
     private CLMSModel webModel;
-
-    private RealmTransactionUtils.RealmSaveAsync realmSaveAsync;
     private CopyOnWriteArrayList<CLMSUnitScore> unitScores = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<CLMSLessonScore> lessonScores = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<CLMSContentScore> contentScores = new CopyOnWriteArrayList<>();
-
     private ELTApplication instance = ELTApplication.getInstance();
 
     private interface OnLoggedInListener {
@@ -473,9 +470,6 @@ public class CLMSJavaScriptInterface {
                                    final boolean isLastContent) {
         RestAdapter restAdapter = createAdapter(CLMSContentScore.class, new ContentScoreDeserializer());
         testHarnessService = restAdapter.create(TestHarnessService.class);
-//        System.out.println("CONTENT: "+"Bearer "+tokenAccess+" "+" "+contentScore.getClassId() + " "+userId +" "+
-//                contentScore.getUnitId() +" "+contentScore.getLessonId()+" "+contentScore.getId()+" "+
-//                score+" "+progress+" "+lastaccess);
         testHarnessService.updateContentScore(RealmServiceHelper.createBearerToken(tokenAccess),
                 contentScore.getClassId(), userId, contentScore.getUnitId(),
                 contentScore.getLessonId(), contentScore.getId(), score, progress, lastaccess,
