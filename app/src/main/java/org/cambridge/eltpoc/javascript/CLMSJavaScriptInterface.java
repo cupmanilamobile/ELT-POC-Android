@@ -457,8 +457,7 @@ public class CLMSJavaScriptInterface {
         }
         for (CLMSContentScore contentScore : contentScores) {
             updateContentScore(user.getAccessToken(), user.getId(), contentScore, 100, 100,
-                    Calendar.getInstance().getTimeInMillis(),
-                    count == contentScores.size() - 1);
+                    Calendar.getInstance().getTimeInMillis(), count == contentScores.size() - 1);
             ++count;
         }
     }
@@ -484,7 +483,8 @@ public class CLMSJavaScriptInterface {
                         } else
                             instance.getWebModel().setSyncMessage(
                                     activity.getString(R.string.sync_problem));
-                        WebServiceHelper.syncContents(activity, isLastContent);
+                        if (isLastContent)
+                            WebServiceHelper.syncContents(activity, true);
                     }
 
                     @Override

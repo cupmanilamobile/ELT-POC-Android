@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private FrameLayout learningLayout, teachingLayout;
     private View refreshIcon;
     private ImageView wifiIcon;
-    private RotateAnimation rotate;
     private ProgressBar progressBar;
     private View loadingLayout;
     private TextView toolbarTitle;
@@ -239,21 +236,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         UIUtils.updateViewHeight(isLearning ? findViewById(R.id.teaching_inner) :
                         findViewById(R.id.learning_inner),
                 getResources().getDimensionPixelSize(R.dimen.tab_height));
-    }
-
-    private void initRotation() {
-        rotate = new RotateAnimation(0, 360,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
-        rotate.setDuration(2000);
-        rotate.setRepeatCount(-1);
-    }
-
-    private void rotateIcon() {
-        if (refreshIcon != null) {
-            refreshIcon.findViewById(R.id.refresh_icon).setAnimation(rotate);
-            refreshIcon.startAnimation(rotate);
-        }
     }
 
     private void updateInternetConnectionIcon(boolean hasInternet) {
@@ -447,15 +429,15 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             invalidateOptionsMenu();
             if (webLevel == Constants.UNIT_LEVEL) {
                 isTabPressed = true;
-                if(Misc.hasInternetConnection(this))
+                if (Misc.hasInternetConnection(this))
                     webView.loadUrl(Constants.LESSON_ALL_CONTENT_URL);
                 else
                     webView.loadUrl(Constants.LESSON_DOWNLOADED_URL);
             } else if (webLevel == Constants.HOME_LEVEL)
                 webView.reload();
             if (webModel.isSynced()) {
-                if (rotate != null)
-                    rotate.cancel();
+                if (refreshIcon.findViewById(R.id.refresh_icon).getAnimation() != null)
+                    refreshIcon.findViewById(R.id.refresh_icon).getAnimation().cancel();
                 DialogUtils.createDialog(this, "SYNC", webModel.getSyncMessage());
                 this.internetModel.setIsSynced(false);
             }
@@ -536,13 +518,12 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         wifiIcon = (ImageView) menu.findItem(R.id.action_wifi).getActionView()
                 .findViewById(R.id.wifi_icon);
         updateInternetConnectionIcon(Misc.hasInternetConnection(this));
-        initRotation();
         menu.findItem(R.id.action_sync).setVisible(Misc.hasInternetConnection(this));
         refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isTouchEnabled) {
-                    rotateIcon();
+                    UIUtils.rotateView(refreshIcon.findViewById(R.id.refresh_icon));
                     javaScriptInterface.updateContentScores();
                 }
             }

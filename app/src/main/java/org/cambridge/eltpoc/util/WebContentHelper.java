@@ -94,7 +94,7 @@ public class WebContentHelper {
 
     public static void updateUnitContent(Context context, WebView webView, int courseId,
                                          int classId, boolean isDownloaded) {
-        if(!Misc.hasInternetConnection(context))
+        if (!Misc.hasInternetConnection(context))
             isDownloaded = true;
         new UpdateContentAsync(context, webView, courseId, classId, isDownloaded).execute();
     }
@@ -285,8 +285,8 @@ public class WebContentHelper {
                                 lessonObj.put(Constants.CONTENTS, contentScoreArray);
                                 lessonScoreArray.put(lessonObj);
                             }
-                            lessonObj.put(Constants.LESSON_PROGRESS, formatProgress(progress,
-                                    contentScoreArray.length()));
+                            lessonObj.put(Constants.LESSON_PROGRESS, formatProgress(
+                                    progress / contentScoreArray.length(), contentScoreArray.length()));
                             if (contentScoreArray.length() > 0)
                                 unitProgress += progress / contentScoreArray.length();
                         }

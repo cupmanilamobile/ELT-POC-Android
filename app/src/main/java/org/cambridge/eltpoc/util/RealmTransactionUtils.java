@@ -129,7 +129,7 @@ public class RealmTransactionUtils {
         CLMSContentScore toEdit = realm.where(CLMSContentScore.class)
                 .equalTo("uniqueId", contentScore.getUniqueId()).findFirst();
         realm.beginTransaction();
-        toEdit.setCalcProgress(contentScore.getCalcProgress());
+        toEdit.setCalcProgress(progress);
         realm.commitTransaction();
     }
 

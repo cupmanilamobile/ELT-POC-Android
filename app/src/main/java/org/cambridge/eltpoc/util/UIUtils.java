@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 import org.cambridge.eltpoc.R;
 
@@ -44,5 +46,18 @@ public class UIUtils {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = height;
         view.setLayoutParams(layoutParams);
+    }
+
+    public static void rotateView(View view) {
+        RotateAnimation rotate = new RotateAnimation(0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        rotate.setDuration(2000);
+        rotate.setRepeatCount(-1);
+
+        if (view != null) {
+            view.setAnimation(rotate);
+            view.startAnimation(rotate);
+        }
     }
 }
