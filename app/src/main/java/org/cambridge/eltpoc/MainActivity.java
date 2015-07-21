@@ -496,8 +496,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                     switch (model.getWebOperation()) {
                         case DOWNLOADED:
                         case DELETED:
-                            WebContentHelper.refreshContents(webView, model.getContentScore(),
-                                    model.getCourseId());
+                            WebContentHelper.refreshContents(MainActivity.this, webView,
+                                    model.getContentScore(), model.getCourseId());
                             break;
                         case REFRESHED:
                             webView.reload();

@@ -169,7 +169,8 @@ public class WebContentHelper {
         return webLevel;
     }
 
-    public static void refreshContents(WebView webView, CLMSContentScore contentScore, int courseId) {
+    public static void refreshContents(Context context, WebView webView,
+                                       CLMSContentScore contentScore, int courseId) {
         if (webView.getUrl().equalsIgnoreCase(Constants.LESSON_ALL_CONTENT_URL)) {
             String refreshUrl = "javascript:refreshContents(" +
                     !contentScore.getDownloadedFile().equalsIgnoreCase("") + ", "
@@ -177,9 +178,45 @@ public class WebContentHelper {
                     contentScore.getLessonId() + ", " + contentScore.getId() + ", " + "'" +
                     contentScore.getUniqueId() + "')";
             webView.loadUrl(refreshUrl);
-        } else
+        } else {
+            boolean noUnit = false;
+            boolean noLesson = false;
+            String lessonUniquedId = "";
+            int totalContentCount = 0;
+            ArrayList<CLMSLessonScore> lessonScores = RealmTransactionUtils.getLessonScores(context,
+                    contentScore.getClassId(), contentScore.getUnitId());
+            for (CLMSLessonScore lessonScore : lessonScores) {
+                int tempCount = 0;
+                ArrayList<CLMSContentScore> contentScores =
+                        RealmTransactionUtils.getContentScores(context,
+                                contentScore.getClassId(), contentScore.getUnitId(), lessonScore.getId());
+                for (CLMSContentScore score : contentScores) {
+                    if (!score.getDownloadedFile().equalsIgnoreCase("")) {
+                        ++totalContentCount;
+                        ++tempCount;
+                    }
+                }
+                if (lessonScore.getId() == contentScore.getLessonId()) {
+                    if (tempCount == 0) {
+                        noLesson = true;
+                        lessonUniquedId = lessonScore.getUniqueId();
+                    }
+                }
+            }
+            if (totalContentCount == 0)
+                noUnit = true;
+
+            System.out.println("NO UNIT: " + noUnit + " " + noLesson);
+
+            if (noUnit)
+                webView.loadUrl("javascript:removeUnit(" + "'" +
+                        contentScore.getUnitId() + "')");
+            if (noLesson)
+                webView.loadUrl("javascript:removeLesson(" + "'" +
+                        lessonUniquedId + "')");
             webView.loadUrl("javascript:removeContent(" + "'" +
                     contentScore.getUniqueId() + "')");
+        }
     }
 
     private static class UpdateContentAsync extends AsyncTask<Object, Object, Object> {

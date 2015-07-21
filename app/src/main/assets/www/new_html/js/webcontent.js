@@ -1,19 +1,3 @@
-function showVideo() {
-    window.JSInterface.showVideo();
-}
-
-function hideVideo() {
-    window.JSInterface.hideVideo();
-}
-
-function signOutUser() {
-    window.JSInterface.signOutUser();
-}
-
-function updateLink(message) {
-    window.location.assign(message);
-}
-
 function clearList(divName) {
     $(divName).empty();
 }
@@ -86,7 +70,7 @@ function addUnit(count, units, courseId, classId) {
     window.JSInterface.showLoadingScreen(true);
     for(var i = 0; i < count; i++) {
         $('#unit-list').append('<li>' +
-                '<div class="collapsible-header content">' +
+                '<div class="collapsible-header content" id="unit-'+ units[i].UnitId + '">' +
                     '<i class="material-icons">folder</i>' + units[i].Name +
                     '<span class="badge">'+
                         '<i class="classProgress">'+ units[i].UnitProgress+'</i>' +
@@ -208,6 +192,18 @@ function refreshContents(downloaded, courseId, classId, unitId, lessonId, conten
 
 function removeContent(contentUniqueId) {
     var element = document.getElementById('card-'+contentUniqueId);
+    element.outerHTML = "";
+    delete element;
+}
+
+function removeUnit(unitId) {
+    var element = document.getElementById('unit-'+unitId);
+    element.outerHTML = "";
+    delete element;
+}
+
+function removeLesson(lessonUniqueId) {
+    var element = document.getElementById(''+lessonUniqueId);
     element.outerHTML = "";
     delete element;
 }
