@@ -205,9 +205,6 @@ public class WebContentHelper {
             }
             if (totalContentCount == 0)
                 noUnit = true;
-
-            System.out.println("NO UNIT: " + noUnit + " " + noLesson);
-
             if (noUnit)
                 webView.loadUrl("javascript:removeUnit(" + "'" +
                         contentScore.getUnitId() + "')");
