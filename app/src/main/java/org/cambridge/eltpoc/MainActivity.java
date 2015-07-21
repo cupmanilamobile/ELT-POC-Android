@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -37,6 +38,7 @@ import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.Misc;
 import org.cambridge.eltpoc.util.UIUtils;
 import org.cambridge.eltpoc.util.WebContentHelper;
+import org.cambridge.eltpoc.util.WebServiceHelper;
 
 import java.util.ArrayList;
 
@@ -86,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private void initViews() {
         progressBar = (ProgressBar) findViewById(R.id.progress);
         loadingLayout = findViewById(R.id.loading_layout);
-
         initToolbar();
         initObservers();
         initDrawer();
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         webModel.registerObserver(this);
         webView.addJavascriptInterface(javaScriptInterface, Constants.JS_INTERFACE);
         webView.loadUrl(Constants.LEARNING_URL);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setSupportZoom(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
@@ -150,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                         case Constants.TEACHING:
                             webLevel = Constants.HOME_LEVEL;
                             if (navigationDrawerAdapter.isRemoved())
-                                javaScriptInterface.signOutUser();
+                                WebServiceHelper.signOutUser(MainActivity.this);
                             else
                                 teachingPressed(null);
                             break;
                         case Constants.SIGN_OUT:
-                            javaScriptInterface.signOutUser();
+                            WebServiceHelper.signOutUser(MainActivity.this);
                             break;
                     }
                 }
@@ -396,6 +399,12 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         isTouchEnabled = !isLoading;
         loadingLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        webView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return !isTouchEnabled;
+            }
+        });
     }
 
     @Override
@@ -436,8 +445,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             updateInternetConnectionIcon(webModel.isHasInternetConnection());
             invalidateOptionsMenu();
             if (webLevel == Constants.UNIT_LEVEL) {
-                WebContentHelper.updateTabVisibility(webModel.isHasInternetConnection(),
-                        learningLayout, teachingLayout);
+                isTabPressed = true;
                 webView.reload();
             } else if (webLevel == Constants.HOME_LEVEL)
                 webView.reload();

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.model.CLMSClass;
+import org.cambridge.eltpoc.model.CLMSClassList;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSCourse;
 import org.cambridge.eltpoc.model.CLMSCourseList;
@@ -13,6 +14,7 @@ import org.cambridge.eltpoc.model.CLMSUnitScore;
 import org.cambridge.eltpoc.model.CLMSUser;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -307,9 +309,9 @@ public class RealmTransactionUtils {
     }
 
     public static class RealmSaveAsync extends AsyncTask<Object, Object, Object> {
-        private ArrayList<CLMSUnitScore> unitScores = new ArrayList<>();
-        private ArrayList<CLMSLessonScore> lessonScores = new ArrayList<>();
-        private ArrayList<CLMSContentScore> contentScores = new ArrayList<>();
+        private CopyOnWriteArrayList<CLMSUnitScore> unitScores = new CopyOnWriteArrayList<>();
+        private CopyOnWriteArrayList<CLMSLessonScore> lessonScores = new CopyOnWriteArrayList<>();
+        private CopyOnWriteArrayList<CLMSContentScore> contentScores = new CopyOnWriteArrayList<>();
         private Context context;
         private OnSaveListener onSaveListener;
 
@@ -330,27 +332,27 @@ public class RealmTransactionUtils {
             contentScores.add(contentScore);
         }
 
-        public ArrayList<CLMSUnitScore> getUnitScores() {
+        public CopyOnWriteArrayList<CLMSUnitScore> getUnitScores() {
             return unitScores;
         }
 
-        public void setUnitScores(ArrayList<CLMSUnitScore> unitScores) {
+        public void setUnitScores(CopyOnWriteArrayList<CLMSUnitScore> unitScores) {
             this.unitScores = unitScores;
         }
 
-        public ArrayList<CLMSLessonScore> getLessonScores() {
+        public CopyOnWriteArrayList<CLMSLessonScore> getLessonScores() {
             return lessonScores;
         }
 
-        public void setLessonScores(ArrayList<CLMSLessonScore> lessonScores) {
+        public void setLessonScores(CopyOnWriteArrayList<CLMSLessonScore> lessonScores) {
             this.lessonScores = lessonScores;
         }
 
-        public ArrayList<CLMSContentScore> getContentScores() {
+        public CopyOnWriteArrayList<CLMSContentScore> getContentScores() {
             return contentScores;
         }
 
-        public void setContentScores(ArrayList<CLMSContentScore> contentScores) {
+        public void setContentScores(CopyOnWriteArrayList<CLMSContentScore> contentScores) {
             this.contentScores = contentScores;
         }
 
@@ -375,6 +377,56 @@ public class RealmTransactionUtils {
             super.onPostExecute(o);
             if(onSaveListener != null)
                 onSaveListener.onSaved();
+        }
+    }
+
+    public static class SaveCourseAsync extends AsyncTask<Object, Object, Object> {
+        private CLMSCourseList courseList;
+        private Context context;
+
+        public SaveCourseAsync(Context context, CLMSCourseList courseList) {
+            this.courseList = courseList;
+            this.context = context;
+        }
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            RealmTransactionUtils.saveCourseList(context, courseList);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            ELTApplication.getInstance().getClassListObserver().setIsCoursesRetrieved(true);
+            ELTApplication.getInstance().getClassListObserver().notifyObservers();
+        }
+    }
+
+    public static class SaveClassAsync extends AsyncTask<Object, Object, Object> {
+        private CLMSClassList classList;
+        private Context context;
+
+        public SaveClassAsync(Context context, CLMSClassList classList) {
+            this.classList = classList;
+            this.context = context;
+        }
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            for (CLMSClass clmsClass : classList.getClassLists()) {
+                clmsClass.setUniqueId(ELTApplication.getInstance().getCurrentUser().getUsername() +
+                        clmsClass.getId());
+                RealmTransactionUtils.saveClass(context, clmsClass, true);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            ELTApplication.getInstance().getClassListObserver().setIsClassesRetrieved(true);
+            ELTApplication.getInstance().getClassListObserver().notifyObservers();
         }
     }
 }

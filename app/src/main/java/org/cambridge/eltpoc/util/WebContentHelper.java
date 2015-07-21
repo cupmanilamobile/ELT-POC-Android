@@ -97,10 +97,10 @@ public class WebContentHelper {
         new UpdateContentAsync(context, webView, courseId, classId, isDownloaded).execute();
     }
 
-    private static String formatProgress(float progress, int length) {
+    private static String formatProgress(double progress, int length) {
         if (length == 0)
-            return "0.00%";
-        return String.format("%.2f", progress / length) + "%";
+            return "0%";
+        return Math.round(progress) + "%";
     }
 
     private static boolean checkClassHasContent(Context context, int classId) {
@@ -232,7 +232,8 @@ public class WebContentHelper {
                                 JSONObject contentObj = new JSONObject();
                                 contentObj.put(Constants.CONTENT_NAME, contentScore.getContentName());
                                 contentObj.put(Constants.CONTENT_ID, contentScore.getId());
-                                contentObj.put(Constants.CONTENT_PROGRESS, contentScore.getCalcProgress());
+                                contentObj.put(Constants.CONTENT_PROGRESS, formatProgress(
+                                        contentScore.getCalcProgress(), 1));
                                 contentObj.put(Constants.CONTENT_DOWNLOADED,
                                         !contentScore.getDownloadedFile().equalsIgnoreCase(""));
                                 contentObj.put(Constants.CONTENT_UNIQUE_ID, contentScore.getUniqueId());

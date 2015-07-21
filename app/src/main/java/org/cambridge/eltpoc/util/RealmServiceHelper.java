@@ -46,4 +46,8 @@ public class RealmServiceHelper {
                 .registerTypeAdapter(type, object)
                 .create();
     }
+
+    public static String createBearerToken(String accessToken) {
+        return "Bearer "+accessToken;
+    }
 }

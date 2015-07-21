@@ -57,6 +57,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         mProgressDialog.setMessage("Downloading " + contentScore.getContentName());
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setProgressNumberFormat(null);
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
     }
