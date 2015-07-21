@@ -64,8 +64,6 @@ public class RealmTransactionUtils {
         CLMSUser user = SharedPreferencesUtils.getLoggedInUser(context);
         RealmResults<CLMSUnitScore> result = realm.where(CLMSUnitScore.class).equalTo("classId", classId).contains("uniqueId",
                 user.getUsername()).findAll();
-//        System.out.println("UNIT USER: "+user.getUsername());
-//        System.out.println("UNIT SCORES: "+result.size());
         ArrayList<CLMSUnitScore> unitScores = new ArrayList<>();
         for (CLMSUnitScore unitScore : result)
            unitScores.add(unitScore);

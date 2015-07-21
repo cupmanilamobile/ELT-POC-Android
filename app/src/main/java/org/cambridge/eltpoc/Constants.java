@@ -67,4 +67,6 @@ public class Constants {
     public static final int CONTENT_TYPE = 2;
 
     public static final String JS_INTERFACE = "JSInterface";
+
+    public static final String SECRET_KEY = "SAPLING_APPICATION_SECURITY";
 }

@@ -67,6 +67,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         super.onProgressUpdate(values);
         mProgressDialog.setProgress(progress);
         if(progress == 100) {
+            mProgressDialog.setProgressPercentFormat(null);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Unzipping files...");
         }
