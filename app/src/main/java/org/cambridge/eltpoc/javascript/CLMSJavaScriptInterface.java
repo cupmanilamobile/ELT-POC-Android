@@ -49,7 +49,6 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.realm.RealmObject;
@@ -441,25 +440,6 @@ public class CLMSJavaScriptInterface {
     @JavascriptInterface
     public boolean hasInternetConnection() {
         return Misc.hasInternetConnection(activity);
-    }
-
-    @JavascriptInterface
-    public void updateContentScores() {
-        ArrayList<CLMSContentScore> contentScores = WebServiceHelper.getSyncContentScores(activity);
-        CLMSUser user = instance.getCurrentUser();
-        int count = 0;
-        instance.getWebModel().setSyncMessage(
-                activity.getString(R.string.sync_message));
-        if (contentScores.size() == 0) {
-            instance.getWebModel().setSyncMessage(
-                    activity.getString(R.string.sync_nothing));
-            WebServiceHelper.syncContents(activity, false);
-        }
-        for (CLMSContentScore contentScore : contentScores) {
-            updateContentScore(user.getAccessToken(), user.getId(), contentScore, 100, 100,
-                    Calendar.getInstance().getTimeInMillis(), count == contentScores.size() - 1);
-            ++count;
-        }
     }
 
     @JavascriptInterface

@@ -7,7 +7,9 @@ import android.content.Intent;
 import org.cambridge.eltpoc.Constants;
 import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.LoginActivity;
+import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.connections.DownloadAsync;
+import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSLessonScore;
 import org.cambridge.eltpoc.model.CLMSModel;
@@ -17,6 +19,7 @@ import org.cambridge.eltpoc.observers.CLMSContentScoreListObserver;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.realm.Realm;
@@ -163,5 +166,25 @@ public class WebServiceHelper {
         instance.getContentScoreListObserver().setUrl(
                 Misc.hasInternetConnection(context) ? Constants.LESSON_ALL_CONTENT_URL :
                         Constants.LESSON_DOWNLOADED_URL);
+    }
+
+    public static void updateContentScores(Context context, CLMSJavaScriptInterface
+            javascriptInterface) {
+        ArrayList<CLMSContentScore> contentScores = WebServiceHelper.getSyncContentScores(context);
+        CLMSUser user = ELTApplication.getInstance().getCurrentUser();
+        int count = 0;
+        ELTApplication.getInstance().getWebModel().setSyncMessage(
+                context.getString(R.string.sync_message));
+        if (contentScores.size() == 0) {
+            ELTApplication.getInstance().getWebModel().setSyncMessage(
+                    context.getString(R.string.sync_nothing));
+            WebServiceHelper.syncContents(context, false);
+        }
+        for (CLMSContentScore contentScore : contentScores) {
+            javascriptInterface.updateContentScore(user.getAccessToken(), user.getId(),
+                    contentScore, 100, 100, Calendar.getInstance().getTimeInMillis(),
+                    count == contentScores.size() - 1);
+            ++count;
+        }
     }
 }

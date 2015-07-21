@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private TextView learningText, teachingText;
     private FrameLayout learningLayout, teachingLayout;
-    private View refreshIcon;
+    private View syncButton;
     private ImageView wifiIcon;
     private ProgressBar progressBar;
     private View loadingLayout;
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private CLMSWebModel internetModel = instance.getWebModel();
     private CLMSContentScoreListObserver contentScoreListObserver = instance
             .getContentScoreListObserver();
+    private String customContentUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,10 +261,18 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         backArrow.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    public void goBack(View View) {
-        if (webLevel == Constants.CONTENT_LEVEL)
-            addWebViewListener();
-        webLevel--;
+    public void goBack(View view) {
+        if (webLevel >= Constants.CONTENT_LEVEL) {
+            if(view != null || webLevel == Constants.CONTENT_LEVEL) {
+                addWebViewListener();
+                webLevel = Constants.CONTENT_LEVEL;
+            }
+            else
+                webView.goBack();
+            webLevel--;
+        }
+        else
+            webLevel--;
         switch (webLevel) {
             case Constants.HOME_LEVEL:
                 webView.loadUrl(Constants.LEARNING_URL);
@@ -333,10 +342,15 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         });
     }
 
-    private void removeWebViewListener() {
+    private void addContentWebViewListener() {
+        customContentUrl = "";
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 showLoadingScreen(false);
+                if(customContentUrl.equalsIgnoreCase(""))
+                    customContentUrl = url;
+                if(!customContentUrl.equalsIgnoreCase(url))
+                    ++webLevel;
             }
 
             @Override
@@ -436,8 +450,8 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             } else if (webLevel == Constants.HOME_LEVEL)
                 webView.reload();
             if (webModel.isSynced()) {
-                if (refreshIcon.findViewById(R.id.refresh_icon).getAnimation() != null)
-                    refreshIcon.findViewById(R.id.refresh_icon).getAnimation().cancel();
+                if (syncButton.findViewById(R.id.refresh_icon).getAnimation() != null)
+                    syncButton.findViewById(R.id.refresh_icon).getAnimation().cancel();
                 DialogUtils.createDialog(this, "SYNC", webModel.getSyncMessage());
                 this.internetModel.setIsSynced(false);
             }
@@ -467,7 +481,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    removeWebViewListener();
+                    addContentWebViewListener();
                     findViewById(R.id.tab_layout).setVisibility(View.GONE);
                     CLMSLinkModel linkModel = (CLMSLinkModel) model;
                     toolbarTitle.setText(linkModel.getContentName());
@@ -514,17 +528,17 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        refreshIcon = menu.findItem(R.id.action_sync).getActionView().findViewById(R.id.refresh_icon);
+        syncButton = menu.findItem(R.id.action_sync).getActionView().findViewById(R.id.refresh_icon);
         wifiIcon = (ImageView) menu.findItem(R.id.action_wifi).getActionView()
                 .findViewById(R.id.wifi_icon);
         updateInternetConnectionIcon(Misc.hasInternetConnection(this));
         menu.findItem(R.id.action_sync).setVisible(Misc.hasInternetConnection(this));
-        refreshIcon.setOnClickListener(new View.OnClickListener() {
+        syncButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isTouchEnabled) {
-                    UIUtils.rotateView(refreshIcon.findViewById(R.id.refresh_icon));
-                    javaScriptInterface.updateContentScores();
+                    UIUtils.rotateView(syncButton.findViewById(R.id.refresh_icon));
+                    WebServiceHelper.updateContentScores(MainActivity.this, javaScriptInterface);
                 }
             }
         });
