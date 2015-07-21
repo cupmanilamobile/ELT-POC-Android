@@ -2,9 +2,11 @@ package org.cambridge.eltpoc.connections;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
@@ -38,6 +40,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     private CLMSModel webModel;
     private int courseId;
     private boolean hasError = false;
+    private boolean isCancelled = false;
 
     public DownloadAsync(Context context, CLMSContentScore contentScore, String url,
                          String outputDirectory, String outputFile, CLMSModel webModel,
@@ -60,6 +63,14 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setProgressNumberFormat(null);
         mProgressDialog.setCancelable(false);
+        mProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        isCancelled = true;
+                        dialog.dismiss();
+                    }
+                });
         mProgressDialog.show();
     }
 
@@ -67,7 +78,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     protected void onProgressUpdate(Object... values) {
         super.onProgressUpdate(values);
         mProgressDialog.setProgress(progress);
-        if(progress == 100) {
+        if (progress == 100) {
             mProgressDialog.setProgressPercentFormat(null);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Unzipping files...");
@@ -91,7 +102,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
 
             byte data[] = new byte[1024];
             int count;
-            while ((count = input.read(data)) != -1) {
+            while ((count = input.read(data)) != -1 && !isCancelled) {
                 total += count;
                 progress = (int) ((float) ((float) (total * 100) / (float) fileLength));
                 publishProgress();
@@ -103,7 +114,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(total >= fileLength) {
+        if (total >= fileLength) {
             progress = 100;
             publishProgress();
             String unzipped = outputFile.replace(".zip", "");
@@ -112,43 +123,39 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else if (!isCancelled)
             hasError = true;
-        }
         return null;
     }
 
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        mProgressDialog.dismiss();
+        if (!isCancelled) {
+            mProgressDialog.dismiss();
+            if (!hasError) {
+                String unzipped = outputFile.replace(".zip", "");
 
-        if(!hasError) {
-            String unzipped = outputFile.replace(".zip", "");
+                final CLMSContentScore contentScoreEdit = RealmTransactionUtils.getContentScore(context,
+                        contentScore.getClassId(), contentScore.getUnitId(), contentScore.getLessonId(),
+                        contentScore.getId());
+                Realm realm = Realm.getInstance(context);
+                realm.beginTransaction();
+                contentScoreEdit.setDownloadedFile(outputDirectory +
+                        "/" + unzipped);
+                realm.copyToRealmOrUpdate(contentScoreEdit);
+                realm.commitTransaction();
 
-            final CLMSContentScore contentScoreEdit = RealmTransactionUtils.getContentScore(context,
-                    contentScore.getClassId(), contentScore.getUnitId(), contentScore.getLessonId(),
-                    contentScore.getId());
-            Realm realm = Realm.getInstance(context);
-            realm.beginTransaction();
-            contentScoreEdit.setDownloadedFile(outputDirectory +
-                    "/" + unzipped);
-            realm.copyToRealmOrUpdate(contentScoreEdit);
-            realm.commitTransaction();
+                File file = new File(outputDirectory + "/" + outputFile);
+                file.delete();
+                webModel.setWebOperation(CLMSModel.WEB_OPERATION.DOWNLOADED);
+            } else
+                webModel.setWebOperation(CLMSModel.WEB_OPERATION.FAILED);
 
-
-            File file = new File(outputDirectory + "/" + outputFile);
-            file.delete();
-            webModel.setWebOperation(CLMSModel.WEB_OPERATION.DOWNLOADED);
+            webModel.setCourseId(courseId);
+            webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
+            webModel.notifyObservers();
         }
-
-        else
-            webModel.setWebOperation(CLMSModel.WEB_OPERATION.FAILED);
-
-        webModel.setCourseId(courseId);
-        webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
-        webModel.notifyObservers();
     }
 
     private void unzip(String zipFilePath, String destinationPath) throws Exception {

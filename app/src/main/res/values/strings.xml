@@ -34,4 +34,6 @@
     <string name="sync_message">The following content data were synchronised:</string>
     <string name="sync_nothing">Nothing to sync.</string>
     <string name="sync_problem">The contents could not be synced!</string>
+
+    <string name="cancel">Cancel</string>
 </resources>
