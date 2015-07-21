@@ -19,7 +19,7 @@ public class CLMSModel implements ModelObservable {
     private int courseId = 0;
 
     public enum WEB_OPERATION {
-        NONE, LOADING, REFRESHED, DELETED, DOWNLOADED
+        NONE, LOADING, REFRESHED, DELETED, DOWNLOADED, FAILED
     };
 
     private WEB_OPERATION webOperation;

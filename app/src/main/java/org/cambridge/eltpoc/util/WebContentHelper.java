@@ -94,6 +94,8 @@ public class WebContentHelper {
 
     public static void updateUnitContent(Context context, WebView webView, int courseId,
                                          int classId, boolean isDownloaded) {
+        if(!Misc.hasInternetConnection(context))
+            isDownloaded = true;
         new UpdateContentAsync(context, webView, courseId, classId, isDownloaded).execute();
     }
 

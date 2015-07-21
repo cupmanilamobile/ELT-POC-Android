@@ -446,7 +446,10 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             invalidateOptionsMenu();
             if (webLevel == Constants.UNIT_LEVEL) {
                 isTabPressed = true;
-                webView.reload();
+                if(Misc.hasInternetConnection(this))
+                    webView.loadUrl(Constants.LESSON_ALL_CONTENT_URL);
+                else
+                    webView.loadUrl(Constants.LESSON_DOWNLOADED_URL);
             } else if (webLevel == Constants.HOME_LEVEL)
                 webView.reload();
             if (webModel.isSynced()) {
@@ -498,6 +501,10 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
                         case DELETED:
                             WebContentHelper.refreshContents(MainActivity.this, webView,
                                     model.getContentScore(), model.getCourseId());
+                            break;
+                        case FAILED:
+                            DialogUtils.createDialog(MainActivity.this, "ERROR", "Download has " +
+                                    "failed.\nPlease Check Internet Connection");
                             break;
                         case REFRESHED:
                             webView.reload();

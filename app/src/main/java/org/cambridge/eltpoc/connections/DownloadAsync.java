@@ -37,6 +37,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     private String outputFile;
     private CLMSModel webModel;
     private int courseId;
+    private boolean hasError = false;
 
     public DownloadAsync(Context context, CLMSContentScore contentScore, String url,
                          String outputDirectory, String outputFile, CLMSModel webModel,
@@ -75,19 +76,20 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected Object doInBackground(Object... params) {
+        long total = 0;
+        int fileLength = 0;
         try {
             URL url = new URL(urlToDownload);
             URLConnection connection = url.openConnection();
             connection.connect(); // java.net.UnknownHostException: Unable to resolve host "content-poc.cambridgelms.org": No address associated with hostname
 
-            int fileLength = connection.getContentLength(); // This will be useful so that you can show a typical 0-100% progress bar
+            fileLength = connection.getContentLength(); // This will be useful so that you can show a typical 0-100% progress bar
 
             // Download the file
             InputStream input = new BufferedInputStream(connection.getInputStream());
             OutputStream output = new FileOutputStream(outputDirectory + "/" + outputFile);
 
             byte data[] = new byte[1024];
-            long total = 0;
             int count;
             while ((count = input.read(data)) != -1) {
                 total += count;
@@ -101,13 +103,18 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        progress = 100;
-        publishProgress();
-        String unzipped = outputFile.replace(".zip", "");
-        try {
-            unzip(outputDirectory + "/" + outputFile, outputDirectory + "/" + unzipped);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(total >= fileLength) {
+            progress = 100;
+            publishProgress();
+            String unzipped = outputFile.replace(".zip", "");
+            try {
+                unzip(outputDirectory + "/" + outputFile, outputDirectory + "/" + unzipped);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            hasError = true;
         }
         return null;
     }
@@ -117,24 +124,30 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         super.onPostExecute(o);
         mProgressDialog.dismiss();
 
-        String unzipped = outputFile.replace(".zip", "");
+        if(!hasError) {
+            String unzipped = outputFile.replace(".zip", "");
 
-        final CLMSContentScore contentScoreEdit = RealmTransactionUtils.getContentScore(context,
-                contentScore.getClassId(), contentScore.getUnitId(), contentScore.getLessonId(),
-                contentScore.getId());
-        Realm realm = Realm.getInstance(context);
-        realm.beginTransaction();
-        contentScoreEdit.setDownloadedFile(outputDirectory +
-                "/" + unzipped);
-        realm.copyToRealmOrUpdate(contentScoreEdit);
-        realm.commitTransaction();
+            final CLMSContentScore contentScoreEdit = RealmTransactionUtils.getContentScore(context,
+                    contentScore.getClassId(), contentScore.getUnitId(), contentScore.getLessonId(),
+                    contentScore.getId());
+            Realm realm = Realm.getInstance(context);
+            realm.beginTransaction();
+            contentScoreEdit.setDownloadedFile(outputDirectory +
+                    "/" + unzipped);
+            realm.copyToRealmOrUpdate(contentScoreEdit);
+            realm.commitTransaction();
 
 
-        File file = new File(outputDirectory + "/" + outputFile);
-        file.delete();
+            File file = new File(outputDirectory + "/" + outputFile);
+            file.delete();
+            webModel.setWebOperation(CLMSModel.WEB_OPERATION.DOWNLOADED);
+        }
+
+        else
+            webModel.setWebOperation(CLMSModel.WEB_OPERATION.FAILED);
+
         webModel.setCourseId(courseId);
         webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
-        webModel.setWebOperation(CLMSModel.WEB_OPERATION.DOWNLOADED);
         webModel.notifyObservers();
     }
 
