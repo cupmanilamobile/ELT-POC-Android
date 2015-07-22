@@ -115,10 +115,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         webModel.registerObserver(this);
         webView.addJavascriptInterface(javaScriptInterface, Constants.JS_INTERFACE);
         webView.loadUrl(Constants.LEARNING_URL);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setDisplayZoomControls(false);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
 
@@ -337,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                resizeWebView();
+                resizeWebView(false);
             }
         });
     }
@@ -356,15 +355,16 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                resizeWebView();
+                resizeWebView(true);
                 showLoadingScreen(true);
             }
         });
     }
 
-    private void resizeWebView() {
+    private void resizeWebView(boolean isContent) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams.MATCH_PARENT, isContent ?
+                RelativeLayout.LayoutParams.MATCH_PARENT: RelativeLayout.LayoutParams.WRAP_CONTENT);
         webView.setLayoutParams(params);
     }
 

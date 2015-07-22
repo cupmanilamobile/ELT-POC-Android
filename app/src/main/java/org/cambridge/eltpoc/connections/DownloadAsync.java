@@ -9,6 +9,7 @@ import android.util.Log;
 import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSModel;
+import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
 
 import java.io.BufferedInputStream;
@@ -41,6 +42,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
     private int courseId;
     private boolean hasError = false;
     private boolean isCancelled = false;
+    private boolean exists = true;
 
     public DownloadAsync(Context context, CLMSContentScore contentScore, String url,
                          String outputDirectory, String outputFile, CLMSModel webModel,
@@ -95,7 +97,7 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
             connection.connect(); // java.net.UnknownHostException: Unable to resolve host "content-poc.cambridgelms.org": No address associated with hostname
 
             fileLength = connection.getContentLength(); // This will be useful so that you can show a typical 0-100% progress bar
-
+//            System.out.println("URL TO DOWNLOAD: "+urlToDownload+" : "+fileLength);
             // Download the file
             InputStream input = new BufferedInputStream(connection.getInputStream());
             OutputStream output = new FileOutputStream(outputDirectory + "/" + outputFile);
@@ -114,24 +116,28 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (total >= fileLength) {
-            progress = 100;
-            publishProgress();
-            String unzipped = outputFile.replace(".zip", "");
-            try {
-                unzip(outputDirectory + "/" + outputFile, outputDirectory + "/" + unzipped);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (!isCancelled)
-            hasError = true;
+        if(fileLength <= 0)
+            exists = false;
+        else {
+            if (total >= fileLength) {
+                progress = 100;
+                publishProgress();
+                String unzipped = outputFile.replace(".zip", "");
+                try {
+                    unzip(outputDirectory + "/" + outputFile, outputDirectory + "/" + unzipped);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (!isCancelled)
+                hasError = true;
+        }
         return null;
     }
 
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
-        if (!isCancelled) {
+        if (!isCancelled && exists) {
             mProgressDialog.dismiss();
             if (!hasError) {
                 String unzipped = outputFile.replace(".zip", "");
@@ -155,6 +161,11 @@ public class DownloadAsync extends AsyncTask<Object, Object, Object> {
             webModel.setCourseId(courseId);
             webModel.setContentScore(RealmTransactionUtils.cloneContentScore(contentScore));
             webModel.notifyObservers();
+        }
+        else if(!exists) {
+            mProgressDialog.dismiss();
+            DialogUtils.createDialog(context, "ERROR", "The content " +
+                    "does not exist!");
         }
     }
 
