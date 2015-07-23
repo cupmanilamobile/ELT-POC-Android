@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class SharedPreferencesUtils {
     private static final String USER_PREFERENCES = "USER_PREFERENCES";
+    private static final String USER_CONTENTS = "USER_CONTENTS";
     private static final String USERNAME = "USERNAME";
     private static final String PASSWORD_HASH = "PASSWORD_HASH";
     private static final String DISPLAY_NAME = "DISPLAY_NAME";
@@ -57,7 +58,9 @@ public class SharedPreferencesUtils {
     }
 
     public static void addContentSync(Context context, String uniqueId) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE);
+        CLMSUser user = getLoggedInUser(context);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                USER_CONTENTS+"_"+user.getUsername(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         ArrayList<String> uniqueIds = getContentSync(context);
         JSONArray a = new JSONArray();
@@ -74,7 +77,9 @@ public class SharedPreferencesUtils {
     }
 
     public static ArrayList<String> getContentSync(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE);
+        CLMSUser user = getLoggedInUser(context);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                USER_CONTENTS+"_"+user.getUsername(), Context.MODE_PRIVATE);
         String json = sharedPreferences.getString(SYNC, null);
         ArrayList<String> uniqueIds = new ArrayList<String>();
         if (json != null) {
@@ -92,7 +97,9 @@ public class SharedPreferencesUtils {
     }
 
     public static void clearContentSync(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(USER_PREFERENCES, Context.MODE_PRIVATE);
+        CLMSUser user = getLoggedInUser(context);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                USER_CONTENTS+"_"+user.getUsername(), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(SYNC, null);
         editor.commit();

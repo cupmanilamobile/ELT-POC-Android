@@ -68,6 +68,11 @@ function addCourse(count, courses) {
 
 function addUnit(count, units, courseId, classId) {
     window.JSInterface.showLoadingScreen(true);
+    if(count == 0) {
+       var element = document.getElementById('unit-list');
+       element.outerHTML = "";
+       delete element;
+    }
     for(var i = 0; i < count; i++) {
         $('#unit-list').append('<li>' +
                 '<div class="collapsible-header content" id="unit-'+ units[i].UnitId + '">' +
@@ -81,7 +86,10 @@ function addUnit(count, units, courseId, classId) {
         ).collapsible();
         addLessonCollapsible(units[i].LessonSize, units[i].Lessons, courseId, classId, units[i].UnitId);
     }
-    window.JSInterface.showLoadingScreen(false);
+    if(count == 0)
+        window.JSInterface.showLoadingScreenWithDelay(false);
+    else
+        window.JSInterface.showLoadingScreen(false);
 }
 
 function addLesson(count, lessons, courseId, classId, unitId) {

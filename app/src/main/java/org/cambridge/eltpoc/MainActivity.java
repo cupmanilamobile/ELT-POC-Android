@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
         initViews();
         addWebViewListener();
         findViewById(R.id.tab_layout).setVisibility(View.GONE);
+        showLoadingScreen(true);
     }
 
     private void initViews() {
@@ -301,6 +302,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     private void addWebViewListener() {
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.getSettings().setSupportZoom(false);
+        webView.getSettings().setDisplayZoomControls(false);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 if (url.equalsIgnoreCase(Constants.LEARNING_URL) ||
@@ -342,6 +346,9 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     }
 
     private void addContentWebViewListener() {
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setDisplayZoomControls(false);
         customContentUrl = "";
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
@@ -364,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements Observer<CLMSMode
     private void resizeWebView(boolean isContent) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, isContent ?
-                RelativeLayout.LayoutParams.MATCH_PARENT: RelativeLayout.LayoutParams.WRAP_CONTENT);
+                getResources().getDisplayMetrics().heightPixels - 100: RelativeLayout.LayoutParams.WRAP_CONTENT);
         webView.setLayoutParams(params);
     }
 

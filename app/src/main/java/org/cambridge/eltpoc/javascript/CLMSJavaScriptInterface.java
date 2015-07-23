@@ -2,6 +2,7 @@ package org.cambridge.eltpoc.javascript;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.os.Handler;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
@@ -502,6 +503,16 @@ public class CLMSJavaScriptInterface {
     }
 
     @JavascriptInterface
+    public void showLoadingScreenWithDelay(final boolean isLoading) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                WebServiceHelper.showLoadingScreen(webModel, isLoading);
+            }
+        }, 500);
+    }
+
+    @JavascriptInterface
     public void deleteContent(final int courseId, final int classId,
                               final int unitId, final int lessonId, final int contentId) {
         WebServiceHelper.deleteContent(courseId, classId, unitId, lessonId, contentId, activity,
@@ -513,7 +524,7 @@ public class CLMSJavaScriptInterface {
     }
 
     private void requireLog(String errorMessage, final OnLoggedInListener onLoggedInListener) {
-        if (errorMessage.contains("Unauthorized")) {
+        if (errorMessage != null && errorMessage.contains("Unauthorized")) {
             DialogUtils.OnOptionSelectedListener onOptionSelectedListener =
                     new DialogUtils.OnOptionSelectedListener() {
                         @Override
