@@ -28,6 +28,7 @@ import org.cambridge.eltpoc.util.DialogUtils;
 import org.cambridge.eltpoc.util.Misc;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.cambridge.eltpoc.util.UIUtils;
+import org.cambridge.eltpoc.util.WebServiceHelper;
 
 import java.net.MalformedURLException;
 
@@ -143,8 +144,8 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
         progressBar.setVisibility(View.VISIBLE);
         if(Misc.hasInternetConnection(this)) {
             try {
-                new CLMSJavaScriptInterface(this, webModel).authenticateLogin(
-                        username.getText().toString(), password.getText().toString(), null);
+                WebServiceHelper.authenticateLogin(this, new CLMSJavaScriptInterface(this, webModel),
+                        webModel, username.getText().toString(), password.getText().toString(), null);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -162,8 +163,8 @@ public class LoginActivity extends Activity implements Observer<CLMSModel> {
             startMainActivity();
             if(Misc.hasInternetConnection(this)) {
                 try {
-                    new CLMSJavaScriptInterface(this, null).authenticateLogin(
-                            user.getUsername(), user.getPassword(), null);
+                    WebServiceHelper.authenticateLogin(this, new CLMSJavaScriptInterface(this,
+                                    webModel), webModel, user.getUsername(), user.getPassword(), null);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }

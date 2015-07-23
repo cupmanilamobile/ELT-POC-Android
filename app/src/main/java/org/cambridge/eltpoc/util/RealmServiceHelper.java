@@ -1,5 +1,7 @@
 package org.cambridge.eltpoc.util;
 
+import android.content.ContentValues;
+
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
@@ -49,5 +51,14 @@ public class RealmServiceHelper {
 
     public static String createBearerToken(String accessToken) {
         return "Bearer "+accessToken;
+    }
+
+    public static ContentValues createUserValues(String user, String password) {
+        ContentValues values = new ContentValues();
+        values.put("grant_type", "password");
+        values.put("client_id", "app");
+        values.put("username", user);
+        values.put("password", password);
+        return values;
     }
 }

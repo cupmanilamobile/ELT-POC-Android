@@ -1,7 +1,6 @@
 package org.cambridge.eltpoc.javascript;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.os.Handler;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -22,7 +21,6 @@ import org.cambridge.eltpoc.api.LessonScoreDeserializer;
 import org.cambridge.eltpoc.api.TestHarnessService;
 import org.cambridge.eltpoc.api.UnitScoreDeserializer;
 import org.cambridge.eltpoc.api.UserDeserializer;
-import org.cambridge.eltpoc.connections.HTTPConnectionPost;
 import org.cambridge.eltpoc.model.CLMSClass;
 import org.cambridge.eltpoc.model.CLMSClassList;
 import org.cambridge.eltpoc.model.CLMSContentScore;
@@ -42,13 +40,9 @@ import org.cambridge.eltpoc.util.RealmServiceHelper;
 import org.cambridge.eltpoc.util.RealmTransactionUtils;
 import org.cambridge.eltpoc.util.SharedPreferencesUtils;
 import org.cambridge.eltpoc.util.WebServiceHelper;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -70,7 +64,7 @@ public class CLMSJavaScriptInterface {
     private CopyOnWriteArrayList<CLMSContentScore> contentScores = new CopyOnWriteArrayList<>();
     private ELTApplication instance = ELTApplication.getInstance();
 
-    private interface OnLoggedInListener {
+    public interface OnLoggedInListener {
         void onLoggedIn();
     }
 
@@ -376,49 +370,6 @@ public class CLMSJavaScriptInterface {
         }
     }
 
-    public void authenticateLogin(final String user, final String password,
-                                  final OnLoggedInListener onLoggedInListener) throws MalformedURLException {
-        ContentValues values = new ContentValues();
-        values.put("grant_type", "password");
-        values.put("client_id", "app");
-        values.put("username", user);
-        values.put("password", password);
-
-        String errorTitle = "Authentication Failed";
-        String urlString = "http://content-poc-api.cambridgelms.org/v1.0/authorize";
-        HTTPConnectionPost post = new HTTPConnectionPost(activity, new URL(urlString), values,
-                errorTitle);
-        post.setOnPostCompletedListener(new HTTPConnectionPost.OnPostCompletedListener() {
-            @Override
-            public void onPostCompleted(String response, boolean isFailed) {
-                JSONObject object = null;
-                try {
-                    object = (JSONObject) new JSONTokener(response).nextValue();
-                    if (!object.isNull("access_token")) {
-                        if (object.optString("access_token") != null) {
-                            SharedPreferencesUtils.updateLoggedInUser(activity, user, password, "", 0);
-                            saveAuthenticationLogin(response, user, password, onLoggedInListener);
-                        }
-                    }
-                    if (!object.isNull("error_message")) {
-                        if (object.optString("error_message") != null) {
-                            isFailed = true;
-                            webModel.setErrorMessage(object.getString("error_message"));
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (webModel != null && onLoggedInListener == null) {
-                    webModel.setHasError(isFailed);
-                    webModel.notifyObservers();
-                }
-            }
-        });
-        post.execute();
-    }
-
     @JavascriptInterface
     public void print(String num) {
         System.out.println("THIS IS A TEST: " + num);
@@ -531,7 +482,9 @@ public class CLMSJavaScriptInterface {
                         public void onOptionSelected() {
                             CLMSUser user = SharedPreferencesUtils.getLoggedInUser(activity);
                             try {
-                                authenticateLogin(user.getUsername(), user.getPassword(), onLoggedInListener);
+                                WebServiceHelper.authenticateLogin(
+                                        activity, CLMSJavaScriptInterface.this, webModel,
+                                        user.getUsername(), user.getPassword(), onLoggedInListener);
                             } catch (MalformedURLException e) {
                                 e.printStackTrace();
                             }

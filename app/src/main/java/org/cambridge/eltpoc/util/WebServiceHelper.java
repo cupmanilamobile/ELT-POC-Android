@@ -9,6 +9,7 @@ import org.cambridge.eltpoc.ELTApplication;
 import org.cambridge.eltpoc.LoginActivity;
 import org.cambridge.eltpoc.R;
 import org.cambridge.eltpoc.connections.DownloadAsync;
+import org.cambridge.eltpoc.connections.HTTPConnectionPost;
 import org.cambridge.eltpoc.javascript.CLMSJavaScriptInterface;
 import org.cambridge.eltpoc.model.CLMSContentScore;
 import org.cambridge.eltpoc.model.CLMSLessonScore;
@@ -16,8 +17,13 @@ import org.cambridge.eltpoc.model.CLMSModel;
 import org.cambridge.eltpoc.model.CLMSUnitScore;
 import org.cambridge.eltpoc.model.CLMSUser;
 import org.cambridge.eltpoc.observers.CLMSContentScoreListObserver;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -186,5 +192,46 @@ public class WebServiceHelper {
                     count == contentScores.size() - 1);
             ++count;
         }
+    }
+
+    public static void authenticateLogin(final Context context,
+                                  final CLMSJavaScriptInterface javaScriptInterface,
+                                  final CLMSModel webModel, final String user, final String password,
+                                  final CLMSJavaScriptInterface.OnLoggedInListener onLoggedInListener)
+            throws MalformedURLException {
+        String errorTitle = "Authentication Failed";
+        String urlString = Constants.END_POINT+"/v1.0/authorize";
+        HTTPConnectionPost post = new HTTPConnectionPost(context, new URL(urlString),
+                RealmServiceHelper.createUserValues(user, password), errorTitle);
+        post.setOnPostCompletedListener(new HTTPConnectionPost.OnPostCompletedListener() {
+            @Override
+            public void onPostCompleted(String response, boolean isFailed) {
+                JSONObject object = null;
+                try {
+                    object = (JSONObject) new JSONTokener(response).nextValue();
+                    if (!object.isNull("access_token")) {
+                        if (object.optString("access_token") != null) {
+                            SharedPreferencesUtils.updateLoggedInUser(context, user, password, "", 0);
+                            javaScriptInterface.saveAuthenticationLogin(response, user, password,
+                                    onLoggedInListener);
+                        }
+                    }
+                    if (!object.isNull("error_message")) {
+                        if (object.optString("error_message") != null) {
+                            isFailed = true;
+                            webModel.setErrorMessage(object.getString("error_message"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (webModel != null && onLoggedInListener == null) {
+                    webModel.setHasError(isFailed);
+                    webModel.notifyObservers();
+                }
+            }
+        });
+        post.execute();
     }
 }
